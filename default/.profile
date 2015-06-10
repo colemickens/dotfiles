@@ -17,10 +17,10 @@ twerk_rdp() {
 
     $FREERDP \
         /cert-ignore \
-        /v:localhost:33890
+        /v:localhost:33890 \
         /size:2560x1600 \
         /u:colemick \
-        /p:$WINRDPPASSWORD \
+        /p:"$WINRDPPASSWORD" \
         /scale-device:140 \
         /scale-desktop:140 \
         +fonts \
