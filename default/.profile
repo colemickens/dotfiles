@@ -42,7 +42,12 @@ hscroll_enable() { synclient HorizTwoFingerScroll=1 }
 hscroll_disable() { synclient HorizTwoFingerScroll=0 }
 
 backup_code() {
-    tar -cvzf ~/colemickens-Code-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz ~/Code/colemickens
+    FILENAME=colemickens-Code-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
+
+    tar -czf ~/$FILENAME ~/Code/colemickens
+
+    source ~/.secrets
+    aws s3 cp $FILENAME s3://colemickens-backups/$FILENAME
 }
 
 fix_pixel2_audio() {
