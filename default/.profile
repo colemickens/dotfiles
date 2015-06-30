@@ -12,7 +12,6 @@ twerk_rdp() {
 
     FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
-    synclient HorizTwoFingerScroll=0
     rm ~/.config/freerdp/known_hosts
 
     $FREERDP \
@@ -37,9 +36,6 @@ update_dnx() {
 	dnvm upgrade -r coreclr -u -a coreclr-latest
 	dnvm upgrade -u -a mono-latest
 }
-
-hscroll_enable() { synclient HorizTwoFingerScroll=1 }
-hscroll_disable() { synclient HorizTwoFingerScroll=0 }
 
 backup_code() {
     FILENAME=colemickens-Code-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
