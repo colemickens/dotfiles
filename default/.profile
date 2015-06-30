@@ -28,6 +28,29 @@ twerk_rdp() {
         -wallpaper
 }
 
+take_screenshot() {
+    # can call as `take_screenshot -s` to do a selection
+    mkdir -p ~/tmp/screenshots;
+    FILENAME=$HOME/tmp/screenshots/screenshot-`date +%Y-%m-%d-%H%M%S`.png;
+    scrot $1 $FILENAME;
+    echo $FILENAME;
+}
+
+take_screencast() {
+    mkdir -p ~/tmp/screencasts;
+    FILENAME=$HOME/tmp/screencasts/screencast-`date +%Y-%m-%d-%H%M%S`.webm;
+    eval $(slop);
+    ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y -f alsa -i pulse $FILENAME >/dev/null 2>&1;
+    echo $FILENAME;
+}
+
+upload_to_s3_screenshots() {
+    source .secrets;
+    aws s3 cp --acl=public-read $1 s3://colemickens-screenshots/ >/dev/null 2>&1;
+    BASEFILENAME=$(basename $1)
+    echo "https://colemickens-screenshots.s3.amazonaws.com/" $BASEFILENAME
+}
+
 clean_docker() { docker rm `docker ps --no-trunc -aq` }
 
 update_system() { yaourt -Syua --noconfirm }
