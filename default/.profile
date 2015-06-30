@@ -5,12 +5,12 @@ export GOPATH=/home/cole/Code/gopkgs
 export GOROOT=/home/cole/Code/golang/go
 export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
 
-twerk_proxy() { autossh -M 20001 -N -T -L33890:localhost:33890 cole@cole.mickens.io }
+twerk_proxy() { autossh -M 20001 -N -T -L33890:localhost:33890 cole@mickens.io }
 
 twerk_rdp() {
     source ~/.secrets
 
-    FREERDP=~/Code/irichter/FreeRDP/build/client/X11/xfreerdp
+    FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
     synclient HorizTwoFingerScroll=0
     rm ~/.config/freerdp/known_hosts
