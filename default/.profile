@@ -12,8 +12,6 @@ twerk_rdp() {
 
     FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
-    rm ~/.config/freerdp/known_hosts
-
     $FREERDP \
         /cert-ignore \
         /v:localhost:33890 \
@@ -31,24 +29,28 @@ twerk_rdp() {
 take_screenshot() {
     # can call as `take_screenshot -s` to do a selection
     mkdir -p ~/tmp/screenshots;
-    FILENAME=$HOME/tmp/screenshots/screenshot-`date +%Y-%m-%d-%H%M%S`.png;
-    scrot $1 $FILENAME;
-    echo $FILENAME;
+    FILENAME=screenshot-`date +%Y-%m-%d-%H%M%S`.png;
+    FILEPATH=$HOME/tmp/screenshots/$FILENAME;
+    scrot $1 $FILEPATH;
+    echo $FILEPATH;
 }
 
 take_screencast() {
     mkdir -p ~/tmp/screencasts;
-    FILENAME=$HOME/tmp/screencasts/screencast-`date +%Y-%m-%d-%H%M%S`.webm;
+    FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.webm;
+    FILEPATH=$HOME/tmp/screencasts/$FILENAME
     eval $(slop);
-    ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y -f alsa -i pulse $FILENAME >/dev/null 2>&1;
-    echo $FILENAME;
+    ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y -f alsa -i pulse $FILEPATH >/dev/null 2>&1;
+    echo $FILEPATH;
 }
 
 upload_to_s3_screenshots() {
+    FILEPATH=$1
+    FILENAME=$(basename $FILEPATH)
+
     source .secrets;
-    aws s3 cp --acl=public-read $1 s3://colemickens-screenshots/ >/dev/null 2>&1;
-    BASEFILENAME=$(basename $1)
-    echo "https://colemickens-screenshots.s3.amazonaws.com/" $BASEFILENAME
+    aws s3 cp --acl=public-read $FILEPATH s3://colemickens-screenshots/ >/dev/null 2>&1;
+    echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
 
 clean_docker() { docker rm `docker ps --no-trunc -aq` }
@@ -62,11 +64,14 @@ update_dnx() {
 
 backup_code() {
     FILENAME=colemickens-Code-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
+    FILEPATH=$HOME/$FILENAME
 
-    tar -czf ~/$FILENAME ~/Code/colemickens
+    tar -czf $FILENAME ~/Code/colemickens
+    echo $FILENAME: `du -hs $FILEPATH`
 
     source ~/.secrets
     aws s3 cp $FILENAME s3://colemickens-backups/$FILENAME
+    echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
 
 fix_pixel2_audio() {
