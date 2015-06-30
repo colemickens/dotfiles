@@ -76,6 +76,7 @@ fix_pixel2_audio() {
 }
 
 reflector_run() {
+    sudo true
     wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/
     reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new
     sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S`
