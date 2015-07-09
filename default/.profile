@@ -15,7 +15,7 @@ twerk_rdp() {
     $FREERDP \
         /cert-ignore \
         /v:localhost:33890 \
-        /size:2560x1600 \
+        /size:2560x1650 \
         /u:colemick \
         /p:"$WINRDPPASSWORD" \
         /scale-device:140 \
@@ -55,7 +55,10 @@ upload_to_s3_screenshots() {
 
 clean_docker() { docker rm `docker ps --no-trunc -aq` }
 
-update_system() { yaourt -Syua --noconfirm }
+update_system() {
+    yaourt -Syua --noconfirm
+    yaourt --aur-url https://aur4.archlinux.org -Syua
+}
 
 update_dnx() {
 	dnvm upgrade -r coreclr -u -a coreclr-latest
