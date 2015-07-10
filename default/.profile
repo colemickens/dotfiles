@@ -57,7 +57,7 @@ clean_docker() { docker rm `docker ps --no-trunc -aq` }
 
 update_system() {
     yaourt -Syua --noconfirm
-    yaourt --aur-url https://aur4.archlinux.org -Syua
+    yaourt --aur-url https://aur4.archlinux.org -Syua --noconfirm
 }
 
 update_dnx() {
