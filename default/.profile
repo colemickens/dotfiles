@@ -2,10 +2,11 @@ export MAKEFLAGS="-j 8"
 export EDITOR=vim
 
 export GOPATH=/home/cole/Code/gopkgs
-export GOROOT=/home/cole/Code/golang/go
+#export GOROOT=/home/cole/Code/golang/go
+export GOROOT=/usr/lib/go
 export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
 
-twerk_proxy() { autossh -M 20001 -N -T -L33890:localhost:33890 cole@mickens.io }
+twerk_proxy() { autossh -M 20001 -N -T -L33890:localhost:33890 cole@vpn.mickens.io }
 
 twerk_rdp() {
     source ~/.secrets
@@ -26,6 +27,26 @@ twerk_rdp() {
         -wallpaper
 }
 
+rdp_azure() {
+    source ~/.secrets
+
+    FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
+
+    $FREERDP \
+        /cert-ignore \
+        /v:23.99.87.32 \
+        /size:2560x1650 \
+        /u:cole \
+        /p:"$AZUREWINRDPPASSWORD" \
+        /scale-device:140 \
+        /scale-desktop:140 \
+        +fonts \
+        +compression \
+        +toggle-fullscreen \
+        -wallpaper
+}
+
+
 take_screenshot() {
     # can call as `take_screenshot -s` to do a selection
     mkdir -p ~/tmp/screenshots;
@@ -37,10 +58,10 @@ take_screenshot() {
 
 take_screencast() {
     mkdir -p ~/tmp/screencasts;
-    FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.webm;
+    FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.mkv;
     FILEPATH=$HOME/tmp/screencasts/$FILENAME
     eval $(slop);
-    ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y -f alsa -i pulse $FILEPATH >/dev/null 2>&1;
+    ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y $FILEPATH >/dev/null 2>&1;
     echo $FILEPATH;
 }
 
@@ -54,6 +75,8 @@ upload_to_s3_screenshots() {
 }
 
 clean_docker() { docker rm `docker ps --no-trunc -aq` }
+
+dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
 
 update_system() {
     yaourt -Syua --noconfirm

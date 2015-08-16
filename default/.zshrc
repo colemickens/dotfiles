@@ -6,6 +6,7 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="agnoster"
 
 DEFAULT_USER="cole"
 
@@ -27,14 +28,6 @@ DEFAULT_USER="cole"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
-
-# Check if my oh-my-zsh customizations are available
-if [[ ! -d "$HOME/.oh-my-zsh/custom/themes/powerlevel9k" ]]; then
-	echo "Installing powerlevel9k..."
-	mkdir -p $HOME/.oh-my-zsh/custom/themes/powerlevel9k
-	git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
-	rm -rf ~/.oh-my-zsh/custom/themes/powerlevel9k/.git
-fi
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
