@@ -29,14 +29,21 @@ rdp_azure() {
 rdp_common() {
     FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
+    NUCLEUS_OPTS="/size:2560x1405"
+    PIXEL_OPTS="/size:2560x1650 /scale-device:140 /scale-desktop:140"
+
+    if [ `hostname` == "nucleus" ]; then
+        HOST_OPTS=$NUCLEUS_OPTS
+    elif [ `hostame` == "pixel" ]; then
+        HOST_OPTS=$PIXEL_OPTS
+    fi
+
     $FREERDP \
         /cert-ignore \
         /v:$1 \
-        /size:2560x1650 \
         /u:$2 \
         /p:$3 \
-        /scale-device:140 \
-        /scale-desktop:140 \
+        $HOST_OPTS \
         +fonts \
         +compression \
         +toggle-fullscreen \
