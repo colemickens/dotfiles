@@ -107,12 +107,6 @@ backup_code() {
     echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
 
-fix_pixel2_audio() {
-    cd ~/Code/tsowell/linux-samus/common
-    ALSA_CONFIG_UCM=ucm/ alsaucm -c bdw-rt5677 set _verb HiFi
-    pacmd set-default-sink 1
-}
-
 reflector_run() {
     sudo true
     wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/
@@ -120,3 +114,19 @@ reflector_run() {
     sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S`
     sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
 }
+
+if [ `hostname` = "nucleus" ]; then
+    reboot_windows() {
+        BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+        echo $BOOTNEXTNUM
+        sudo efibootmgr --bootnext $BOOTNEXTNUM
+        sudo reboot
+    }
+
+    reboot_linux() {
+        BOOTNEXTNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+        echo $BOOTNEXTNUM
+        sudo efibootmgr --bootnext $BOOTNEXTNUM
+        sudo reboot
+    }
+fi
