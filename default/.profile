@@ -2,13 +2,21 @@ export MAKEFLAGS="-j 8"
 export EDITOR=vim
 
 export GOPATH=/home/cole/Code/gopkgs
-#export GOROOT=/home/cole/Code/golang/go
 export GOROOT=/usr/lib/go
 export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
 
-twerk_proxy() { autossh -M 20001 -N -T -L33890:localhost:33890 cole@vpn.mickens.io }
+proxy_nucleus_rdp() { autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io }
 
-twerk_rdp() {
+ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
+ssh_chimera_local()   { ssh  cole@10.0.0.2   -p 222  }
+ssh_nucleus_remote()  { ssh  cole@mickens.io -p 223 }
+ssh_nucleus_local()   { ssh  cole@10.0.0.3   -p 223  }
+mosh_chimera_remote() { mosh cole@mickens.io --ssh="ssh -p 222" }
+mosh_chimera_local()  { mosh cole@10.0.0.2   --ssh="ssh -p 222" }
+mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" }
+mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" }
+
+rdp_nucleus() {
     source ~/.secrets
 
     FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
@@ -17,8 +25,8 @@ twerk_rdp() {
         /cert-ignore \
         /v:localhost:33890 \
         /size:2560x1650 \
-        /u:colemick \
-        /p:"$WINRDPPASSWORD" \
+        /u:"$NUCLEUS_USERNAME" \
+        /p:"$NUCLEUS_PASSWORD" \
         /scale-device:140 \
         /scale-desktop:140 \
         +fonts \
@@ -65,6 +73,19 @@ take_screencast() {
     echo $FILEPATH;
 }
 
+take_screencast_full() {
+    echo "test"
+    mkdir -p ~/tmp/screencasts;
+    FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.mkv;
+    FILEPATH=$HOME/tmp/screencasts/$FILENAME
+    FULLSCREEN=$(xwininfo -root | grep 'geometry' | awk '{print $2;}')
+
+    echo "ffmpeg -f x11grab -s $FULLSCREEN $FILEPATH # >/dev/null 2>&1;"
+
+    ffmpeg -f x11grab -s $FULLSCREEN $FILEPATH # >/dev/null 2>&1;
+    echo $FILEPATH;
+}
+
 upload_to_s3_screenshots() {
     FILEPATH=$1
     FILENAME=$(basename $FILEPATH)
@@ -80,12 +101,10 @@ dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
 
 update_system() {
     yaourt -Syua --noconfirm
-    yaourt --aur-url https://aur4.archlinux.org -Syua --noconfirm
 }
 
 update_dnx() {
 	dnvm upgrade -r coreclr -u -a coreclr-latest
-	dnvm upgrade -u -a mono-latest
 }
 
 backup_code() {
