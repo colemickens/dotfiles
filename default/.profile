@@ -23,7 +23,7 @@ rdp_nucleus() {
 
 rdp_azure() {
     source ~/Dropbox/.secrets
-    rdp_common 23.99.87.32 $AZUREWINRDP_USERNAME $AZUREWINRDP_PASSWORD
+    rdp_common azureremote01.cloudapp.net:3389 $AZUREWINRDP_USERNAME $AZUREWINRDP_PASSWORD
 }
 
 rdp_common() {
