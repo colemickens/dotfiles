@@ -5,7 +5,7 @@ export GOPATH=/home/cole/Code/gopkgs
 export GOROOT=/usr/lib/go
 export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
 
-proxy_nucleus_rdp() { autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io }
+proxy_nucleus_rdp() { autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io -p 222 }
 
 ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
 ssh_chimera_local()   { ssh  cole@10.0.0.2   -p 222  }
@@ -18,34 +18,23 @@ mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" }
 
 rdp_nucleus() {
     source ~/.secrets
-
-    FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
-
-    $FREERDP \
-        /cert-ignore \
-        /v:localhost:33890 \
-        /size:2560x1650 \
-        /u:"$NUCLEUS_USERNAME" \
-        /p:"$NUCLEUS_PASSWORD" \
-        /scale-device:140 \
-        /scale-desktop:140 \
-        +fonts \
-        +compression \
-        +toggle-fullscreen \
-        -wallpaper
+    rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
 }
 
 rdp_azure() {
     source ~/.secrets
+    rdp_common 23.99.87.32 $AZUREWINRDP_USERNAME $AZUREWINRDP_PASSWORD
+}
 
+rdp_common() {
     FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
     $FREERDP \
         /cert-ignore \
-        /v:23.99.87.32 \
+        /v:$1 \
         /size:2560x1650 \
-        /u:cole \
-        /p:"$AZUREWINRDPPASSWORD" \
+        /u:$2 \
+        /p:$3 \
         /scale-device:140 \
         /scale-desktop:140 \
         +fonts \
@@ -53,7 +42,6 @@ rdp_azure() {
         +toggle-fullscreen \
         -wallpaper
 }
-
 
 take_screenshot() {
     # can call as `take_screenshot -s` to do a selection
