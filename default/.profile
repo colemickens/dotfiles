@@ -17,12 +17,12 @@ mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" }
 mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" }
 
 rdp_nucleus() {
-    source ~/.secrets
+    source ~/Dropbox/.secrets
     rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
 }
 
 rdp_azure() {
-    source ~/.secrets
+    source ~/Dropbox/.secrets
     rdp_common 23.99.87.32 $AZUREWINRDP_USERNAME $AZUREWINRDP_PASSWORD
 }
 
@@ -78,7 +78,7 @@ upload_to_s3_screenshots() {
     FILEPATH=$1
     FILENAME=$(basename $FILEPATH)
 
-    source .secrets;
+    source ~/Dropbox/.secrets
     aws s3 cp --acl=public-read $FILEPATH s3://colemickens-screenshots/ >/dev/null 2>&1;
     echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
@@ -102,7 +102,7 @@ backup_code() {
     tar -czf $FILENAME ~/Code/colemickens
     echo $FILENAME: `du -hs $FILEPATH`
 
-    source ~/.secrets
+    source ~/Dropbox/.secrets
     aws s3 cp $FILENAME s3://colemickens-backups/$FILENAME
     echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
