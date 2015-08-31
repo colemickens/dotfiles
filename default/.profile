@@ -5,7 +5,7 @@ export GOPATH=/home/cole/Code/gopkgs
 export GOROOT=/usr/lib/go
 export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
 
-proxy_nucleus_rdp() { autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io -p 222 }
+# TODO(colemickens): split this out into other files and source them from here
 
 ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
 ssh_chimera_local()   { ssh  cole@10.0.0.2   -p 222  }
@@ -16,6 +16,7 @@ mosh_chimera_local()  { mosh cole@10.0.0.2   --ssh="ssh -p 222" }
 mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" }
 mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" }
 
+proxy_nucleus_rdp() { autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io -p 222 }
 rdp_nucleus() {
     source ~/Dropbox/.secrets
     rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
