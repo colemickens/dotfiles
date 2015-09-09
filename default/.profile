@@ -5,7 +5,15 @@ export GOPATH=/home/cole/Code/gopkgs
 export GOROOT=/usr/lib/go
 export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
 
-# TODO(colemickens): split this out into other files and source them from here
+# home network router NAT rules
+# 10.0.0.2 is chimera's static IP
+# 10.0.0.3 is nucleus's static IP
+# --------------------------------------------
+#    80:80    TCP/UDP 10.0.0.2 (http-chimera)
+#   222:222   TCP/UDP 10.0.0.2 (ssh-chimera)
+#   223:223   TCP/UDP 10.0.0.3 (ssh-nucleus)
+# 60000:60999 TCP/UDP 10.0.0.2 (mosh-chimera)
+# 61000:61999 TCP/UDP 10.0.0.3 (mosh-nucleus)
 
 ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
 ssh_chimera_local()   { ssh  cole@10.0.0.2   -p 222  }
@@ -13,10 +21,15 @@ ssh_nucleus_remote()  { ssh  cole@mickens.io -p 223 }
 ssh_nucleus_local()   { ssh  cole@10.0.0.3   -p 223  }
 mosh_chimera_remote() { mosh cole@mickens.io --ssh="ssh -p 222" }
 mosh_chimera_local()  { mosh cole@10.0.0.2   --ssh="ssh -p 222" }
-mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" }
-mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" }
+mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }
+mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" -p 61000:61999 }
 
-proxy_nucleus_rdp() { autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io -p 222 }
+proxy_nucleus_rdp() {
+    # TODO(colemickens): this is unreliable after first windows boot
+    #     Filed as an issue against FreeRDP:
+    #     https://github.com/FreeRDP/FreeRDP/issues/2876
+    autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io -p 222
+}
 rdp_nucleus() {
     source ~/Dropbox/.secrets
     rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
