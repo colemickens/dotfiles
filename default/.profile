@@ -35,14 +35,19 @@ mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }
 mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" -p 61000:61999 }
 
 proxy_nucleus_rdp() {
-    # TODO(colemickens): this is unreliable after first windows boot
-    #     Filed as an issue against FreeRDP:
-    #     https://github.com/FreeRDP/FreeRDP/issues/2876
     autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io -p 222
 }
 rdp_nucleus() {
     source ~/Dropbox/.secrets
+    # TODO(colemickens): this is unreliable after first windows boot
+    #     Filed as an issue against FreeRDP:
+    #     https://github.com/FreeRDP/FreeRDP/issues/2876
     rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
+    if [ $? -ne 0 ]; then
+        echo trying with rdesktop
+        timeout 10 rdesktop -u $NUCLEUS_USERNAME -p $NUCLEUS_PASSWORD localhost:33890
+        rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
+    fi
 }
 
 rdp_azure() {
