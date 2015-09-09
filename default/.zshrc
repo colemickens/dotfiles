@@ -50,3 +50,9 @@ fi
 #	source '/home/cole/Code/GoogleCloudPlatform/google-cloud-sdk/completion.zsh.inc'
 #	source '/home/cole/Code/GoogleCloudPlatform/google-cloud-sdk/path.zsh.inc'
 #fi
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/cole/Code/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/home/cole/Code/google-cloud-sdk/completion.zsh.inc'
