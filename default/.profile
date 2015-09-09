@@ -15,6 +15,16 @@ export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
 # 60000:60999 TCP/UDP 10.0.0.2 (mosh-chimera)
 # 61000:61999 TCP/UDP 10.0.0.3 (mosh-nucleus)
 
+if [ -d "/home/cole/Code/node_modules/azure-cli/bin" ]; then
+    export PATH=$PATH:/home/cole/Code/node_modules/azure-cli/bin/
+fi
+
+if [ -d "/home/cole/Code/pathoverride" ]; then
+    pathoverride() {
+        export PATH=/home/cole/Code/pathoverride/:$PATH
+    }
+fi
+
 ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
 ssh_chimera_local()   { ssh  cole@10.0.0.2   -p 222  }
 ssh_nucleus_remote()  { ssh  cole@mickens.io -p 223 }
