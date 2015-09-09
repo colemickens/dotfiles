@@ -58,7 +58,7 @@ rdp_common() {
 
     if [ `hostname` == "nucleus" ]; then
         HOST_OPTS=$NUCLEUS_OPTS
-    elif [ `hostame` == "pixel" ]; then
+    elif [ `hostname` == "pixel" ]; then
         HOST_OPTS=$PIXEL_OPTS
     fi
 
