@@ -147,17 +147,31 @@ reflector_run() {
 }
 
 if [ `hostname` = "nucleus" ]; then
-    reboot_windows() {
+    reboot_windows_once() {
         BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        echo $BOOTNEXTNUM
         sudo efibootmgr --bootnext $BOOTNEXTNUM
-        sudo reboot
+        sleep 3; sudo reboot
     }
 
-    reboot_linux() {
+    reboot_windows_permanently() {
+        BOOTWINDOWSNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+        BOOTLINUXNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+        echo sudo efibootmgr --bootorder $BOOTWINDOWSNUM,$BOOTLINUXNUM
+        sudo efibootmgr --bootorder $BOOTWINDOWSNUM,$BOOTLINUXNUM
+        sleep 3; sudo reboot
+    }
+
+    reboot_linux_permanently() {
+        BOOTWINDOWSNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+        BOOTLINUXNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+        echo sudo efibootmgr --bootorder $BOOTLINUXNUM,$BOOTWINDOWSNUM
+        sudo efibootmgr --bootorder $BOOTLINUXNUM,$BOOTWINDOWSNUM
+        sleep 3; sudo reboot
+    }
+
+    reboot_linux_once() {
         BOOTNEXTNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        echo $BOOTNEXTNUM
         sudo efibootmgr --bootnext $BOOTNEXTNUM
-        sudo reboot
+        sleep 3; sudo reboot
     }
 fi
