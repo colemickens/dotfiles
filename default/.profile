@@ -181,6 +181,6 @@ if [ `hostname` = "nucleus" ]; then
     }
 fi
 
-if [ -a ".profile-microsoft" ]; then
+if [ -f ".profile-microsoft" ]; then
     source .profile-microsoft
 fi
