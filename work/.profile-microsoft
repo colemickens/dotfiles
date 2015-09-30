@@ -1,0 +1,13 @@
+if [ `hostname` = "colemick-carbon" ]; then
+    reboot_windows_once() {
+        BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+        sudo efibootmgr --bootnext $BOOTNEXTNUM
+        sleep 3; sudo reboot
+    }
+
+    reboot_linux_once() {
+        BOOTNEXTNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+        sudo efibootmgr --bootnext $BOOTNEXTNUM
+        sleep 3; sudo reboot
+    }
+fi

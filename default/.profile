@@ -128,7 +128,7 @@ update_system() {
 }
 
 update_dnx() {
-	dnvm upgrade -r coreclr -u -a coreclr-latest
+    dnvm upgrade -r coreclr -u -a coreclr-latest
 }
 
 backup_code() {
@@ -179,4 +179,8 @@ if [ `hostname` = "nucleus" ]; then
         sudo efibootmgr --bootnext $BOOTNEXTNUM
         sleep 3; sudo reboot
     }
+fi
+
+if [ -a ".profile-microsoft" ]; then
+    source .profile-microsoft
 fi
