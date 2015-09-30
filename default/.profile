@@ -145,10 +145,10 @@ backup_code() {
 
 reflector_run() {
     sudo true
-    wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/
-    reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new
-    sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S`
-    sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
+    wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/ \
+    && reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new \
+    && sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S` \
+    && sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
 }
 
 if [ `hostname` = "nucleus" ]; then
