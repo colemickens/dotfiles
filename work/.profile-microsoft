@@ -11,3 +11,28 @@ if [ `hostname` = "colemick-carbon" ]; then
         sleep 3; sudo reboot
     }
 fi
+
+if [ -d "/home/cole/Code/colemickens/azure-xplat-cli/bin" ]; then
+    export PATH=$PATH:/home/cole/Code/colemickens/azure-xplat-cli/bin/
+fi
+
+tpdock() {
+    gsettings set org.gnome.desktop.interface scaling-factor 1
+    gsettings set org.gnome.desktop.interface text-scaling-factor 1
+    gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gdk/WindowScalingFactor': <1>}"
+
+    xrandr --output eDP1 --off
+    xrandr --output DP1 --auto
+    xrandr --output HDMI2 --auto
+    xrandr --output HDMI2 --right-of DP1
+}
+
+tplaptop() {
+    gsettings set org.gnome.desktop.interface scaling-factor 2
+    gsettings set org.gnome.desktop.interface text-scaling-factor 0.75
+    gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gdk/WindowScalingFactor': <2>}"
+
+    xrandr --output eDP1 --auto
+    xrandr --output DP1 --off
+    xrandr --output HDMI2 --off
+}
