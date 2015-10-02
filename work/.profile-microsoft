@@ -39,3 +39,7 @@ fi
 
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
+
+rdp_colemick10() {
+    rdp_common colemick10 colemick@microsoft.com
+}

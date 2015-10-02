@@ -56,24 +56,20 @@ rdp_nucleus() {
     fi
 }
 
-rdp_azure() {
-    source ~/Dropbox/.secrets
-    rdp_common azureremote01.cloudapp.net:3389 $AZUREWINRDP_USERNAME $AZUREWINRDP_PASSWORD
-}
-
 rdp_common() {
-    FREERDP=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
+    local customfreerdp=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
-    NUCLEUS_OPTS="/size:2560x1405"
-    PIXEL_OPTS="/size:2560x1650 /scale-device:140 /scale-desktop:140"
-
-    if [ `hostname` == "nucleus" ]; then
-        HOST_OPTS=$NUCLEUS_OPTS
-    elif [ `hostname` == "pixel" ]; then
-        HOST_OPTS=$PIXEL_OPTS
+    local freerdp_bin=`which xfreerdp`
+    if [ -f $customfreerdp ]; then
+        freerdp_bin=$customfreerdp
     fi
 
-    $FREERDP \
+    local -A rdpopts
+    rdpopts[nucleus]="/size:2560x1405"
+    rdpopts[pixel]="/size:2560x1650 /scale-device:140 /scale-desktop:140"
+    rdpopts[colemick-carbon]="/size:1600x1000"
+
+    $freerdp_bin \
         /cert-ignore \
         /v:$1 \
         /u:$2 \
