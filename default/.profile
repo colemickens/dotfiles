@@ -1,10 +1,6 @@
 export MAKEFLAGS="-j 8"
 export EDITOR=vim
 
-export GOPATH=/home/cole/Code/gopkgs
-export GOROOT=/usr/lib/go
-export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
-
 # home network router NAT rules
 # 10.0.0.2 is chimera's static IP
 # 10.0.0.3 is nucleus's static IP
@@ -15,11 +11,25 @@ export PATH=$PATH:/home/cole/Code/golang/go/bin:/home/cole/Code/gopkgs/bin
 # 60000:60999 TCP/UDP 10.0.0.2 (mosh-chimera)
 # 61000:61999 TCP/UDP 10.0.0.3 (mosh-nucleus)
 
-if [ -d "/home/cole/Code/pathoverride" ]; then
-    pathoverride() {
+pathoverride() {
+    if [ -d "/home/cole/Code/pathoverride" ]; then
         export PATH=/home/cole/Code/pathoverride/:$PATH
-    }
+    else
+        echo "pathoverride dir doesn't exist"
+        return -1
+    fi
+}
+
+if [ -d "$HOME/Code/go" ]; then
+    export GOROOT=$HOME/Code/go
+    export PATH=$PATH:$HOME/Code/go/bin
+else
+    export GOROOT=/usr/lib/go
+    export PATH=$PATH:/home/cole/Code/golang/go/bin
 fi
+
+export GOPATH=$HOME/Code/gopkgs
+export PATH=$PATH:$GOPATH/bin
 
 ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
 ssh_chimera_local()   { ssh  cole@10.0.0.2   -p 222  }
