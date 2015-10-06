@@ -26,7 +26,7 @@ else
     export GOROOT=/usr/lib/go
 fi
 
-export PATH=$GOROOT/bin
+export PATH=$PATH:$GOROOT/bin
 export GOPATH=$HOME/Code/gopkgs
 export PATH=$PATH:$GOPATH/bin
 
