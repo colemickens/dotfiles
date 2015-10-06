@@ -41,5 +41,6 @@ export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
 
 rdp_colemick10() {
-    rdp_common colemick10 colemick@microsoft.com
+    source $HOME/Dropbox/.secrets
+    rdp_common colemick10 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
 }

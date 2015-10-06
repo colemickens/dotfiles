@@ -20,14 +20,13 @@ pathoverride() {
     fi
 }
 
-if [ -d "$HOME/Code/go" ]; then
-    export GOROOT=$HOME/Code/go
-    export PATH=$PATH:$HOME/Code/go/bin
+if [ -d "$HOME/Code/golang/go" ]; then
+    export GOROOT=$HOME/Code/golang/go
 else
     export GOROOT=/usr/lib/go
-    export PATH=$PATH:/home/cole/Code/golang/go/bin
 fi
 
+export PATH=$GOROOT/bin
 export GOPATH=$HOME/Code/gopkgs
 export PATH=$PATH:$GOPATH/bin
 
@@ -57,6 +56,9 @@ rdp_nucleus() {
 }
 
 rdp_common() {
+    local rdpserver=$1
+    local rdpuser=$2
+    local rdppass=$3
     local customfreerdp=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
     local freerdp_bin=`which xfreerdp`
@@ -67,14 +69,16 @@ rdp_common() {
     local -A rdpopts
     rdpopts[nucleus]="/size:2560x1405"
     rdpopts[pixel]="/size:2560x1650 /scale-device:140 /scale-desktop:140"
-    rdpopts[colemick-carbon]="/size:1600x1000"
+    rdpopts[colemick-carbon]="/size:1910x1100"
+
+    local rdpoptions=$rdpopts[$(hostname)]
 
     $freerdp_bin \
         /cert-ignore \
-        /v:$1 \
-        /u:$2 \
-        /p:$3 \
-        $HOST_OPTS \
+        /v:$rdpserver \
+        /u:$rdpuser \
+        /p:$rdppass \
+        $rdpoptions \
         +fonts \
         +compression \
         +toggle-fullscreen \
