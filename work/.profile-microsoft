@@ -17,7 +17,7 @@ if [ `hostname` = "colemick-carbon" ]; then
         gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gdk/WindowScalingFactor': <1>}"
 
         xrandr --output eDP1 --off
-        xrandr --output DP1 --auto
+        xrandr --output DP1 --auto --primary
         xrandr --output HDMI2 --auto
         xrandr --output HDMI2 --right-of DP1
     }
@@ -33,12 +33,18 @@ if [ `hostname` = "colemick-carbon" ]; then
     }
 fi
 
-if [ -d "/home/cole/Code/colemickens/azure-xplat-cli/bin" ]; then
-    export PATH=$PATH:/home/cole/Code/colemickens/azure-xplat-cli/bin/
+if which azure > /dev/null ; then
+    azure config mode arm > /dev/null
 fi
 
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
+
+agd() {
+    for group in ${@}; do
+        azure group delete --quiet ${group}
+    done
+}
 
 rdp_colemick10() {
     source $HOME/Dropbox/.secrets
