@@ -1,46 +1,4 @@
-if [ `hostname` = "colemick-carbon" ]; then
-    reboot_windows_once() {
-        BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        sudo efibootmgr --bootnext $BOOTNEXTNUM
-        sleep 3; sudo reboot
-    }
-
-    reboot_linux_once() {
-        BOOTNEXTNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        sudo efibootmgr --bootnext $BOOTNEXTNUM
-        sleep 3; sudo reboot
-    }
-
-    tpdock() {
-        gsettings set org.gnome.desktop.interface scaling-factor 1
-        gsettings set org.gnome.desktop.interface text-scaling-factor 1
-        gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gdk/WindowScalingFactor': <1>}"
-
-        xrandr --output eDP1 --off
-        xrandr --output DP1 --auto
-        xrandr --output HDMI2 --auto
-        xrandr --output HDMI2 --right-of DP1
-    }
-
-    tplaptop() {
-        gsettings set org.gnome.desktop.interface scaling-factor 2
-        gsettings set org.gnome.desktop.interface text-scaling-factor 0.75
-        gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "{'Gdk/WindowScalingFactor': <2>}"
-
-        xrandr --output eDP1 --auto
-        xrandr --output DP1 --off
-        xrandr --output HDMI2 --off
-    }
-fi
-
-if [ -d "/home/cole/Code/colemickens/azure-xplat-cli/bin" ]; then
-    export PATH=$PATH:/home/cole/Code/colemickens/azure-xplat-cli/bin/
-fi
-
-export KUBERNETES_PROVIDER=azure
-export KUBE_RELEASE_RUN_TESTS=n
-
 rdp_colemick10() {
     source $HOME/Dropbox/.secrets
-    rdp_common colemick10 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
+    rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
 }

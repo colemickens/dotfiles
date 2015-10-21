@@ -70,6 +70,7 @@ rdp_common() {
     rdpopts[nucleus]="/size:2560x1405"
     rdpopts[pixel]="/size:2560x1650 /scale-device:140 /scale-desktop:140"
     rdpopts[colemick-carbon]="/size:1910x1100"
+    rdpopts[colemick-z420]="/size:1920x1170"
 
     local rdpoptions=$rdpopts[$(hostname)]
 
