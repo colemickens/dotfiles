@@ -1,3 +1,15 @@
+if which azure > /dev/null ; then
+    azure config mode arm > /dev/null
+fi
+
+export KUBERNETES_PROVIDER=azure
+export KUBE_RELEASE_RUN_TESTS=n
+
+agd() {
+    for group in ${@}; do
+        azure group delete --quiet ${group}
+    done
+}
 rdp_colemick10() {
     source $HOME/Dropbox/.secrets
     rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD

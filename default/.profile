@@ -50,6 +50,7 @@ rdp_nucleus() {
     rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
     if [ $? -ne 0 ]; then
         echo trying with rdesktop
+        echo rdesktop -u $NUCLEUS_USERNAME -p $NUCLEUS_PASSWORD localhost:33890
         timeout 10 rdesktop -u $NUCLEUS_USERNAME -p $NUCLEUS_PASSWORD localhost:33890
         rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
     fi
@@ -156,6 +157,12 @@ reflector_run() {
     && reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new \
     && sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S` \
     && sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
+}
+
+set_decorations() {
+    onoroff=$1
+    windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
+    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} ${onoroff}
 }
 
 if [ `hostname` = "nucleus" ]; then
