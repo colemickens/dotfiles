@@ -165,6 +165,10 @@ set_decorations() {
     python2.7 $HOME/.scripts/change-window-borders.py ${windowid} ${onoroff}
 }
 
+
+############################################################################################################################
+# Dual boot helpers (nucleus)
+############################################################################################################################
 if [ `hostname` = "nucleus" ]; then
     reboot_windows_once() {
         BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
@@ -195,6 +199,24 @@ if [ `hostname` = "nucleus" ]; then
     }
 fi
 
-if [ -f "$HOME/.profile-microsoft" ]; then
-    source $HOME/.profile-microsoft
+############################################################################################################################
+# Kubernetes stuff
+############################################################################################################################
+if which azure > /dev/null ; then
+    azure config mode arm > /dev/null
 fi
+
+export KUBERNETES_PROVIDER=azure
+export KUBE_RELEASE_RUN_TESTS=n
+
+agd() {
+    for group in ${@}; do
+        azure group delete --quiet "${group}"
+    done
+}
+
+############################################################################################################################
+# Other stuff
+############################################################################################################################
+
+# whatever
