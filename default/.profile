@@ -159,10 +159,20 @@ reflector_run() {
     && sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
 }
 
-set_decorations() {
-    onoroff=$1
+videomodeset() {
     windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} ${onoroff}
+    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 0
+    wmctrl -i -r ${windowid} -b add,above
+}
+
+videomodeunset() {
+    windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
+    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
+    wmctrl -i -r ${windowid} -b remove,above
+}
+
+autoproxy_chimera() {
+    autossh -f -M 20000 -D8080 cole@mickens.io -N -p 222
 }
 
 
