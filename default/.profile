@@ -39,21 +39,8 @@ mosh_chimera_local()  { mosh cole@10.0.0.2   --ssh="ssh -p 222" }
 mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }
 mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" -p 61000:61999 }
 
-proxy_nucleus_rdp() {
-    autossh -M 20002 -N -T -L33890:10.0.0.3:3389 cole@mickens.io -p 222
-}
-rdp_nucleus() {
-    source ~/Dropbox/.secrets
-    # TODO(colemickens): this is unreliable after first windows boot
-    #     Filed as an issue against FreeRDP:
-    #     https://github.com/FreeRDP/FreeRDP/issues/2876
-    rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
-    if [ $? -ne 0 ]; then
-        echo trying with rdesktop
-        echo rdesktop -u $NUCLEUS_USERNAME -p $NUCLEUS_PASSWORD localhost:33890
-        timeout 10 rdesktop -u $NUCLEUS_USERNAME -p $NUCLEUS_PASSWORD localhost:33890
-        rdp_common localhost:33890 $NUCLEUS_USERNAME $NUCLEUS_PASSWORD
-    fi
+rdp_colemick10() {
+    rdp_common $COLEMICK10_USERNAME $COLEMICK10_PASSWORD localhost
 }
 
 rdp_common() {
@@ -219,16 +206,24 @@ fi
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
 
+cdkube() { /Code/colemickens/kubegopath/src/k8s.io/kubernetes }
+
 agd() {
     for group in ${@}; do
         azure group delete --quiet "${group}"
     done
 }
 
-cdkube() { /Code/colemickens/kubegopath/src/k8s.io/kubernetes }
+agd_all() {
+    kubergs=($(azure group list --json | jq -r '.[].name' -))
+    agd ${kubergs}
+}
 
 ############################################################################################################################
-# Other stuff
+# Work specific
 ############################################################################################################################
 
-# whatever
+rdp_colemick10() {
+    source $HOME/Dropbox/.secrets
+    rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
+}
