@@ -206,7 +206,7 @@ fi
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
 
-cdkube() { /Code/colemickens/kubegopath/src/k8s.io/kubernetes }
+cdkube() { cd $HOME/Code/colemickens/kubegopath/src/k8s.io/kubernetes }
 
 agd() {
     for group in ${@}; do
