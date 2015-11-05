@@ -7,7 +7,7 @@ ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="agnoster"
 
-#DEFAULT_USER="cole"
+DEFAULT_USER="cole"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -35,18 +35,9 @@ plugins=()
 
 source $ZSH/oh-my-zsh.sh
 
-# Load .profile (may be redundant)
-source ~/.profile
-
-# DNVM stuff
-[ -s "/home/cole/.dnx/dnvm/dnvm.sh" ] && . "/home/cole/.dnx/dnvm/dnvm.sh"
-
 # Tmux stuff
 if [[ -z "$TMUX" ]]; then
 	tmux att || tmux
 fi
 
-if [ -d /home/cole/Code/GoogleCloudPlatform/google-cloud-sdk ]; then
-	source '/home/cole/Code/GoogleCloudPlatform/google-cloud-sdk/completion.zsh.inc'
-	source '/home/cole/Code/GoogleCloudPlatform/google-cloud-sdk/path.zsh.inc'
-fi
+source $HOME/.zprofile

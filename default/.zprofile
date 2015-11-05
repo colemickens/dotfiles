@@ -1,24 +1,9 @@
+############################################################################################################################
+# Development Helpers
+############################################################################################################################
+
 export MAKEFLAGS="-j 8"
 export EDITOR=vim
-
-# home network router NAT rules
-# 10.0.0.2 is chimera's static IP
-# 10.0.0.3 is nucleus's static IP
-# --------------------------------------------
-#    80:80    TCP/UDP 10.0.0.2 (http-chimera)
-#   222:222   TCP/UDP 10.0.0.2 (ssh-chimera)
-#   223:223   TCP/UDP 10.0.0.3 (ssh-nucleus)
-# 60000:60999 TCP/UDP 10.0.0.2 (mosh-chimera)
-# 61000:61999 TCP/UDP 10.0.0.3 (mosh-nucleus)
-
-pathoverride() {
-    if [ -d "/home/cole/Code/pathoverride" ]; then
-        export PATH=/home/cole/Code/pathoverride/:$PATH
-    else
-        echo "pathoverride dir doesn't exist"
-        return -1
-    fi
-}
 
 if [ -d "$HOME/Code/golang/go" ]; then
     export GOROOT=$HOME/Code/golang/go
@@ -30,6 +15,48 @@ export PATH=$PATH:$GOROOT/bin
 export GOPATH=$HOME/Code/gopkgs
 export PATH=$PATH:$GOPATH/bin
 
+export KUBERNETES_PROVIDER=azure
+export KUBE_RELEASE_RUN_TESTS=n
+
+# over path to my list of overrides (python->python2.7 on Arch, for example)
+pathoverride() {
+    if [ -d "/home/cole/Code/pathoverride" ]; then
+        export PATH=/home/cole/Code/pathoverride/:$PATH
+    else
+        echo "pathoverride dir doesn't exist"
+        return -1
+    fi
+}
+
+mitmproxy_prep() {
+    export HTTPS_PROXY=https://localhost:8080
+}
+
+############################################################################################################################
+# Generic Helpers
+############################################################################################################################
+
+clean_docker() { docker rm `docker ps --no-trunc -aq` }
+dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
+up() { yaourt -Syua --noconfirm }
+autoproxy_chimera() { autossh -f -M 20000 -D8080 cole@mickens.io -N -p 222 }
+
+videomodeset() {
+    windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
+    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 0
+    wmctrl -i -r ${windowid} -b add,above
+}
+
+videomodeunset() {
+    windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
+    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
+    wmctrl -i -r ${windowid} -b remove,above
+}
+
+############################################################################################################################
+# SSH Helpers
+############################################################################################################################
+
 ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
 ssh_chimera_local()   { ssh  cole@10.0.0.2   -p 222  }
 ssh_nucleus_remote()  { ssh  cole@mickens.io -p 223 }
@@ -38,6 +65,11 @@ mosh_chimera_remote() { mosh cole@mickens.io --ssh="ssh -p 222" }
 mosh_chimera_local()  { mosh cole@10.0.0.2   --ssh="ssh -p 222" }
 mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }
 mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" -p 61000:61999 }
+
+
+############################################################################################################################
+# RDP Helpers
+############################################################################################################################
 
 rdp_colemick10() {
     rdp_common $COLEMICK10_USERNAME $COLEMICK10_PASSWORD localhost
@@ -73,6 +105,11 @@ rdp_common() {
         +toggle-fullscreen \
         -wallpaper
 }
+
+
+############################################################################################################################
+# Screen Capture Helpers
+############################################################################################################################
 
 take_screenshot() {
     # can call as `take_screenshot -s` to do a selection
@@ -114,17 +151,10 @@ upload_to_s3_screenshots() {
     echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
 
-clean_docker() { docker rm `docker ps --no-trunc -aq` }
 
-dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
-
-update_system() {
-    yaourt -Syua --noconfirm
-}
-
-update_dnx() {
-    dnvm upgrade -r coreclr -u -a coreclr-latest
-}
+############################################################################################################################
+# Sysadmin Stuff
+############################################################################################################################
 
 backup_code() {
     FILENAME=colemickens-Code-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
@@ -146,26 +176,11 @@ reflector_run() {
     && sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
 }
 
-videomodeset() {
-    windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 0
-    wmctrl -i -r ${windowid} -b add,above
-}
-
-videomodeunset() {
-    windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
-    wmctrl -i -r ${windowid} -b remove,above
-}
-
-autoproxy_chimera() {
-    autossh -f -M 20000 -D8080 cole@mickens.io -N -p 222
-}
-
 
 ############################################################################################################################
 # Dual boot helpers (nucleus)
 ############################################################################################################################
+
 if [ `hostname` = "nucleus" ]; then
     reboot_windows_once() {
         BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
@@ -196,15 +211,10 @@ if [ `hostname` = "nucleus" ]; then
     }
 fi
 
-############################################################################################################################
-# Kubernetes stuff
-############################################################################################################################
-if which azure > /dev/null ; then
-    azure config mode arm > /dev/null
-fi
 
-export KUBERNETES_PROVIDER=azure
-export KUBE_RELEASE_RUN_TESTS=n
+############################################################################################################################
+# Kubernetes Helpers
+############################################################################################################################
 
 cdkube() { cd $HOME/Code/colemickens/kubegopath/src/k8s.io/kubernetes }
 
@@ -219,11 +229,24 @@ agd_all() {
     agd ${kubergs}
 }
 
+
+
 ############################################################################################################################
-# Work specific
+# Work Helpers
 ############################################################################################################################
 
 rdp_colemick10() {
     source $HOME/Dropbox/.secrets
     rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
 }
+
+
+############################################################################################################################
+# DNVM Helpers
+############################################################################################################################
+
+[ -s "/home/cole/.dnx/dnvm/dnvm.sh" ] && . "/home/cole/.dnx/dnvm/dnvm.sh"
+
+
+
+
