@@ -64,14 +64,12 @@ mosh_chimera_remote() { mosh cole@mickens.io --ssh="ssh -p 222" }
 mosh_chimera_local()  { mosh cole@10.0.0.2   --ssh="ssh -p 222" }
 mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }
 mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" -p 61000:61999 }
-socks_chimera() { autossh -f -M 20000 -D1080 cole@mickens.io -N -p 222 }
-socks_nucleus() { autossh -f -M 20000 -D1080 cole@mickens.io -N -p 223 }
+socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
+socks_nucleus() { autossh -N -T -M 20010 -D1080 cole@mickens.io -N -p 223 }
 
-reverseProxy() { autossh -f -M 20000 -R 22022:localhost:22 cole@mickens.io -p 222 }
-reverseProxyClient() { autossh -f -M 20001 -L 22022:localhost:22022 cole@mickens.io -p 222 }
+reverseProxy() { autossh -N -T -M 20020 -R 22022:localhost:22 cole@mickens.io -p 222 }
+reverseProxyClient() { autossh -N -T -M 20030 -L 22022:localhost:22022 cole@mickens.io -p 222 }
 
-# ssh -R 22022:localhost:22 cole@mickens.io -p222
-# ssh -L 22022:localhost:22022 cole@mickens.io -p 222
 
 ############################################################################################################################
 # RDP Helpers
