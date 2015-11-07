@@ -29,6 +29,20 @@ pathoverride() {
 }
 
 mitmproxy_prep() {
+	cert_src="$HOME/.mitmproxy/mitmproxy-ca-cert.cer"
+	cert_dest="/etc/ca-certificates/trust-source/anchors/mitmproxy-ca-cert.cer"
+
+	if [[ ! -f "${cert_dest}" ]]; then
+		echo "mitmproxy cert hasn't been installed yet"
+		if [[ ! -f "${cert_src}" ]]; then
+			echo "mitmproxy hasn't generated certs yet. run \`mitmproxy\` and then try again"
+			exit -1
+		fi
+		
+		cp "${cert_src}" "${cert_dest}"
+		sudo trust extract-compat
+	fi
+
 	local proxy="https://localhost:8080"
 	export HTTPS_PROXY="${proxy}"
 	export https_proxy="${proxy}"
