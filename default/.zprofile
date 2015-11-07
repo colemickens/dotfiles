@@ -6,9 +6,9 @@ export MAKEFLAGS="-j 8"
 export EDITOR=vim
 
 if [ -d "$HOME/Code/golang/go" ]; then
-    export GOROOT=$HOME/Code/golang/go
+	export GOROOT=$HOME/Code/golang/go
 else
-    export GOROOT=/usr/lib/go
+	export GOROOT=/usr/lib/go
 fi
 
 export PATH=$PATH:$GOROOT/bin
@@ -20,16 +20,18 @@ export KUBE_RELEASE_RUN_TESTS=n
 
 # over path to my list of overrides (python->python2.7 on Arch, for example)
 pathoverride() {
-    if [ -d "/home/cole/Code/pathoverride" ]; then
-        export PATH=/home/cole/Code/pathoverride/:$PATH
-    else
-        echo "pathoverride dir doesn't exist"
-        return -1
-    fi
+	if [ -d "/home/cole/Code/pathoverride" ]; then
+		export PATH=/home/cole/Code/pathoverride/:$PATH
+	else
+		echo "pathoverride dir doesn't exist"
+		return -1
+	fi
 }
 
 mitmproxy_prep() {
-    export HTTPS_PROXY=https://localhost:8080
+	local proxy="https://localhost:8080"
+	export HTTPS_PROXY="${proxy}"
+	export https_proxy="${proxy}"
 }
 
 ############################################################################################################################
@@ -41,15 +43,15 @@ dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
 up() { yaourt -Syua --noconfirm }
 
 videomodeset() {
-    windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 0
-    wmctrl -i -r ${windowid} -b add,above
+	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
+	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 0
+	wmctrl -i -r ${windowid} -b add,above
 }
 
 videomodeunset() {
-    windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-    python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
-    wmctrl -i -r ${windowid} -b remove,above
+	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
+	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
+	wmctrl -i -r ${windowid} -b remove,above
 }
 
 ############################################################################################################################
@@ -70,44 +72,43 @@ socks_nucleus() { autossh -N -T -M 20010 -D1080 cole@mickens.io -N -p 223 }
 reverseProxy() { autossh -N -T -M 20020 -R 22022:localhost:22 cole@mickens.io -p 222 }
 reverseProxyClient() { autossh -N -T -M 20030 -L 22022:localhost:22022 cole@mickens.io -p 222 }
 
+reverseProxyWin() { autossh -N -T -M 20040 -R 33890:192.168.122.251:3389 cole@mickens.io -p 222 }
+reverseProxyWinClient() { autossh -N -T -M 20050 -L 33890:localhost:33890 cole@mickens.io -p 222 }
+
 
 ############################################################################################################################
 # RDP Helpers
 ############################################################################################################################
 
-rdp_colemick10() {
-    rdp_common $COLEMICK10_USERNAME $COLEMICK10_PASSWORD localhost
-}
-
 rdp_common() {
-    local rdpserver=$1
-    local rdpuser=$2
-    local rdppass=$3
-    local customfreerdp=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
+	local rdpserver=$1
+	local rdpuser=$2
+	local rdppass=$3
+	local customfreerdp=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
-    local freerdp_bin=`which xfreerdp`
-    if [ -f $customfreerdp ]; then
-        freerdp_bin=$customfreerdp
-    fi
+	local freerdp_bin=`which xfreerdp`
+	if [ -f $customfreerdp ]; then
+		freerdp_bin=$customfreerdp
+	fi
 
-    local -A rdpopts
-    rdpopts[nucleus]="/size:2560x1405"
-    rdpopts[pixel]="/size:2560x1650 /scale-device:140 /scale-desktop:140"
-    rdpopts[colemick-carbon]="/size:1910x1100"
-    rdpopts[colemick-z420]="/size:1920x1170"
+	local -A rdpopts
+	rdpopts[nucleus]="/size:2560x1405"
+	rdpopts[pixel]="/size:2560x1650 /scale-device:140 /scale-desktop:140"
+	rdpopts[colemick-carbon]="/size:1910x1100"
+	rdpopts[colemick-z420]="/size:1920x1170"
 
-    local rdpoptions=$rdpopts[$(hostname)]
+	local rdpoptions=$rdpopts[$(hostname)]
 
-    $freerdp_bin \
-        /cert-ignore \
-        /v:$rdpserver \
-        /u:$rdpuser \
-        /p:$rdppass \
-        $rdpoptions \
-        +fonts \
-        +compression \
-        +toggle-fullscreen \
-        -wallpaper
+	$freerdp_bin \
+		/cert-ignore \
+		/v:$rdpserver \
+		/u:$rdpuser \
+		/p:$rdppass \
+		$rdpoptions \
+		+fonts \
+		+compression \
+		+toggle-fullscreen \
+		-wallpaper
 }
 
 
@@ -116,43 +117,43 @@ rdp_common() {
 ############################################################################################################################
 
 take_screenshot() {
-    # can call as `take_screenshot -s` to do a selection
-    mkdir -p ~/tmp/screenshots;
-    FILENAME=screenshot-`date +%Y-%m-%d-%H%M%S`.png;
-    FILEPATH=$HOME/tmp/screenshots/$FILENAME;
-    scrot $1 $FILEPATH;
-    echo $FILEPATH;
+	# can call as `take_screenshot -s` to do a selection
+	mkdir -p ~/tmp/screenshots;
+	FILENAME=screenshot-`date +%Y-%m-%d-%H%M%S`.png;
+	FILEPATH=$HOME/tmp/screenshots/$FILENAME;
+	scrot $1 $FILEPATH;
+	echo $FILEPATH;
 }
 
 take_screencast() {
-    mkdir -p ~/tmp/screencasts;
-    FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.mkv;
-    FILEPATH=$HOME/tmp/screencasts/$FILENAME
-    eval $(slop);
-    ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y $FILEPATH >/dev/null 2>&1;
-    echo $FILEPATH;
+	mkdir -p ~/tmp/screencasts;
+	FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.mkv;
+	FILEPATH=$HOME/tmp/screencasts/$FILENAME
+	eval $(slop);
+	ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y $FILEPATH >/dev/null 2>&1;
+	echo $FILEPATH;
 }
 
 take_screencast_full() {
-    echo "test"
-    mkdir -p ~/tmp/screencasts;
-    FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.mkv;
-    FILEPATH=$HOME/tmp/screencasts/$FILENAME
-    FULLSCREEN=$(xwininfo -root | grep 'geometry' | awk '{print $2;}')
+	echo "test"
+	mkdir -p ~/tmp/screencasts;
+	FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.mkv;
+	FILEPATH=$HOME/tmp/screencasts/$FILENAME
+	FULLSCREEN=$(xwininfo -root | grep 'geometry' | awk '{print $2;}')
 
-    echo "ffmpeg -f x11grab -s $FULLSCREEN $FILEPATH # >/dev/null 2>&1;"
+	echo "ffmpeg -f x11grab -s $FULLSCREEN $FILEPATH # >/dev/null 2>&1;"
 
-    ffmpeg -f x11grab -s $FULLSCREEN $FILEPATH # >/dev/null 2>&1;
-    echo $FILEPATH;
+	ffmpeg -f x11grab -s $FULLSCREEN $FILEPATH # >/dev/null 2>&1;
+	echo $FILEPATH;
 }
 
 upload_to_s3_screenshots() {
-    FILEPATH=$1
-    FILENAME=$(basename $FILEPATH)
+	FILEPATH=$1
+	FILENAME=$(basename $FILEPATH)
 
-    source ~/Dropbox/.secrets
-    aws s3 cp --acl=public-read $FILEPATH s3://colemickens-screenshots/ >/dev/null 2>&1;
-    echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
+	source ~/Dropbox/.secrets
+	aws s3 cp --acl=public-read $FILEPATH s3://colemickens-screenshots/ >/dev/null 2>&1;
+	echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
 
 
@@ -161,23 +162,23 @@ upload_to_s3_screenshots() {
 ############################################################################################################################
 
 backup_code() {
-    FILENAME=colemickens-Code-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
-    FILEPATH=$HOME/$FILENAME
+	FILENAME=colemickens-Code-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
+	FILEPATH=$HOME/$FILENAME
 
-    tar -czf $FILENAME ~/Code/colemickens
-    echo $FILENAME: `du -hs $FILEPATH`
+	tar -czf $FILENAME ~/Code/colemickens
+	echo $FILENAME: `du -hs $FILEPATH`
 
-    source ~/Dropbox/.secrets
-    aws s3 cp $FILENAME s3://colemickens-backups/$FILENAME
-    echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
+	source ~/Dropbox/.secrets
+	aws s3 cp $FILENAME s3://colemickens-backups/$FILENAME
+	echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
 
 reflector_run() {
-    sudo true
-    wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/ \
-    && reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new \
-    && sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S` \
-    && sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
+	sudo true
+	wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/ \
+	&& reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new \
+	&& sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S` \
+	&& sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
 }
 
 
@@ -186,33 +187,33 @@ reflector_run() {
 ############################################################################################################################
 
 if [ `hostname` = "nucleus" ]; then
-    reboot_windows_once() {
-        BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        sudo efibootmgr --bootnext $BOOTNEXTNUM
-        sleep 3; sudo reboot
-    }
+	reboot_windows_once() {
+		BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+		sudo efibootmgr --bootnext $BOOTNEXTNUM
+		sleep 3; sudo reboot
+	}
 
-    reboot_windows_permanently() {
-        BOOTWINDOWSNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        BOOTLINUXNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        echo sudo efibootmgr --bootorder $BOOTWINDOWSNUM,$BOOTLINUXNUM
-        sudo efibootmgr --bootorder $BOOTWINDOWSNUM,$BOOTLINUXNUM
-        sleep 3; sudo reboot
-    }
+	reboot_windows_permanently() {
+		BOOTWINDOWSNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+		BOOTLINUXNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+		echo sudo efibootmgr --bootorder $BOOTWINDOWSNUM,$BOOTLINUXNUM
+		sudo efibootmgr --bootorder $BOOTWINDOWSNUM,$BOOTLINUXNUM
+		sleep 3; sudo reboot
+	}
 
-    reboot_linux_permanently() {
-        BOOTWINDOWSNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        BOOTLINUXNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        echo sudo efibootmgr --bootorder $BOOTLINUXNUM,$BOOTWINDOWSNUM
-        sudo efibootmgr --bootorder $BOOTLINUXNUM,$BOOTWINDOWSNUM
-        sleep 3; sudo reboot
-    }
+	reboot_linux_permanently() {
+		BOOTWINDOWSNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+		BOOTLINUXNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+		echo sudo efibootmgr --bootorder $BOOTLINUXNUM,$BOOTWINDOWSNUM
+		sudo efibootmgr --bootorder $BOOTLINUXNUM,$BOOTWINDOWSNUM
+		sleep 3; sudo reboot
+	}
 
-    reboot_linux_once() {
-        BOOTNEXTNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-        sudo efibootmgr --bootnext $BOOTNEXTNUM
-        sleep 3; sudo reboot
-    }
+	reboot_linux_once() {
+		BOOTNEXTNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
+		sudo efibootmgr --bootnext $BOOTNEXTNUM
+		sleep 3; sudo reboot
+	}
 fi
 
 
@@ -223,14 +224,14 @@ fi
 cdkube() { cd $HOME/Code/colemickens/kubegopath/src/k8s.io/kubernetes }
 
 agd() {
-    for group in ${@}; do
-        azure group delete --quiet "${group}"
-    done
+	for group in ${@}; do
+		azure group delete --quiet "${group}"
+	done
 }
 
 agd_all() {
-    kubergs=($(azure group list --json | jq -r '.[].name' -))
-    agd ${kubergs}
+	kubergs=($(azure group list --json | jq -r '.[].name' -))
+	agd ${kubergs}
 }
 
 
@@ -240,8 +241,13 @@ agd_all() {
 ############################################################################################################################
 
 rdp_colemick10() {
-    source $HOME/Dropbox/.secrets
-    rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
+	source $HOME/Dropbox/.secrets
+	rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
+}
+
+rdp_colemick10_remote() {
+	source $HOME/Dropbox/.secrets
+	rdp_common localhost:33890 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
 }
 
 
