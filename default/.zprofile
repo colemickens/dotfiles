@@ -163,7 +163,7 @@ upload_to_s3_screenshots() {
 ############################################################################################################################
 
 backup_code() {
-    FILENAME=colemickens-Code-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
+    FILENAME=colemickens-Code-`hostname`-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
     FILEPATH=$HOME/$FILENAME
 
     tar -czf $FILENAME ~/Code/colemickens
