@@ -1,3 +1,6 @@
 [user]
 	email = cole.mickens@gmail.com
 	name = Cole Mickens
+
+[init]
+	templatedir = ~/.git_template

@@ -39,7 +39,7 @@ mitmproxy_prep() {
 			exit -1
 		fi
 		
-		cp "${cert_src}" "${cert_dest}"
+		sudo cp "${cert_src}" "${cert_dest}"
 		sudo trust extract-compat
 	fi
 
