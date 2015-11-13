@@ -235,8 +235,6 @@ fi
 # Kubernetes Helpers
 ############################################################################################################################
 
-cdkube() { cd $HOME/Code/colemickens/kubegopath/src/k8s.io/kubernetes }
-
 agd() {
 	for group in ${@}; do
 		azure group delete --quiet "${group}"
@@ -249,6 +247,24 @@ agd_all() {
 }
 
 
+############################################################################################################################
+# Golang Helpers
+############################################################################################################################
+
+gocovpkg() { time go test -coverprofile cover.out . && go tool cover --html cover.out && rm cover.out }
+
+cd_kube() {
+	export GOPATH=$HOME/Code/colemickens/kubernetes_gopath
+	cd $GOPATH/src/k8s.io/kubernetes
+}
+cd_azuresdk() {
+	export GOPATH=$HOME/Code/colemickens/azure-sdk-for-go_gopath
+	cd $GOPATH/src/github.com/Azure/azure-sdk-for-go
+}
+cd_autorest() {
+	export GOPATH=$HOME/Code/colemickens/go-autorest_gopath
+	cd $GOPATH/src/github.com/Azure/go-autorest
+}
 
 ############################################################################################################################
 # Work Helpers
@@ -269,8 +285,6 @@ rdp_colemick10_remote() {
 # DNVM Helpers
 ############################################################################################################################
 
-[ -s "/home/cole/.dnx/dnvm/dnvm.sh" ] && . "/home/cole/.dnx/dnvm/dnvm.sh"
-
-
-
-
+if [[ -f "/home/cole/.dnx/dnvm/dnvm.sh" ]]; then
+	source "/home/cole/.dnx/dnvm/dnvm.sh"
+fi
