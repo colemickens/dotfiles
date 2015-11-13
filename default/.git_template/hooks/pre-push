@@ -8,7 +8,7 @@ repo_owner=${repo_owner%%/*};
 
 exec < /dev/tty
 
-if [[ "${remote_repo}" != "${github_username}" ]]; then
+if [ "${repo_owner}" != "${github_username}" ]; then
 	read -p "[pre-push hook] This repo is owned by ${repo_owner}. Proceed? (Y/n) " yn
 
 	case $yn in
