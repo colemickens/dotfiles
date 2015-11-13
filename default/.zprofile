@@ -2,7 +2,7 @@
 # Development Helpers
 ############################################################################################################################
 
-export MAKEFLAGS="-j 8"
+export MAKEFLAGS="-j `nproc`"
 export EDITOR=vim
 
 if [ -d "$HOME/Code/golang/go" ]; then
@@ -18,14 +18,11 @@ export PATH=$PATH:$GOPATH/bin
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
 
-# over path to my list of overrides (python->python2.7 on Arch, for example)
-pathoverride() {
-	if [ -d "/home/cole/Code/pathoverride" ]; then
-		export PATH=/home/cole/Code/pathoverride/:$PATH
-	else
-		echo "pathoverride dir doesn't exist"
-		return -1
-	fi
+# use_python27 will ensure that running `python` runs python2.7
+use_python27() {
+	local tmpdir=$(mktemp -d)
+	ln -s "/usr/bin/python2.7" "${tmpdir}/python"
+	export PATH="${tmpdir}:$PATH"
 }
 
 mitmproxy_prep() {
@@ -48,13 +45,16 @@ mitmproxy_prep() {
 	export https_proxy="${proxy}"
 }
 
+
 ############################################################################################################################
 # Generic Helpers
 ############################################################################################################################
 
-clean_docker() { docker rm `docker ps --no-trunc -aq` }
+docker_clean() { docker rm `docker ps --no-trunc -aq` }
 dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
 up() { yaourt -Syua --noconfirm }
+
+pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
 
 videomodeset() {
 	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
@@ -67,6 +67,7 @@ videomodeunset() {
 	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
 	wmctrl -i -r ${windowid} -b remove,above
 }
+
 
 ############################################################################################################################
 # SSH Helpers
@@ -267,6 +268,7 @@ cd_autorest() {
 	export GOPATH=$HOME/Code/colemickens/go-autorest_gopath
 	cd $GOPATH/src/github.com/Azure/go-autorest
 }
+
 
 ############################################################################################################################
 # Work Helpers
