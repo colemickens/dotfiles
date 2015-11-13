@@ -5,12 +5,11 @@
 	],
 	"installed_packages":
 	[
-		"Colorsublime",
 		"GitHub Flavored Markdown Preview",
 		"GoSublime",
 		"Material Theme",
+		"Origami",
 		"Package Control",
-		"Pretty JSON",
-		"Theme - Afterglow"
+		"Pretty JSON"
 	]
 }

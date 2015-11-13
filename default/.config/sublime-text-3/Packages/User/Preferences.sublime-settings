@@ -18,9 +18,9 @@
 	"material_theme_contrast_mode": true,
 	"material_theme_panel_separator": true,
 	"material_theme_small_tab": true,
-	"material_theme_tabs_autowidth": true,
 	"overlay_scroll_bars": "enabled",
 	"tabs_small": true,
 	"theme": "Material-Theme-Darker.sublime-theme",
-	"update_check": false
+	"update_check": false,
+	"origami_auto_zoom_on_focus": 0.75
 }
