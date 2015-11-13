@@ -1,0 +1,6 @@
+{
+	"env": {
+		"GOPATH": "/home/cole/Code/colemickens/kubegopath"
+	},
+	"fmt_cmd": ["goimports"]
+}

@@ -1,0 +1,15 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Colorsublime",
+		"GitHub Flavored Markdown Preview",
+		"GoSublime",
+		"Package Control",
+		"Pretty JSON",
+		"Theme - Afterglow"
+	]
+}

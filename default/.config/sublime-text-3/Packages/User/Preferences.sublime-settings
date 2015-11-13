@@ -1,0 +1,13 @@
+{
+	"color_scheme": "Packages/Theme - Afterglow/Afterglow.tmTheme",
+	"draw_white_space": "all",
+	"font_face": "Fira Mono for Powerline",
+	"font_size": 10,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"tabs_small": true,
+	"theme": "Afterglow-blue.sublime-theme",
+	"update_check": false
+}
