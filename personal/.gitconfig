@@ -6,4 +6,4 @@
 	templatedir = ~/.git_template
 
 [core]
-	editor = subl -n -w
+	editor = subl3 -n -w
