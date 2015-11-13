@@ -237,7 +237,9 @@ fi
 
 agd() {
 	for group in ${@}; do
-		azure group delete --quiet "${group}"
+		if [[ $group == kube* ]]; then
+			azure group delete --quiet "${group}"
+		fi
 	done
 }
 
