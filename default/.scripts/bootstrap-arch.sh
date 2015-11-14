@@ -41,7 +41,8 @@ basics() {
 		powerline-fonts-git ttf-ms-fonts ttf-google-fonts-git \
 		nodejs-azure-cli aws-cli \
 		visual-studio-core sublime-text-nightly neovim-git smartsynchronize \
-		multirust
+		multirust \
+		slack-desktop
 
 	systemctl enable docker.service
 	systemctl enable sshd.service
