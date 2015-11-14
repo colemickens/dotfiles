@@ -96,9 +96,11 @@ reverseProxyWinClient() { autossh -N -T -M 20050 -L 33890:localhost:33890 cole@m
 ############################################################################################################################
 
 rdp_common() {
+	set +x
 	local rdpserver=$1
 	local rdpuser=$2
 	local rdppass=$3
+	shift 3
 	local customfreerdp=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
 	local freerdp_bin=`which xfreerdp`
@@ -112,18 +114,17 @@ rdp_common() {
 	rdpopts[colemick-carbon]="/size:1910x1100"
 	rdpopts[colemick-z420]="/size:1920x1170"
 
-	local rdpoptions=$rdpopts[$(hostname)]
-
 	$freerdp_bin \
 		/cert-ignore \
 		/v:$rdpserver \
 		/u:$rdpuser \
 		/p:$rdppass \
-		$rdpoptions \
+		$rdpopts[$(hostname)] \
 		+fonts \
 		+compression \
 		+toggle-fullscreen \
-		-wallpaper
+		-wallpaper \
+		"$@"
 }
 
 
@@ -284,6 +285,10 @@ rdp_colemick10_remote() {
 	rdp_common localhost:33890 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
 }
 
+rdp_colemick10_outlook() {
+	source $HOME/Dropbox/.secrets
+	rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD "/app:C:\Program Files (x86)\Microsoft Office\Office16\OUTLOOK.exe"
+}
 
 ############################################################################################################################
 # DNVM Helpers
