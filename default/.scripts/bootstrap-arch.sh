@@ -27,12 +27,12 @@ basics() {
 	rm -rf "${pqDir}"
 	rm -rf "${yaourtDir}"
 
-	yaourt -S \
+	yaourt -S --noconfirm \
 		zsh sudo htop vim openssh mosh docker \
 		make cmake git svn mercurial gitg \
 		gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
 		firefox mitmproxy reflector redshift gimp \
-		libvirt virt-manager \
+		libvirt virt-manager avahi \
 		xorg-xprop xorg-xwininfo xorg-server xorg-server-utils xf86-input-libinput xclip xsel \
 		\
 		google-chrome google-chrome-dev \
@@ -40,21 +40,27 @@ basics() {
 		gtk-theme-arc-git ultra-flat-icons vertex-themes \
 		powerline-fonts-git ttf-ms-fonts ttf-google-fonts-git \
 		nodejs-azure-cli aws-cli \
-		visual-studio-core sublime-text-nightly smartsynchronize \
+		visual-studio-core sublime-text-nightly neovim-git smartsynchronize \
 		multirust
 
-	systemctl enable docker
-	systemctl enable sshd
+	systemctl enable docker.service
+	systemctl enable sshd.service
+	systemctl enable avahi-daemon.service
+	systemctl enable avahi-dnsconfd.service
 
 	# enable wheel for sudo
 	sudo cp /etc/sudoers /etc/sudoers.tmp
-	echo "" >> /etc/sudoers.tml
+	echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.tmp
 	if [ visudo -c -f /tmp/sudoers.tmp ]; then 
 		cp /tmp/sudoers.new /etc/sudoers
 		rm /etc/sudoers.tmp
 	else
 		echo "failed to enable wheel group for sudo"
 	fi
+
+	# use nvim everywhere instead of vim
+	yaourt -R vi vim
+	yaourt -S neovim-symlinks --noconfirm
 
 	# make me a user account
 	useradd -m -G wheel,docker -s /bin/zsh cole
