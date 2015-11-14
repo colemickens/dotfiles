@@ -255,7 +255,13 @@ agd_all() {
 # Golang Helpers
 ############################################################################################################################
 
-gocovpkg() { time go test -coverprofile cover.out . && go tool cover --html cover.out && rm cover.out }
+gocovpkg() {
+	time go test -coverprofile cover.out .
+	go tool cover -html=cover.out -o cover.html
+	echo firefox file:///`pwd`/cover.html
+	firefox file:///`pwd`/cover.html
+	rm cover.out cover.html
+}
 
 cd_kube() {
 	export GOPATH=$HOME/Code/colemickens/kubernetes_gopath
