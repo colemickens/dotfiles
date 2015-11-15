@@ -2,8 +2,8 @@
 	"always_show_minimap_viewport": true,
 	"color_scheme": "Packages/Material Theme/schemes/Material-Theme-Darker.tmTheme",
 	"draw_white_space": "selection",
-	"font_face": "Source Code Pro for Powerline",
-	"font_size": 9,
+	"font_face": "Fira Mono for Powerline",
+	"font_size": 11,
 	"ignored_packages":
 	[
 		"Vintage"
@@ -18,9 +18,9 @@
 	"material_theme_contrast_mode": true,
 	"material_theme_panel_separator": true,
 	"material_theme_small_tab": true,
+	"origami_auto_zoom_on_focus": 0.75,
 	"overlay_scroll_bars": "enabled",
 	"tabs_small": true,
 	"theme": "Material-Theme-Darker.sublime-theme",
-	"update_check": false,
-	"origami_auto_zoom_on_focus": 0.75
+	"update_check": false
 }
