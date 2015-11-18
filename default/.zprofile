@@ -291,11 +291,6 @@ rdp_colemick10_remote() {
 	rdp_common localhost:33890 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
 }
 
-rdp_colemick10_outlook() {
-	source $HOME/Dropbox/.secrets
-	rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD "/app:C:\Program Files (x86)\Microsoft Office\Office16\OUTLOOK.exe"
-}
-
 ############################################################################################################################
 # DNVM Helpers
 ############################################################################################################################
@@ -303,3 +298,12 @@ rdp_colemick10_outlook() {
 if [[ -f "/home/cole/.dnx/dnvm/dnvm.sh" ]]; then
 	source "/home/cole/.dnx/dnvm/dnvm.sh"
 fi
+
+############################################################################################################################
+# Firefox Crap (until I find a better place for it)
+############################################################################################################################
+
+# loop.enabled = false
+# browser.pocket.enabled = false
+# browser.toolbarbuttons.introduced.pocket-button = false
+#
