@@ -41,5 +41,3 @@ if [[ -z "$TMUX" ]]; then
 fi
 
 source $HOME/.zprofile
-
-[ -s "/home/cole/.dnx/dnvm/dnvm.sh" ] && . "/home/cole/.dnx/dnvm/dnvm.sh" # Load dnvm
