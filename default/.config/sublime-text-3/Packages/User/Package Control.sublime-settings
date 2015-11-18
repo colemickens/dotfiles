@@ -5,11 +5,14 @@
 	],
 	"installed_packages":
 	[
+		"Dockerfile Syntax Highlighting",
 		"GitHub Flavored Markdown Preview",
 		"GoSublime",
 		"Material Theme",
 		"Origami",
 		"Package Control",
-		"Pretty JSON"
+		"Pretty JSON",
+		"SublimeLinter",
+		"SublimeLinter-contrib-golint"
 	]
 }

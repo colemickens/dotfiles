@@ -3,7 +3,7 @@
 	"color_scheme": "Packages/Material Theme/schemes/Material-Theme-Darker.tmTheme",
 	"draw_white_space": "selection",
 	"font_face": "Fira Mono for Powerline",
-	"font_size": 11,
+	"font_size": 8,
 	"ignored_packages":
 	[
 		"Vintage"

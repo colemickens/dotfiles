@@ -275,6 +275,14 @@ cd_autorest() {
 	export GOPATH=$HOME/Code/colemickens/go-autorest_gopath
 	cd $GOPATH/src/github.com/Azure/go-autorest
 }
+cd_azkvbs() {
+	export GOPATH=$HOME/Code/colemickens/azkvbs_gopath
+	cd $GOPATH/src/github.com/colemickens/azkvbs
+}
+cd_azdeploy() {
+	export GOPATH=$HOME/Code/colemickens/azdeploy_gopath
+	cd $GOPATH/src/github.com/colemickens/azdeploy
+}
 
 
 ############################################################################################################################

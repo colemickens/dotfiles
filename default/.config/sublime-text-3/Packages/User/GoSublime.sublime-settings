@@ -1,6 +1,6 @@
 {
 	"env": {
-		"GOPATH": "/home/cole/Code/colemickens/kubegopath"
+		"PATH": "$PATH:/home/cole/Code/colemickens/gopkgs/bin"
 	},
-	"fmt_cmd": ["goimports"]
+	"fmt_cmd": ["goismports"]
 }
