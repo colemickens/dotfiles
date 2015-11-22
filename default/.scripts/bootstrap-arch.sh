@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function install_package() {
 	tDir=$(mktemp -d)
 	cd "${tDir}"
@@ -25,13 +27,14 @@ fi
 yaourt -S --needed --noconfirm \
 	zsh sudo htop openssh mosh docker \
 	make cmake git svn mercurial gitg \
+	hexchat vlc alsa-utils pavucontrol \
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
 	firefox mitmproxy reflector redshift gimp \
 	libvirt virt-manager avahi \
 	xorg-xprop xorg-xwininfo xorg-server xorg-server-utils xf86-input-libinput xclip xsel \
 	\
 	google-chrome google-chrome-dev \
-	dropbox imgurbash scrot \
+	dropbox imgurbash scrot gist \
 	gtk-theme-arc-git ultra-flat-icons vertex-themes \
 	powerline-fonts-git ttf-ms-fonts ttf-google-fonts-git \
 	nodejs-azure-cli aws-cli \
@@ -43,6 +46,8 @@ sudo systemctl enable docker.service
 sudo systemctl enable sshd.service
 sudo systemctl enable avahi-daemon.service
 sudo systemctl enable avahi-dnsconfd.service
+
+sudo gpasswd -a cole docker
 
 # use nvim everywhere instead of vim
 yaourt -R vi vim
