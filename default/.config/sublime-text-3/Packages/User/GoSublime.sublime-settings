@@ -2,5 +2,5 @@
 	"env": {
 		"PATH": "$PATH:/home/cole/Code/colemickens/gopkgs/bin"
 	},
-	"fmt_cmd": ["goismports"]
+	"fmt_cmd": ["goimports"]
 }
