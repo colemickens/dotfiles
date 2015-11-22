@@ -87,13 +87,13 @@ videomodeunset() {
 ############################################################################################################################
 
 ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
-ssh_chimera_local()   { ssh  cole@10.0.0.2   -p 222  }
+ssh_chimera_local()   { ssh  cole@chimera.local   -p 222  }
 ssh_nucleus_remote()  { ssh  cole@mickens.io -p 223 }
-ssh_nucleus_local()   { ssh  cole@10.0.0.3   -p 223  }
+ssh_nucleus_local()   { ssh  cole@nucleus.local   -p 223  }
 mosh_chimera_remote() { mosh cole@mickens.io --ssh="ssh -p 222" }
-mosh_chimera_local()  { mosh cole@10.0.0.2   --ssh="ssh -p 222" }
+mosh_chimera_local()  { mosh cole@chimera.local   --ssh="ssh -p 222" }
 mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }
-mosh_nucleus_local()  { mosh cole@10.0.0.3   --ssh="ssh -p 223" -p 61000:61999 }
+mosh_nucleus_local()  { mosh cole@nucleus.local   --ssh="ssh -p 223" -p 61000:61999 }
 socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
 socks_nucleus() { autossh -N -T -M 20010 -D1080 cole@mickens.io -N -p 223 }
 
