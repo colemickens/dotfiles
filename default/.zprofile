@@ -45,6 +45,19 @@ mitmproxy_prep() {
 	export https_proxy="${proxy}"
 }
 
+github_publickey() {
+	local date=`date`
+	echo "enter username: "; read username
+	echo "enter password: "; read password
+	echo "enter otp: ";      read otp
+	local sshPublicKeyData="$(cat $HOME/.ssh/id_rsa.pub)"
+	curl \
+		-u "$username:$password" \
+		-H "X-GitHub-OTP: $otp" \
+		--data "{\"title\": \"pixel - $date\",\"key\":\"$sshPublicKeyData\"}" \
+		https://api.github.com/user/keys
+}
+
 
 ############################################################################################################################
 # Generic Helpers
