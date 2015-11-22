@@ -1,0 +1,22 @@
+{
+	"cookie": "sso",
+	"debug": true,
+	"pubkeyfile": "/etc/ssoauth/prime256v1-public.pem",
+	"headers": {
+		"ip": "X-Real-Ip",
+		"uri": "X-Original-Uri"
+	},
+	"returnheaders": {
+		"user": "Remote-User",
+		"groups": "Remote-Groups",
+		"expiry": "Remote-Expiry"
+	},
+	"port": 8082,
+	"acl": {
+		"denon.mickens.io": {
+			"Users": ["colemickens"],
+			"Groups": ["x:"]
+		}
+	}
+}
+

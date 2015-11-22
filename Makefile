@@ -11,5 +11,9 @@ work: FORCE
 
 server: FORCE
 	sudo stow server -t /
+	sudo systemctl daemon-reload
+	sudo systemctl restart nginx
+	sudo systemctl restart cloudflare-dyndns
+	sudo systemctl restart ssoauth
 
 FORCE: basic

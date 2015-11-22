@@ -1,0 +1,8 @@
+[Unit]
+Description=ssoauth
+
+[Service]
+ExecStart=/home/cole/Code/gopkgs/src/github.com/heipei/nginx-sso/ssoauth -config /etc/ssoauth/ssoauth.json
+
+[Install]
+WantedBy=multi-user.target
