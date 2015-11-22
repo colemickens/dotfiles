@@ -1,3 +1,6 @@
+basic:
+	mkdir -p ~/.config
+
 personal: FORCE
 	stow default -t ~/
 	stow personal -t ~/
@@ -9,4 +12,4 @@ work: FORCE
 server: FORCE
 	sudo stow server -t /
 
-FORCE:
+FORCE: basic
