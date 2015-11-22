@@ -1,87 +1,49 @@
-basics() {
-	if [[ $EUID -ne 0 ]]; then
-		echo "This function must be run as root" 1>&2
-		exit 1
-	fi
-
-	pacman -S base-devel wget curl
-
-	pqDir=$(mktemp -d)
-	cd "${pqDir}"
-	wget https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
-	tar xvzf package-query.tar.gz
-	cd package-query
+function install_package() {
+	tDir=$(mktemp -d)
+	cd "${tDir}"
+	wget https://aur.archlinux.org/cgit/aur.git/snapshot/$1.tar.gz
+	tar xvzf $1.tar.gz
+	cd $1
 	makepkg -s
-	pacman -U package-query*.tar.gz
-
-
-	yaourtDir=$(mktemp -d)
-	cd "${yaourtDir}"
-	wget https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz
-	tar xvzf yaourt.tar.gz
-	cd yaourt
-	makepkg -s
-	pacman -U yaourt*.tar.gz
-
+	sudo pacman --noconfirm -U $1*.tar.xz
 	cd $HOME
-	rm -rf "${pqDir}"
-	rm -rf "${yaourtDir}"
-
-	yaourt -S --noconfirm \
-		zsh sudo htop vim openssh mosh docker \
-		make cmake git svn mercurial gitg \
-		gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
-		firefox mitmproxy reflector redshift gimp \
-		libvirt virt-manager avahi \
-		xorg-xprop xorg-xwininfo xorg-server xorg-server-utils xf86-input-libinput xclip xsel \
-		\
-		google-chrome google-chrome-dev \
-		dropbox imgurbash scrot \
-		gtk-theme-arc-git ultra-flat-icons vertex-themes \
-		powerline-fonts-git ttf-ms-fonts ttf-google-fonts-git \
-		nodejs-azure-cli aws-cli \
-		visual-studio-core sublime-text-nightly neovim-git smartsynchronize \
-		multirust \
-		slack-desktop
-
-	systemctl enable docker.service
-	systemctl enable sshd.service
-	systemctl enable avahi-daemon.service
-	systemctl enable avahi-dnsconfd.service
-
-	# enable wheel for sudo
-	sudo cp /etc/sudoers /etc/sudoers.tmp
-	echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers.tmp
-	if [ visudo -c -f /tmp/sudoers.tmp ]; then 
-		cp /tmp/sudoers.new /etc/sudoers
-		rm /etc/sudoers.tmp
-	else
-		echo "failed to enable wheel group for sudo"
-	fi
-
-	# use nvim everywhere instead of vim
-	yaourt -R vi vim
-	yaourt -S neovim-symlinks --noconfirm
-
-	# make me a user account
-	useradd -m -G wheel,docker -s /bin/zsh cole
+	rm -rf $tDir
 }
 
-setup_cole() {
-	sudo cole
-	mkdir -p $HOME/Code/colemickens/
-	git clone git@github.com:colemickens/stowed.git $HOME/Code/colemickens/stowed
-}
+sudo bash -c "printf \"\n\" | pacman -S --needed base-devel wget curl"
 
-setup_chimera() {
-	# install deluge (web)
-	# install twitlistauth maybe?
-	# install cloudflare dyndns client
-}
+if [ -z "$(pacman -Qs package-query)" ]; then
+	install_package package-query
+fi
 
-setup_laptop() {
-	yaourt -S laptop-mode-tools
-	sudo systemctl enable laptop-mode.service
-}
 
-"@"
+if [ -z "$(pacman -Qs yaourt)" ]; then
+	install_package yaourt
+fi
+
+
+yaourt -S --needed --noconfirm \
+	zsh sudo htop openssh mosh docker \
+	make cmake git svn mercurial gitg \
+	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
+	firefox mitmproxy reflector redshift gimp \
+	libvirt virt-manager avahi \
+	xorg-xprop xorg-xwininfo xorg-server xorg-server-utils xf86-input-libinput xclip xsel \
+	\
+	google-chrome google-chrome-dev \
+	dropbox imgurbash scrot \
+	gtk-theme-arc-git ultra-flat-icons vertex-themes \
+	powerline-fonts-git ttf-ms-fonts ttf-google-fonts-git \
+	nodejs-azure-cli aws-cli \
+	visual-studio-code sublime-text-nightly neovim-git smartsynchronize \
+	multirust \
+	slack-desktop
+
+sudo systemctl enable docker.service
+sudo systemctl enable sshd.service
+sudo systemctl enable avahi-daemon.service
+sudo systemctl enable avahi-dnsconfd.service
+
+# use nvim everywhere instead of vim
+yaourt -R vi vim
+yaourt -S --needed neovim-symlinks --noconfirm
