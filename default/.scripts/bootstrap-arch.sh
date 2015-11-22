@@ -27,7 +27,7 @@ fi
 yaourt -S --needed --noconfirm \
 	zsh sudo htop openssh mosh docker \
 	make cmake git svn mercurial gitg \
-	hexchat vlc alsa-utils pavucontrol \
+	hexchat vlc alsa-utils pavucontrol gptfdisk gnome-disk-utility t\
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
 	firefox mitmproxy reflector redshift gimp \
 	libvirt virt-manager avahi \
@@ -46,9 +46,17 @@ sudo systemctl enable docker.service
 sudo systemctl enable sshd.service
 sudo systemctl enable avahi-daemon.service
 sudo systemctl enable avahi-dnsconfd.service
+sudo systemctl enable gdm.service
 
 sudo gpasswd -a cole docker
 
 # use nvim everywhere instead of vim
-yaourt -R vi vim
+
+if [ -z "$(pacman -Qs vi)" ]; then yaourt -R vi; fi
+if [ -z "$(pacman -Qs vim)" ]; then yaourt -R vim; fi
+
 yaourt -S --needed neovim-symlinks --noconfirm
+
+yaourt -Syua
+
+echo "done"
