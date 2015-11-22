@@ -278,23 +278,38 @@ gocovpkg() {
 
 cd_kube() {
 	export GOPATH=$HOME/Code/colemickens/kubernetes_gopath
+	export PATH=$PATH:$GOPATH/bin
 	cd $GOPATH/src/k8s.io/kubernetes
 }
 cd_azuresdk() {
 	export GOPATH=$HOME/Code/colemickens/azure-sdk-for-go_gopath
+	export PATH=$PATH:$GOPATH/bin
 	cd $GOPATH/src/github.com/Azure/azure-sdk-for-go
 }
 cd_autorest() {
 	export GOPATH=$HOME/Code/colemickens/go-autorest_gopath
+	export PATH=$PATH:$GOPATH/bin
 	cd $GOPATH/src/github.com/Azure/go-autorest
 }
-cd_azkvbs() {
-	export GOPATH=$HOME/Code/colemickens/azkvbs_gopath
-	cd $GOPATH/src/github.com/colemickens/azkvbs
+cd_azkube-kvbs() {
+	export GOPATH=$HOME/Code/colemickens/azkube-kvbs_gopath
+	export PATH=$PATH:$GOPATH/bin
+	cd $GOPATH/src/github.com/colemickens/azkube-kvbs
 }
-cd_azdeploy() {
-	export GOPATH=$HOME/Code/colemickens/azdeploy_gopath
-	cd $GOPATH/src/github.com/colemickens/azdeploy
+cd_azkube-deploy() {
+	export GOPATH=$HOME/Code/colemickens/azkube-deploy_gopath
+	export PATH=$PATH:$GOPATH/bin
+	cd $GOPATH/src/github.com/colemickens/azkube-deploy
+}
+cd_nginx-sso-persona() {
+	export GOPATH=$HOME/Code/colemickens/nginx-sso-persona_gopath
+	export PATH=$PATH:$GOPATH/bin
+	cd $GOPATH/src/github.com/colemickens/nginx-sso-persona
+}
+cd_nginx-sso-twitter() {
+	export GOPATH=$HOME/Code/colemickens/nginx-sso-twitter_gopath
+	export PATH=$PATH:$GOPATH/bin
+	cd $GOPATH/src/github.com/colemickens/nginx-sso-twitter
 }
 
 
