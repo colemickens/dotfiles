@@ -31,7 +31,7 @@ yaourt -S --needed --noconfirm \
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
 	firefox mitmproxy reflector redshift gimp \
 	libvirt virt-manager avahi \
-	xorg-xprop xorg-xwininfo xorg-server xorg-server-utils xf86-input-libinput xclip xsel \
+	xorg-server xorg-server-utils xf86-video-intel xf86-input-libinput xclip xsel xorg-xprop xorg-xwininfo \
 	\
 	google-chrome google-chrome-dev \
 	dropbox imgurbash scrot gist \
