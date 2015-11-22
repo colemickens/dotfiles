@@ -48,6 +48,7 @@ yaourt -S --needed --noconfirm \
 	multirust \
 	slack-desktop
 
+# enable services
 sudo systemctl enable docker.service
 sudo systemctl enable sshd.service
 sudo systemctl enable avahi-daemon.service
@@ -63,12 +64,17 @@ sudo cp -f /etc/nsswitch.conf /etc/nsswitch.conf.pre-mdns
 sudo bash -c "sed -e '/mdns/!s/^\(hosts:.*\)dns\(.*\)/\1mdns_minimal dns\2/' /etc/nsswitch.conf.pre-mdns > /etc/nsswitch.conf"
 
 # use nvim everywhere instead of vim
-
 remove_if_installed vi
 remove_if_installed vim
-
 yaourt -S --needed neovim-symlinks --noconfirm
 
+# do updates just in case
 yaourt -Syua
+
+if [ `hostname` == "pixel" ]; then
+	# do pixel specific stuff
+	yaourt -S --needed --noconfirm laptop-mode-tools
+	sudo systemctl enable laptop-mode.service
+fi
 
 echo "done"
