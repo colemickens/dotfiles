@@ -36,7 +36,7 @@ yaourt -S --needed --noconfirm \
 	hexchat vlc alsa-utils pavucontrol gptfdisk gnome-disk-utility \
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
 	firefox mitmproxy reflector redshift gimp \
-	libvirt virt-manager avahi \
+	libvirt virt-manager avahi dnsutils jq \
 	xorg-server xorg-server-utils xf86-video-intel xf86-input-libinput xclip xsel xorg-xprop xorg-xwininfo \
 	\
 	google-chrome google-chrome-dev \
@@ -66,6 +66,7 @@ sudo bash -c "sed -e '/mdns/!s/^\(hosts:.*\)dns\(.*\)/\1mdns_minimal dns\2/' /et
 # use nvim everywhere instead of vim
 remove_if_installed vi
 remove_if_installed vim
+remove_if_installed vim-runtime
 yaourt -S --needed neovim-symlinks --noconfirm
 
 # do updates just in case
