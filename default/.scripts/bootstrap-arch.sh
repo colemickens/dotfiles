@@ -12,6 +12,12 @@ function install_package() {
 	rm -rf $tDir
 }
 
+function remove_if_installed() {
+	if pacman -Q $1 >/dev/null 2>&1 ; then
+		yaourt -R $1
+	fi
+}
+
 sudo bash -c "printf \"\n\" | pacman -S --needed base-devel wget curl"
 
 if [ -z "$(pacman -Qs package-query)" ]; then
@@ -27,7 +33,7 @@ fi
 yaourt -S --needed --noconfirm \
 	zsh sudo htop openssh mosh docker \
 	make cmake git svn mercurial gitg \
-	hexchat vlc alsa-utils pavucontrol gptfdisk gnome-disk-utility t\
+	hexchat vlc alsa-utils pavucontrol gptfdisk gnome-disk-utility \
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
 	firefox mitmproxy reflector redshift gimp \
 	libvirt virt-manager avahi \
@@ -48,12 +54,18 @@ sudo systemctl enable avahi-daemon.service
 sudo systemctl enable avahi-dnsconfd.service
 sudo systemctl enable gdm.service
 
-sudo gpasswd -a cole docker
+sudo gpasswd -a cole docker >/dev/null 2>&1
+
+# enable avahi dns
+yaourt -S --needed --noconfirm nss-mdns
+# if ^hosts: line doesn't contain mdns_minimal, add it
+sudo cp -f /etc/nsswitch.conf /etc/nsswitch.conf.pre-mdns
+sudo bash -c "sed -e '/mdns/!s/^\(hosts:.*\)dns\(.*\)/\1mdns_minimal dns\2/' /etc/nsswitch.conf.pre-mdns > /etc/nsswitch.conf"
 
 # use nvim everywhere instead of vim
 
-if [ -z "$(pacman -Qs vi)" ]; then yaourt -R vi; fi
-if [ -z "$(pacman -Qs vim)" ]; then yaourt -R vim; fi
+remove_if_installed vi
+remove_if_installed vim
 
 yaourt -S --needed neovim-symlinks --noconfirm
 
