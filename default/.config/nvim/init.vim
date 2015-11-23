@@ -14,6 +14,7 @@ Plug 'jscappini/material.vim'
 Plug 'bling/vim-airline'
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'airblade/vim-gitgutter'
 
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 
