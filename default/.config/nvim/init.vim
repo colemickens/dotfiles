@@ -21,3 +21,5 @@ set rnu
 
 set shiftwidth=4
 set tabstop=4
+
+let g:airline_powerline_fonts = 1
