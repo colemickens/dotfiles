@@ -18,6 +18,8 @@ export PATH=$PATH:$GOPATH/bin
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
 
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
+
 # use_python27 will ensure that running `python` runs python2.7
 use_python27() {
 	local tmpdir=$(mktemp -d)
