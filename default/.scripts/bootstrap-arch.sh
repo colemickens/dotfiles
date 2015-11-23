@@ -46,7 +46,8 @@ yaourt -S --needed --noconfirm \
 	nodejs-azure-cli aws-cli \
 	visual-studio-code sublime-text-nightly neovim-git smartsynchronize \
 	multirust \
-	slack-desktop
+	slack-desktop \
+	ttf-input tmux-24bit-color
 
 # enable services
 sudo systemctl enable docker.service
