@@ -23,7 +23,6 @@ call plug#end()
 set background=dark
 colors buddy
 colors colorsbox-stnight
-colors material
 set background=dark
 
 set rnu
