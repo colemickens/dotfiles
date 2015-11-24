@@ -19,6 +19,7 @@ export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export PROMPT_DIRTRIM=2
 
 # use_python27 will ensure that running `python` runs python2.7
 use_python27() {
