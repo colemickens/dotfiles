@@ -31,7 +31,7 @@ fi
 
 
 yaourt -S --needed --noconfirm \
-	zsh sudo htop openssh mosh docker \
+	zsh sudo htop openssh mosh docker tree \
 	make cmake git svn mercurial gitg \
 	hexchat vlc alsa-utils pavucontrol gptfdisk gnome-disk-utility \
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
