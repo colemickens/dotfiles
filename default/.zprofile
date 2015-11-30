@@ -101,14 +101,6 @@ mosh_nucleus_local()  { mosh cole@nucleus.local   --ssh="ssh -p 223" -p 61000:61
 socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
 socks_nucleus() { autossh -N -T -M 20010 -D1080 cole@mickens.io -N -p 223 }
 
-reverseProxy() { autossh -N -T -M 20020 -R 22022:localhost:22 cole@mickens.io -p 222 }
-reverseProxyClient() { autossh -N -T -M 20030 -L 22022:localhost:22022 cole@mickens.io -p 222 }
-
-reverseProxyWin() { autossh -N -T -M 20040 -R 33890:192.168.122.251:3389 cole@mickens.io -p 222 }
-reverseProxyWinClient() { autossh -N -T -M 20050 -L 33890:localhost:33890 cole@mickens.io -p 222 }
-
-reverseProxyDeluge() { autossh -N -T -M 20040 -R 58847:localhost:58846 cole@mickens.io -p 222 }
-reverseProxyDelugeClient() { autossh -N -T -M 20050 -L 58846:localhost:58847 cole@mickens.io -p 222 }
 
 ############################################################################################################################
 # RDP Helpers
