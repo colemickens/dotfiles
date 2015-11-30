@@ -1,9 +1,3 @@
-basic:
-	mkdir -p ~/.config
-	mkdir -p /etc/openvpn
-	mkdir -p /etc/nginx
-	mkdir -p /etc/systemd/system
-
 personal: FORCE
 	mkdir -p ~/.config
 	mkdir -p ~/.config/hexchat
@@ -26,4 +20,4 @@ server: FORCE
 	sudo systemctl restart cloudflare-dyndns
 	sudo systemctl restart ssoauth
 
-FORCE: basic
+FORCE:

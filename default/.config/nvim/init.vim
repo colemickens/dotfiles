@@ -2,24 +2,18 @@ filetype plugin on
 
 call plug#begin('~/.nvim/plugged')
 
-Plug 'tomasr/molokai'
-Plug 'mkarmona/colorsbox'
-Plug 'mkarmona/materialbox'
-Plug 'morhetz/gruvbox'
-Plug 'geoffharcourt/one-dark.vim'
-Plug 'DrSpatula/vim-buddy'
-Plug 'sickill/vim-monokai'
-Plug 'jscappini/material.vim'
-Plug 'trusktr/seti.vim'
-
 Plug 'bling/vim-airline'
+
+"Plug 'mkarmona/colorsbox'
+Plug 'morhetz/gruvbox'
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/syntastic'
 "Plug 'universal-ctags/ctags'
-"Plug 'rentalcustard/exuberant-ctags'
+Plug 'rentalcustard/exuberant-ctags'
 Plug 'Valloric/YouCompleteMe'
+Plug 'tpope/vim-fugitive'
 
 Plug 'majutsushi/tagbar'
 Plug 'fatih/vim-go'
@@ -30,8 +24,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 call plug#end()
 
+let g:gruvbox_italic=1
+let g:colorsbox_italic=1
 set background=dark
-colors colorsbox-stnight
+"colors colorsbox-stnight
+colors gruvbox
 set background=dark
 
 " airline options
@@ -46,6 +43,12 @@ set tabstop=4
 
 " show tabs
 set list
+
+" NERDTree
+map <C-n> :NERDTreeToggle<CR>
+
+" FZF
+map <C-p> :FZF<CR>
 
 " default omnifunc setting
 set omnifunc=syntaxcomplete#Complete
