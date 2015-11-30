@@ -5,10 +5,10 @@ basic:
 	mkdir -p /etc/systemd/system
 
 personal: FORCE
-	mkdir ~/.config
-	mkdir ~/.config/hexchat
-	mkdir ~/.config/autostart
-	mkdir ~/.config/nvim
+	mkdir -p ~/.config
+	mkdir -p ~/.config/hexchat
+	mkdir -p ~/.config/autostart
+	mkdir -p ~/.config/nvim
 	stow default -t ~/
 	stow personal -t ~/
 
