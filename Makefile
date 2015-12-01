@@ -3,15 +3,15 @@ personal: FORCE
 	mkdir -p ~/.config/hexchat
 	mkdir -p ~/.config/autostart
 	mkdir -p ~/.config/nvim
-	stow default -t ~/
-	stow personal -t ~/
+	stow default --no-folding -t ~/
+	stow personal --no-folding -t ~/
 
 work: FORCE
-	stow default -t ~/
-	stow work -t ~/
+	stow default --no-folding -t ~/
+	stow work --no-folding -t ~/
 
 server: FORCE
-	sudo stow server -t /
+	sudo stow server --no-folding -t /
 	sudo mkdir /etc/openvpn
 	sudo mkdir /etc/nginx
 	sudo mkdir /etc/systemd/system
