@@ -40,7 +40,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Tmux stuff
 if [[ -z "$TMUX" ]]; then
-	tmux att || tmux
+	tmux attach -t default || tmux new -s default
 fi
 
 source $HOME/.zprofile

@@ -98,6 +98,7 @@ mosh_chimera_remote() { mosh cole@mickens.io --ssh="ssh -p 222" }
 mosh_chimera_local()  { mosh cole@chimera.local   --ssh="ssh -p 222" }
 mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }
 mosh_nucleus_local()  { mosh cole@nucleus.local   --ssh="ssh -p 223" -p 61000:61999 }
+mosh_pixel_local()    { mosh cole@pixel.local }
 socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
 socks_nucleus() { autossh -N -T -M 20010 -D1080 cole@mickens.io -N -p 223 }
 
