@@ -35,7 +35,7 @@ yaourt -S --needed --noconfirm \
 	make cmake git svn mercurial gitg \
 	hexchat vlc alsa-utils pavucontrol gptfdisk gnome-disk-utility \
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
-	chromium firefox mitmproxy reflector redshift gimp deluge scrot \
+	chromium firefox mitmproxy reflector redshift gimp scrot \
 	libvirt virt-manager avahi dnsutils jq \
 	xorg-server xorg-server-utils xf86-video-intel xf86-input-libinput xclip xsel xorg-xprop xorg-xwininfo wmctrl xdotool \
 	\
