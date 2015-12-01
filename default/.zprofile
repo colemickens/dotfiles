@@ -267,11 +267,11 @@ agd_all() {
 ############################################################################################################################
 
 gocovpkg() {
-	time go test -coverprofile cover.out .
-	go tool cover -html=cover.out -o cover.html
-	echo firefox file:///`pwd`/cover.html
-	firefox file:///`pwd`/cover.html
-	rm cover.out cover.html
+	time go test -coverprofile cover.out . \
+	&& go tool cover -html=cover.out -o cover.html \
+	&& echo firefox file:///`pwd`/cover.html \
+	&& firefox file:///`pwd`/cover.html \
+	&& rm cover.out cover.html
 }
 
 cd_kube() {

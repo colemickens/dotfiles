@@ -31,21 +31,21 @@ fi
 
 
 yaourt -S --needed --noconfirm \
-	zsh sudo htop openssh autossh mosh docker tree \
+	zsh sudo htop openssh autossh mosh docker rsync tree \
 	make cmake git svn mercurial gitg \
 	hexchat vlc alsa-utils pavucontrol gptfdisk gnome-disk-utility \
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
 	chromium firefox mitmproxy reflector redshift gimp deluge scrot \
 	libvirt virt-manager avahi dnsutils jq \
-	xorg-server xorg-server-utils xf86-video-intel xf86-input-libinput xclip xsel xorg-xprop xorg-xwininfo xdotool \
+	xorg-server xorg-server-utils xf86-video-intel xf86-input-libinput xclip xsel xorg-xprop xorg-xwininfo wmctrl xdotool \
 	\
 	gtk-theme-arc-git ultra-flat-icons vertex-themes \
-	powerline-fonts-git ttf-ms-fonts ttf-google-fonts-git ttf-input \
-	tmux-truecolor neovim-git neovim-gnome-terminal-wrapper \
+	powerline-fonts-git ttf-ms-fonts \
+	tmux-truecolor neovim-git \
 	visual-studio-code multirust gist nodejs-azure-cli aws-cli \
 	imgurbash \
 	\
-	sublime-text-nightly smartsynchronize slack-desktop chromium-pepper-flash dropbox
+	smartsynchronize slack-desktop chromium-pepper-flash chromium-widevine dropbox
 	# this is the only proprietary software I use!
 	# except I also run plex-media-server-plexpass on my server
 

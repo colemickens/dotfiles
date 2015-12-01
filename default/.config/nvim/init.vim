@@ -56,6 +56,10 @@ set omnifunc=syntaxcomplete#Complete
 " rust.vim options
 let g:rustfmt_autosave = 1
 
+" vim-go options
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
 " Syntastic options
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
