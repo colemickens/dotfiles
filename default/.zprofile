@@ -102,6 +102,11 @@ mosh_pixel_local()    { mosh cole@pixel.local }
 socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
 socks_nucleus() { autossh -N -T -M 20010 -D1080 cole@mickens.io -N -p 223 }
 
+revproxy_pixel() { autossh -N -T -M 20020 -R 22022:localhost:22 cole@mickens.io -p 222 }
+ssh_pixel_proxy() { autossh -N -T -M 20030 -L 22022:localhost:22022 cole@mickens.io -p 222 }
+
+revproxy_cmz420() { autossh -N -T -M 20020 -R 22023:localhost:22 cole@mickens.io -p 222 }
+ssh_pixel_cmz420() { autossh -N -T -M 20030 -L 22023:localhost:22023 cole@mickens.io -p 222 }
 
 ############################################################################################################################
 # RDP Helpers

@@ -41,7 +41,7 @@ yaourt -S --needed --noconfirm \
 	\
 	gtk-theme-arc-git ultra-flat-icons vertex-themes \
 	powerline-fonts-git ttf-ms-fonts \
-	tmux-truecolor neovim-git \
+	tmux-truecolor neovim-git python2-neovim-git \
 	visual-studio-code multirust gist nodejs-azure-cli aws-cli \
 	imgurbash \
 	\
