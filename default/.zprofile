@@ -62,6 +62,12 @@ github_publickey() {
 		https://api.github.com/user/keys
 }
 
+# ensure that we have vim-plug installed ahead of time
+if [[ ! -f "$HOME/.config/nvim/autoload/plug.vim" ]]; then
+	curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
 
 ############################################################################################################################
 # Generic Helpers
@@ -102,11 +108,8 @@ mosh_pixel_local()    { mosh cole@pixel.local }
 socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
 socks_nucleus() { autossh -N -T -M 20010 -D1080 cole@mickens.io -N -p 223 }
 
-revproxy_pixel() { autossh -N -T -M 20020 -R 22022:localhost:22 cole@mickens.io -p 222 }
-ssh_pixel_proxy() { autossh -N -T -M 20030 -L 22022:localhost:22022 cole@mickens.io -p 222 }
-
-revproxy_cmz420() { autossh -N -T -M 20020 -R 22023:localhost:22 cole@mickens.io -p 222 }
-ssh_pixel_cmz420() { autossh -N -T -M 20030 -L 22023:localhost:22023 cole@mickens.io -p 222 }
+proxy_rev_pixel() { autossh -N -T -M 20020 -R 22022:localhost:22 cole@mickens.io -p 222 }
+proxy_fwd_pixel() { autossh -N -T -M 20030 -L 22022:localhost:22022 cole@mickens.io -p 222 }
 
 ############################################################################################################################
 # RDP Helpers
@@ -128,8 +131,8 @@ rdp_common() {
 	local -A rdpopts
 	rdpopts[nucleus]="/size:2560x1405"
 	rdpopts[pixel]="/size:2560x1650 /scale-device:140 /scale-desktop:140"
-	rdpopts[colemick-carbon]="/size:1910x1100"
-	rdpopts[colemick-z420]="/size:1920x1170"
+	rdpopts[cmcrbn]="/size:1910x1100"
+	rdpopts[cmz420]="/size:1920x1170"
 
 	$freerdp_bin \
 		/cert-ignore \
@@ -331,6 +334,11 @@ cd_nginx-sso-twitter() {
 rdp_colemick10() {
 	source $HOME/Dropbox/.secrets
 	rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
+}
+
+rdp_cmcrbn() {
+	source $HOME/Dropbox/.secrets
+	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
 }
 
 rdp_colemick10_remote() {

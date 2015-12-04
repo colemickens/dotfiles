@@ -1,6 +1,6 @@
 filetype plugin on
 
-call plug#begin('~/.nvim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 Plug 'bling/vim-airline'
 
