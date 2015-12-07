@@ -100,6 +100,7 @@ ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
 ssh_chimera_local()   { ssh  cole@chimera.local   -p 222  }
 ssh_nucleus_remote()  { ssh  cole@mickens.io -p 223 }
 ssh_nucleus_local()   { ssh  cole@nucleus.local   -p 223  }
+ssh_pixel_local()     { ssh  cole@pixel.local }
 mosh_chimera_remote() { mosh cole@mickens.io --ssh="ssh -p 222" }
 mosh_chimera_local()  { mosh cole@chimera.local   --ssh="ssh -p 222" }
 mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }

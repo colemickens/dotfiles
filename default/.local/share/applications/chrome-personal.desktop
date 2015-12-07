@@ -5,4 +5,4 @@ Terminal=false
 Type=Application
 Name=Chromium Personal
 Exec=/usr/bin/chromium --profile-directory=Default
-Icon=google-chrome-canary
+Icon=google-chrome
