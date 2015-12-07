@@ -4,7 +4,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'bling/vim-airline'
 
-"Plug 'mkarmona/colorsbox'
+Plug 'mkarmona/colorsbox'
 Plug 'morhetz/gruvbox'
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -27,8 +27,8 @@ call plug#end()
 let g:gruvbox_italic=1
 let g:colorsbox_italic=1
 set background=dark
-"colors colorsbox-stnight
-colors gruvbox
+colors colorsbox-stnight
+"colors gruvbox
 set background=dark
 
 " airline options
@@ -36,6 +36,7 @@ let g:airline_powerline_fonts = 1
 
 " show relative line numbers
 set rnu
+set nu
 
 " ? 
 set shiftwidth=4

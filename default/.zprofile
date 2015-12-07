@@ -308,11 +308,11 @@ cd_azkube-kvbs() {
 	export GO15VENDOREXPERIMENT=1
 	cd $GOPATH/src/github.com/colemickens/azkube-kvbs
 }
-cd_azkube-deploy() {
-	export GOPATH=$HOME/Code/colemickens/azkube-deploy_gopath
+cd_azkube() {
+	export GOPATH=$HOME/Code/colemickens/azkube_gopath
 	export PATH=$PATH:$GOPATH/bin
 	export GO15VENDOREXPERIMENT=1
-	cd $GOPATH/src/github.com/colemickens/azkube-deploy
+	cd $GOPATH/src/github.com/colemickens/azkube
 }
 cd_nginx-sso-persona() {
 	export GOPATH=$HOME/Code/colemickens/nginx-sso-persona_gopath
