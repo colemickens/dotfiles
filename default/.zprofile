@@ -153,7 +153,9 @@ rdp_common() {
 	rdpopts[nucleus]="/size:2560x1405"
 	rdpopts[pixel]="/size:2560x1650 /scale-device:140 /scale-desktop:140"
 	rdpopts[cmcrbn]="/size:1910x1100"
-	rdpopts[cmz420]="/size:1920x1170"
+	rdpopts[cmz420]="/size:1920x1145"
+
+	# timeout 10 rdesktop $rdpserver
 
 	$freerdp_bin \
 		/cert-ignore \
