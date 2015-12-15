@@ -13,7 +13,6 @@ fi
 
 export PATH=$PATH:$GOROOT/bin
 export GOPATH=$HOME/Code/gopkgs
-export GOBIN=$HOME/Code/gopkgs
 export PATH=$PATH:$GOPATH/bin
 
 export KUBERNETES_PROVIDER=azure
@@ -49,8 +48,9 @@ mitmproxy_prep() {
 	export https_proxy="${proxy}"
 }
 
-github_publickey() {
+github_add_publickey() {
 	local date=`date`
+	local hostname=`hostname`
 	echo "enter username: "; read username
 	echo "enter password: "; read password
 	echo "enter otp: ";      read otp
@@ -58,7 +58,7 @@ github_publickey() {
 	curl \
 		-u "$username:$password" \
 		-H "X-GitHub-OTP: $otp" \
-		--data "{\"title\": \"pixel - $date\",\"key\":\"$sshPublicKeyData\"}" \
+		--data "{\"title\": \"$hostname - $date\",\"key\":\"$sshPublicKeyData\"}" \
 		https://api.github.com/user/keys
 }
 
@@ -67,6 +67,26 @@ if [[ ! -f "$HOME/.config/nvim/autoload/plug.vim" ]]; then
 	curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
+
+rp() {
+	local tempfile=$(mktemp)
+	local wait_interval="$1"
+	shift 1
+	while true; do
+		"$@" >$tempfile 2>&1
+		clear
+		cat $tempfile
+		echo
+		date
+		sleep $wait_interval
+	done
+}
+
+update_go_utils() {
+	export GOPATH=$HOME/Code/gopkgs
+	go get -u github.com/nsf/gocode
+	go get -u github.com/golang/lint/golint
+}
 
 
 ############################################################################################################################

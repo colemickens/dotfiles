@@ -36,18 +36,16 @@ yaourt -S --needed --noconfirm \
 	hexchat vlc alsa-utils pavucontrol gptfdisk gnome-disk-utility \
 	gdm gnome-shell nautilus gedit gnome-control-center gnome-tweak-tool file-roller eog evince \
 	chromium firefox mitmproxy reflector redshift gimp scrot \
-	libvirt virt-manager avahi dnsutils jq \
+	libvirt qemu virt-manager avahi nss-mdns dnsutils jq \
 	xorg-server xorg-server-utils xf86-video-intel xf86-input-libinput xclip xsel xorg-xprop xorg-xwininfo wmctrl xdotool \
 	\
-	gtk-theme-arc-git ultra-flat-icons vertex-themes \
+	gtk-theme-arc-git numix-{circle,}-icon-theme-git numix-themes-git \
 	powerline-fonts-git ttf-ms-fonts \
-	tmux-truecolor neovim-git python2-neovim-git \
-	visual-studio-code multirust gist nodejs-azure-cli aws-cli \
-	imgurbash \
-	\
-	smartsynchronize slack-desktop chromium-pepper-flash chromium-widevine dropbox
-	# this is the only proprietary software I use!
-	# except I also run plex-media-server-plexpass on my server
+	tmux-24bit-color neovim-git python2-neovim-git python-neovim \
+	visual-studio-code multirust \
+	imgurbash gist \
+	nodejs-azure-cli aws-cli \
+	smartsynchronize chromium-pepper-flash chromium-widevine dropbox
 
 # enable services
 sudo systemctl enable docker.service
@@ -60,7 +58,6 @@ sudo systemctl enable gdm.service
 sudo gpasswd -a cole docker >/dev/null 2>&1
 
 # enable avahi dns
-yaourt -S --needed --noconfirm nss-mdns
 # if ^hosts: line doesn't contain mdns_minimal, add it
 sudo cp -f /etc/nsswitch.conf /etc/nsswitch.conf.pre-mdns
 sudo bash -c "sed -e '/mdns/!s/^\(hosts:.*\)dns\(.*\)/\1mdns_minimal dns\2/' /etc/nsswitch.conf.pre-mdns > /etc/nsswitch.conf"
