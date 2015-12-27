@@ -45,4 +45,9 @@ fi
 
 source $HOME/.zprofile
 
+source $HOME/.scripts/zsh/tmux-pane-completion.zsh
+
+export TERMINAL="termite"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+

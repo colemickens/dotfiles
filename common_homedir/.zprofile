@@ -3,7 +3,8 @@
 ############################################################################################################################
 
 export MAKEFLAGS="-j `nproc`"
-export EDITOR=vim
+export EDITOR=nvim
+export TERMINAL=termite
 
 if [ -d "$HOME/Code/golang/go" ]; then
 	export GOROOT=$HOME/Code/golang/go
@@ -86,6 +87,7 @@ update_go_utils() {
 	export GOPATH=$HOME/Code/gopkgs
 	go get -u github.com/nsf/gocode
 	go get -u github.com/golang/lint/golint
+	go get -u github.com/Masterminds/glide
 }
 
 
@@ -213,6 +215,16 @@ upload_to_s3_screenshots() {
 	source ~/Dropbox/.secrets
 	aws s3 cp --acl=public-read $FILEPATH s3://colemickens-screenshots/ >/dev/null 2>&1;
 	echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
+}
+
+dpaste() {
+	local content
+	if read -t 0; then
+		content=$(</dev/stdin)
+	else
+		content="$(cat "$1")"
+	fi
+	curl -F "content=$content" https://dpaste.de/api/?format=url
 }
 
 

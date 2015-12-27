@@ -2,27 +2,28 @@
 
 set -x
 
+function common() {
+	rm -f ~/.config/hexchat/hexchat.conf
+	stow common_homedir --no-folding -t $HOME/
+}
+
 case $(hostname) in
 	chimera)
 		sudo stow server_rootdir --no-folding -t /
-		sudo stow common_rootdir --no-folding -t /
-		stow common_homedir --no-folding -t $HOME/
+		common
 		stow personal_homedir --no-folding -t $HOME/
 		sudo systemctl restart nginx
 		;;
 	pixel)
-		sudo stow common_rootdir --no-folding -t /
-		stow common_homedir --no-folding -t $HOME/
+		common
 		stow personal_homedir --no-folding -t $HOME/
 		;;
 	nucleus)
-		sudo stow common_rootdir --no-folding -t /
-		stow common_homedir --no-folding -t $HOME/
+		common
 		stow personal_homedir --no-folding -t $HOME/
 		;;
 	cmcrbn)
-		sudo stow common_rootdir --no-folding -t /
-		stow common_homedir --no-folding -t $HOME/
+		common
 		stow work_homedir --no-folding -t $HOME/
 		;;
 	*)
