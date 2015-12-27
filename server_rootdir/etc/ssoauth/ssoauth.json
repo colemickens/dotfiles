@@ -13,9 +13,12 @@
 	},
 	"port": 8082,
 	"acl": {
+		"jenkins.mickens.io": {
+			"Users": [ "colemickens" ],
+		},
 		"denon.mickens.io": {
 			"Users": ["colemickens"],
-			"Groups": ["x:"]
+			"Groups": ["192917787555052"]
 		}
 	}
 }

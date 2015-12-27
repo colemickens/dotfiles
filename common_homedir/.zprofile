@@ -33,20 +33,18 @@ mitmproxy_prep() {
 	cert_src="$HOME/.mitmproxy/mitmproxy-ca-cert.cer"
 	cert_dest="/etc/ca-certificates/trust-source/anchors/mitmproxy-ca-cert.cer"
 
-	if [[ ! -f "${cert_dest}" ]]; then
-		echo "mitmproxy cert hasn't been installed yet"
-		if [[ ! -f "${cert_src}" ]]; then
-			echo "mitmproxy hasn't generated certs yet. run \`mitmproxy\` and then try again"
-			exit -1
-		fi
-		
-		sudo cp "${cert_src}" "${cert_dest}"
-		sudo trust extract-compat
+	if [[ ! -f "${cert_src}" ]]; then
+		echo "must run mitmproxy for a few seconds"
+		timeout 5 mitmproxy
+		return
 	fi
+		
+	sudo cp "${cert_src}" "${cert_dest}"
+	sudo trust extract-compat
 
-	local proxy="https://localhost:8080"
-	export HTTPS_PROXY="${proxy}"
-	export https_proxy="${proxy}"
+	local proxy="http://localhost:8080"
+	echo "export HTTPS_PROXY=\"${proxy}\""
+	echo "export https_proxy=\"${proxy}\""
 }
 
 github_add_publickey() {
@@ -76,9 +74,9 @@ rp() {
 	while true; do
 		"$@" >$tempfile 2>&1
 		clear
-		cat $tempfile
-		echo
 		date
+		echo
+		cat $tempfile
 		sleep $wait_interval
 	done
 }
@@ -97,7 +95,7 @@ update_go_utils() {
 
 docker_clean() { docker rm `docker ps --no-trunc -aq` }
 dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
-up() { yaourt -Syua --noconfirm }
+up() { sudo true; yaourt -Syua --noconfirm }
 
 pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
 
@@ -118,21 +116,20 @@ videomodeunset() {
 # SSH Helpers
 ############################################################################################################################
 
-ssh_chimera_remote()  { ssh  cole@mickens.io -p 222  }
-ssh_chimera_local()   { ssh  cole@chimera.local   -p 222  }
-ssh_nucleus_remote()  { ssh  cole@mickens.io -p 223 }
-ssh_nucleus_local()   { ssh  cole@nucleus.local   -p 223  }
-ssh_pixel_local()     { ssh  cole@pixel.local }
-mosh_chimera_remote() { mosh cole@mickens.io --ssh="ssh -p 222" }
-mosh_chimera_local()  { mosh cole@chimera.local   --ssh="ssh -p 222" }
-mosh_nucleus_remote() { mosh cole@mickens.io --ssh="ssh -p 223" -p 61000:61999 }
-mosh_nucleus_local()  { mosh cole@nucleus.local   --ssh="ssh -p 223" -p 61000:61999 }
-mosh_pixel_local()    { mosh cole@pixel.local }
+ssh_chimera_remote()  { ssh  cole@mickens.io    -p 222  }
+ssh_chimera_local()   { ssh  cole@chimera.local -p 222  }
+ssh_nucleus_remote()  { ssh  cole@mickens.io    -p 223  }
+ssh_nucleus_local()   { ssh  cole@nucleus.local -p 223  }
+ssh_pixel_local()     { ssh  cole@pixel.local   -p 224  }
+mosh_chimera_remote() { mosh cole@mickens.io    --ssh="ssh -p 222" }
+mosh_chimera_local()  { mosh cole@chimera.local --ssh="ssh -p 222" }
+mosh_nucleus_remote() { mosh cole@mickens.io    --ssh="ssh -p 223" -p 61000:61999 }
+mosh_nucleus_local()  { mosh cole@nucleus.local --ssh="ssh -p 223" -p 61000:61999 }
 socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
-socks_nucleus() { autossh -N -T -M 20010 -D1080 cole@mickens.io -N -p 223 }
 
-proxy_rev_pixel() { autossh -N -T -M 20020 -R 22022:localhost:22 cole@mickens.io -p 222 }
-proxy_fwd_pixel() { autossh -N -T -M 20030 -L 22022:localhost:22022 cole@mickens.io -p 222 }
+proxy_rev_pixel() { autossh -N -T -M 20020 -R 22400:localhost:224 cole@mickens.io -p 222 }
+proxy_fwd_pixel() { autossh -N -T -M 20030 -L 22400:localhost:22400 cole@mickens.io -p 222 }
+
 
 ############################################################################################################################
 # RDP Helpers
