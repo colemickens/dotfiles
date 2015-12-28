@@ -1,5 +1,6 @@
 [options]
-font = Fira Mono for Powerline 9.5
+#font = Fira Mono for Powerline 9.5
+font = Fira Mono for Powerline 14
 
 
 [colors]
