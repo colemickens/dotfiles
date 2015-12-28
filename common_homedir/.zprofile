@@ -12,7 +12,6 @@ else
 	export GOROOT=/usr/lib/go
 fi
 
-export PATH=$PATH:$GOROOT/bin
 export GOPATH=$HOME/Code/gopkgs
 export PATH=$PATH:$GOPATH/bin
 
@@ -96,6 +95,7 @@ update_go_utils() {
 docker_clean() { docker rm `docker ps --no-trunc -aq` }
 dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
 up() { sudo true; yaourt -Syua --noconfirm }
+nixup() { /$HOME/Code/colemickens/yarn/nix-update.sh }
 
 pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
 
