@@ -43,9 +43,6 @@ source $HOME/.zprofile
 source $HOME/.scripts/zsh/tmux-pane-completion.zsh
 
 export TERMINAL="termite"
-export GDK_SCALE=2
-export GDK_DPI_SCALE=0.75
-export QT_DEVICE_PIXEL_RATIO=2
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
