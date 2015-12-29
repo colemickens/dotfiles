@@ -12,14 +12,18 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Your preferred terminal emulator
-set $term urxvt
+set $term termite
 # Your preferred application launcher
-set $menu dmenu_run
+set $menu rofi -show run
 
 gaps inner 20
 gaps outter 30
 
-output eDP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
+font pango:Source Code Pro for Powerline 10
+
+#output eDP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
+output DP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
+output DP-2 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 
 ### Key bindings
 #
@@ -135,3 +139,17 @@ output eDP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+minus scratchpad show
+
+
+# swaybar
+#
+bar {
+  position bottom
+  status_command i3blocks -c ~/.config/i3blocks/i3blocks.conf
+
+  colors {
+    statusline #ffffff
+    background #323232
+    inactive_workspace #323232 #32323200 #5c5c5c
+  }
+}

@@ -1,6 +1,6 @@
 [options]
-#font = Fira Mono for Powerline 9.5
-font = Fira Mono for Powerline 14
+#font = Fira Mono for Powerline 10
+font = Source Code Pro for Powerline 10
 
 
 [colors]
@@ -9,7 +9,7 @@ font = Fira Mono for Powerline 14
 foreground      = #cccccc
 foreground_bold = #cccccc
 cursor          = #ffffff
-background      = rgb(30, 30, 30, .90)
+background      = rgb(30, 30, 30, .80)
 
 # black
 color0  = #2e3436
