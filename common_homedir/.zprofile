@@ -95,7 +95,7 @@ update_go_utils() {
 docker_clean() { docker rm `docker ps --no-trunc -aq` }
 dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
 up() { sudo true; yaourt -Syua --noconfirm }
-nixup() { /$HOME/Code/colemickens/yarn/nix-update.sh }
+nixup() { sudo nix-channel --update; sudo nixos-rebuild switch; }
 
 pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
 

@@ -1,0 +1,9 @@
+[volume]
+label=volume:
+command=amixer get Master | grep -E -o '[0-9]{1,3}?%' | head -1
+interval=once
+signal=1
+
+[time]
+command=date '+%D %T'
+interval=5

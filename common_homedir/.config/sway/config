@@ -19,9 +19,7 @@ set $menu rofi -show run
 gaps inner 20
 gaps outter 30
 
-font pango:Source Code Pro for Powerline 10
-
-#output eDP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
+output eDP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 output DP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 output DP-2 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 
@@ -145,7 +143,9 @@ output DP-2 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 #
 bar {
   position bottom
-  status_command i3blocks -c ~/.config/i3blocks/i3blocks.conf
+  status_command i3blocks -c ~/.config/i3blocks/config
+
+  font pango: Source Code Pro for Powerline 14
 
   colors {
     statusline #ffffff

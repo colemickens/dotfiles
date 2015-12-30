@@ -1,6 +1,7 @@
 [options]
 #font = Fira Mono for Powerline 10
-font = Source Code Pro for Powerline 10
+#font = Source Code Pro for Powerline 10
+font = Source Code Pro for Powerline 14
 
 
 [colors]
