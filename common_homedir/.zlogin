@@ -57,6 +57,12 @@
 
 ) &!
 
+# zim stuff ^^^^ 
+
+# my stuff vvvv
+
+export TERMINAL="termite"
+
 if [[ `hostname` == "pixel" ]]; then
 	export GDK_SCALE=2
 fi

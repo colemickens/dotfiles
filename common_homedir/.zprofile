@@ -4,7 +4,6 @@
 
 export MAKEFLAGS="-j `nproc`"
 export EDITOR=nvim
-export TERMINAL=termite
 
 if [ -d "$HOME/Code/golang/go" ]; then
 	export GOROOT=$HOME/Code/golang/go
@@ -61,10 +60,6 @@ github_add_publickey() {
 }
 
 # ensure that we have vim-plug installed ahead of time
-if [[ ! -f "$HOME/.config/nvim/autoload/plug.vim" ]]; then
-	curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
 
 rp() {
 	local tempfile=$(mktemp)

@@ -1,6 +1,5 @@
 [options]
-#font = Fira Mono for Powerline 10
-font = Source Code Pro for Powerline 14
+font = Source Code Pro for Powerline 11
 decorated = false
 cursor_shape = ibeam
 
