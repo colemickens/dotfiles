@@ -1,27 +1,34 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-#
-# Sway is a work in progress. Some of these defaults are currently unimplemented.
-
-
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
 set $mod Mod4
-# Your preferred terminal emulator
 set $term termite
-# Your preferred application launcher
-set $menu rofi -show run
+set $menu "rofi -show run"
 
-gaps inner 20
-gaps outter 30
+new_window 3pixel
+gaps inner 2
+gaps outer 2
+
+# Hybrid colors
+set $back               #1d1F21
+set $black              #282A2E
+set $grey               #373B41
+set $lightgrey          #707880
+set $white              #C5C8C6
+set $yellow             #F0C674
+set $red                #CC6666
+set $darkred            #A54242
+set $green              #B5BD56
+
+#class                  border      backgr.     text        split
+client.focused          $green     $green       $black      $red
+client.focused_inactive $grey       $grey       $lightgrey  $grey
+client.unfocused        $grey       $grey       $lightgrey  $grey
+client.urgent           $red        $red        $black      $red
+client.background       $back
 
 output eDP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 output DP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 output DP-2 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
+
+bindsym Control+$mod+l exec swaylock
 
 ### Key bindings
 #

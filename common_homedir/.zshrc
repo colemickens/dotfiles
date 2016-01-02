@@ -1,3 +1,14 @@
+#
+# User configuration sourced by interactive shells
+#
+
+# Source zim
+if [ ! -d ${ZDOTDIR:-${HOME}}/.zim ]; then
+ 	git clone https://github.com/Eriner/zim.git ${ZDOTDIR:-${HOME}}/.zim
+fi
+if [[ -s ${ZDOTDIR:-${HOME}}/.zim/init.zsh ]]; then
+  source ${ZDOTDIR:-${HOME}}/.zim/init.zsh
+fi
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -31,20 +42,23 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+#plugins=(git)
 
-if [ ! -f $ZSH/oh-my-zsh.sh ]; then
-	git clone https://github.com/robbyrussell/oh-my-zsh.git $ZSH
-fi
-source $ZSH/oh-my-zsh.sh
+#if [ ! -f $ZSH/oh-my-zsh.sh ]; then
+#	git clone https://github.com/robbyrussell/oh-my-zsh.git $ZSH
+#fi
+#source $ZSH/oh-my-zsh.sh
+
+# if [ ! -d ${ZDOTDIR:-${HOME}}/.zim ]; then
+# 	git clone https://github.com/Eriner/zim.git ${ZDOTDIR:-${HOME}}/.zim
+#fi
+#source ~/.zim/init.zsh
 
 source $HOME/.zprofile
 
 source $HOME/.scripts/zsh/tmux-pane-completion.zsh
 
 export TERMINAL="termite"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # stupid workaround until coreutils is updated to support termite
 if true; then

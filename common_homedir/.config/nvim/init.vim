@@ -29,6 +29,7 @@ Plug 'majutsushi/tagbar'
 " Language specific
 Plug 'fatih/vim-go'
 Plug 'rust-lang/rust.vim'
+Plug 'LnL7/vim-nix'
 
 call plug#end()
 
