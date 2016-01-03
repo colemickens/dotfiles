@@ -63,7 +63,7 @@
 
 export TERMINAL="termite"
 
-if [[ `hostname` == "pixel" ]]; then
+if [[ `/usr/bin/env hostname` == "pixel" ]]; then
 	export GDK_SCALE=2
 fi
 

@@ -1,129 +1,59 @@
 servers = (
-  { address = "irc.dal.net"; chatnet = "DALnet"; port = "6667"; },
-  { address = "irc.efnet.org"; chatnet = "EFNet"; port = "6667"; },
-  { address = "irc.esper.net"; chatnet = "EsperNet"; port = "6667"; },
-  { 
-    address = "chat.freenode.net";
-    chatnet = "Freenode";
-    port = "6667";
-  },
-  {
-    address = "irc.gamesurge.net";
-    chatnet = "GameSurge";
-    port = "6667";
-  },
-  { address = "eu.irc6.net"; chatnet = "IRCnet"; port = "6667"; },
-  { address = "open.ircnet.net"; chatnet = "IRCnet"; port = "6667"; },
-  {
-    address = "irc.ircsource.net";
-    chatnet = "IRCSource";
-    port = "6667";
-  },
-  { address = "irc.netfuze.net"; chatnet = "NetFuze"; port = "6667"; },
-  { address = "irc.oftc.net"; chatnet = "OFTC"; port = "6667"; },
-  { 
-    address = "irc.quakenet.org";
-    chatnet = "QuakeNet";
-    port = "6667";
-  },
-  { address = "irc.rizon.net"; chatnet = "Rizon"; port = "6667"; },
-  { address = "silc.silcnet.org"; chatnet = "SILC"; port = "706"; },
-  { 
-    address = "irc.undernet.org";
-    chatnet = "Undernet";
-    port = "6667";
-  },
   {
     address = "irc.freenode.net";
     chatnet = "Freenode";
     port = "6697";
     use_ssl = "yes";
-    ssl_verify = "no";
+    autoconnect = "yes";
+    password = "geomyidae:thisisastupidpassword";
+  },
+  {
+    address = "irc.mozilla.org";
+    chatnet = "Mozilla";
+    port = "6697";
+    use_ssl = "yes";
+    autoconnect = "yes";
+  },
+  {
+    address = "irc.gnome.org";
+    chatnet = "Gnome";
+    port = "6697";
+    use_ssl = "yes";
     autoconnect = "yes";
   }
 );
 
 chatnets = {
-  DALnet = {
-    type = "IRC";
-    max_kicks = "4";
-    max_msgs = "20";
-    max_whois = "30";
-  };
-  EFNet = { 
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "4";
-    max_whois = "1";
-  };
-  EsperNet = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "4";
-    max_whois = "1";
-  };
   Freenode = {
     type = "IRC";
     max_kicks = "1";
     max_msgs = "4";
     max_whois = "1";
   };
-  GameSurge = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
-  };
-  IRCnet = { 
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
-  };
-  IRCSource = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "4";
-    max_whois = "1";
-  };
-  NetFuze = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
-  };
-  OFTC = { type = "IRC"; max_kicks = "1"; max_msgs = "1"; max_whois = "1"; };
-  QuakeNet = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
-  };
-  Rizon = { 
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
-  };
-  SILC = { type = "SILC"; };
-  Undernet = {
-    type = "IRC";
-    max_kicks = "1";
-    max_msgs = "1";
-    max_whois = "1";
-  };
+  Mozilla = { type = "IRC"; };
+  Gnome = { type = "IRC"; };
 };
 
 channels = (
-  { name = "#lobby"; chatnet = "EsperNet"; autojoin = "No"; },
-  { name = "#freenode"; chatnet = "Freenode"; autojoin = "No"; },
-  { name = "#irssi"; chatnet = "Freenode"; autojoin = "No"; },
-  { name = "#gamesurge"; chatnet = "GameSurge"; autojoin = "No"; },
-  { name = "#irssi"; chatnet = "IRCNet"; autojoin = "No"; },
-  { name = "#ircsource"; chatnet = "IRCSource"; autojoin = "No"; },
-  { name = "#netfuze"; chatnet = "NetFuze"; autojoin = "No"; },
-  { name = "#oftc"; chatnet = "OFTC"; autojoin = "No"; },
-  { name = "silc"; chatnet = "SILC"; autojoin = "No"; }
+  { chatnet="Freenode";  name="##linux";     autojoin="Yes"; },
+  { chatnet="Freenode";  name="#archlinux";  autojoin="Yes"; },
+  { chatnet="Freenode";  name="#bash";       autojoin="Yes"; },
+  { chatnet="Freenode";  name="#coreos";     autojoin="Yes"; },
+  { chatnet="Freenode";  name="#docker";     autojoin="Yes"; },
+  { chatnet="Freenode";  name="#git";        autojoin="Yes"; },
+  { chatnet="Freenode";  name="#github";     autojoin="Yes"; },
+  { chatnet="Freenode";  name="#go-nuts";    autojoin="Yes"; },
+  { chatnet="Freenode";  name="#mosh";       autojoin="Yes"; },
+  { chatnet="Freenode";  name="#neovim";     autojoin="Yes"; },
+  { chatnet="Freenode";  name="#nixos";      autojoin="Yes"; },
+  { chatnet="Freenode";  name="#security";   autojoin="Yes"; },
+  { chatnet="Freenode";  name="#tmux";       autojoin="Yes"; },
+  { chatnet="Freenode";  name="#zsh";        autojoin="Yes"; },
+
+  { chatnet="Mozilla";  name="#rust";  autojoin="Yes"; },
+
+  { chatnet="Gnome";  name="#gnome";        autojoin="Yes"; },
+  { chatnet="Gnome";  name="#gnome-shell";  autojoin="Yes"; }
 );
 
 aliases = {
@@ -379,6 +309,10 @@ statusbar = {
   };
 };
 settings = {
-  core = { real_name = "Unknown"; user_name = "cole"; nick = "cole"; };
+  core = {
+    real_name = "geomyidae";
+    user_name = "geomyidae";
+    nick = "meloc";
+  };
   "fe-text" = { actlist_sort = "refnum"; };
 };

@@ -30,3 +30,13 @@ source $HOME/.zprofile
 
 source $HOME/.scripts/zsh/tmux-pane-completion.zsh
 
+if true; then
+	dircolorstemp="$(mktemp -d)"
+	dircolors -p > "$dircolorstemp/dircolors"
+	last_line="$(grep -n TERM $dircolorstemp/dircolors | tail -1 | cut -d : -f 1)"
+	next_line="$((last_line+1))"
+	sed -i "${next_line}i TERM xterm-termite" "$dircolorstemp/dircolors"
+	eval $(dircolors "$dircolorstemp/dircolors")
+	rm -rf "${dircolorstemp}"
+fi
+
