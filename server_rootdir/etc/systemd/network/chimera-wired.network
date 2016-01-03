@@ -1,7 +1,0 @@
-[Match]
-Name=enp3s0
-Host=chimera
-
-[Network]
-Address=10.0.0.2/24
-Gateway=10.0.0.1
