@@ -26,6 +26,10 @@ case $(hostname) in
 		common
 		stow work_homedir --no-folding -t $HOME/
 		;;
+	cmz420)
+		common
+		stow work_homedir --no-folding -t $HOME/
+		;;
 	*)
 		echo "Unknown hostname! Update me!"
 esac
