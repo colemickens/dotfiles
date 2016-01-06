@@ -1,24 +1,18 @@
-############################################################################################################################
-# Development Helpers
-############################################################################################################################
+#$###########################################################################################################################
+# Generic Stuff
+#############################################################################################################################
 
 export MAKEFLAGS="-j `nproc`"
 export EDITOR=nvim
 
-if [ -d "$HOME/Code/golang/go" ]; then
-	export GOROOT=$HOME/Code/golang/go
-else
-	export GOROOT=/usr/lib/go
-fi
-
-export GOPATH=$HOME/Code/gopkgs
 export PATH=$PATH:$GOPATH/bin
-
-export KUBERNETES_PROVIDER=azure
-export KUBE_RELEASE_RUN_TESTS=n
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export PROMPT_DIRTRIM=2
+
+############################################################################################################################
+# Development Helpers
+############################################################################################################################
 
 # use_python27 will ensure that running `python` runs python2.7
 use_python27() {
@@ -27,24 +21,7 @@ use_python27() {
 	export PATH="${tmpdir}:$PATH"
 }
 
-mitmproxy_prep() {
-	cert_src="$HOME/.mitmproxy/mitmproxy-ca-cert.cer"
-	cert_dest="/etc/ca-certificates/trust-source/anchors/mitmproxy-ca-cert.cer"
-
-	if [[ ! -f "${cert_src}" ]]; then
-		echo "must run mitmproxy for a few seconds"
-		timeout 5 mitmproxy
-		return
-	fi
-		
-	sudo cp "${cert_src}" "${cert_dest}"
-	sudo trust extract-compat
-
-	local proxy="http://localhost:8080"
-	echo "export HTTPS_PROXY=\"${proxy}\""
-	echo "export https_proxy=\"${proxy}\""
-}
-
+# add a key to github with OTP code
 github_add_publickey() {
 	local date=`date`
 	local hostname=`hostname`
@@ -59,27 +36,32 @@ github_add_publickey() {
 		https://api.github.com/user/keys
 }
 
-# ensure that we have vim-plug installed ahead of time
-
-rp() {
-	local tempfile=$(mktemp)
-	local wait_interval="$1"
-	shift 1
-	while true; do
-		"$@" >$tempfile 2>&1
-		clear
-		date
-		echo
-		cat $tempfile
-		sleep $wait_interval
-	done
-}
-
-update_go_utils() {
+# these are things that vim-go needs, or we otherwise use (glide)
+go_update_utils() {
 	export GOPATH=$HOME/Code/gopkgs
-	go get -u github.com/nsf/gocode
+
+	go get -u github.com/nsf/gocode # vim-go
+	go get -u github.com/alecthomas/gometalinter # vim-go
+	go get -u github.com/x/tools/cmd/goimports # vim-go
+	go get -u github.com/rogpeppe/godef # vim-go
+	go get -u github.com/x/tools/cmd/oracle # vim-go
+	go get -u github.com/x/tools/cmd/gorename # vim-go
+	go get -u github.com/golang/lint/golint # vim-go
+	go get -u github.com/kisielk/errcheck # vim-go
+	go get -u github.com/jstemmer/gotags # vim -go
+
 	go get -u github.com/golang/lint/golint
 	go get -u github.com/Masterminds/glide
+}
+
+############################################################################################################################
+# Launcher Helpers
+############################################################################################################################
+
+orbment() {
+	export WLC_DIM=0.9
+	export TERMINAL=termite
+	/usr/bin/env orbment
 }
 
 
@@ -88,23 +70,9 @@ update_go_utils() {
 ############################################################################################################################
 
 docker_clean() { docker rm `docker ps --no-trunc -aq` }
-dusummary() { sudo du -h / | sort -hr > $HOME/du.txt }
+du_summary() { sudo du -h / | sort -hr > $HOME/du.txt }
 archup() { sudo true; yaourt -Syua --noconfirm }
 nixup() { sudo nix-channel --update; sudo nixos-rebuild -I / switch; }
-
-pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
-
-videomodeset() {
-	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 0
-	wmctrl -i -r ${windowid} -b add,above
-}
-
-videomodeunset() {
-	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
-	wmctrl -i -r ${windowid} -b remove,above
-}
 
 
 ############################################################################################################################
@@ -162,6 +130,11 @@ rdp_common() {
 		+toggle-fullscreen \
 		-wallpaper \
 		"$@"
+}
+
+rdp_cmcrbn() {
+	source $HOME/Dropbox/.secrets
+	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
 }
 
 
@@ -281,8 +254,11 @@ fi
 
 
 ############################################################################################################################
-# Kubernetes Helpers
+# Azure/Kubernetes Helpers
 ############################################################################################################################
+
+export KUBERNETES_PROVIDER=azure
+export KUBE_RELEASE_RUN_TESTS=n
 
 agd() {
 	for group in ${@}; do
@@ -299,8 +275,12 @@ agd_all() {
 
 
 ############################################################################################################################
-# Golang Helpers
+# Golang Stuff
 ############################################################################################################################
+
+export GOROOT=/usr/lib/go
+export GOPATH=$HOME/Code/gopkgs
+export PATH=$PATH:$GOPATH/bin
 
 gocovpkg() {
 	time go test -coverprofile cover.out . \
@@ -316,76 +296,10 @@ cd_kube() {
 	export GO15VENDOREXPERIMENT=0
 	cd $GOPATH/src/k8s.io/kubernetes
 }
-cd_azuresdk() {
-	export GOPATH=$HOME/Code/colemickens/azure-sdk-for-go_gopath
-	export PATH=$PATH:$GOPATH/bin
-	export GO15VENDOREXPERIMENT=0
-	cd $GOPATH/src/github.com/Azure/azure-sdk-for-go
-}
-cd_autorest() {
-	export GOPATH=$HOME/Code/colemickens/go-autorest_gopath
-	export PATH=$PATH:$GOPATH/bin
-	export GO15VENDOREXPERIMENT=0
-	cd $GOPATH/src/github.com/Azure/go-autorest
-}
-cd_azkube-kvbs() {
-	export GOPATH=$HOME/Code/colemickens/azkube-kvbs_gopath
-	export PATH=$PATH:$GOPATH/bin
-	export GO15VENDOREXPERIMENT=1
-	cd $GOPATH/src/github.com/colemickens/azkube-kvbs
-}
 cd_azkube() {
 	export GOPATH=$HOME/Code/colemickens/azkube_gopath
 	export PATH=$PATH:$GOPATH/bin
 	export GO15VENDOREXPERIMENT=1
 	cd $GOPATH/src/github.com/colemickens/azkube
 }
-cd_nginx-sso-persona() {
-	export GOPATH=$HOME/Code/colemickens/nginx-sso-persona_gopath
-	export PATH=$PATH:$GOPATH/bin
-	export GO15VENDOREXPERIMENT=1
-	cd $GOPATH/src/github.com/colemickens/nginx-sso-persona
-}
-cd_nginx-sso-twitter() {
-	export GOPATH=$HOME/Code/colemickens/nginx-sso-twitter_gopath
-	export PATH=$PATH:$GOPATH/bin
-	export GO15VENDOREXPERIMENT=1
-	cd $GOPATH/src/github.com/colemickens/nginx-sso-twitter
-}
 
-
-############################################################################################################################
-# Work Helpers
-############################################################################################################################
-
-rdp_colemick10() {
-	source $HOME/Dropbox/.secrets
-	rdp_common 192.168.122.251 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
-}
-
-rdp_cmcrbn() {
-	source $HOME/Dropbox/.secrets
-	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
-}
-
-rdp_colemick10_remote() {
-	source $HOME/Dropbox/.secrets
-	rdp_common localhost:33890 $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
-}
-
-############################################################################################################################
-# DNVM Helpers
-############################################################################################################################
-
-if [[ -f "/home/cole/.dnx/dnvm/dnvm.sh" ]]; then
-	source "/home/cole/.dnx/dnvm/dnvm.sh"
-fi
-
-############################################################################################################################
-# Firefox Crap (until I find a better place for it)
-############################################################################################################################
-
-# loop.enabled = false
-# browser.pocket.enabled = false
-# browser.toolbarbuttons.introduced.pocket-button = false
-#
