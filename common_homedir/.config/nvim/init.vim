@@ -37,6 +37,8 @@ call plug#end()
 " Vim Config "
 """"""""""""""
 
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
 " show relative line numbers above and below absolute line number
 set rnu
 set nu

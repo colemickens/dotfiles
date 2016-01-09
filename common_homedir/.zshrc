@@ -40,3 +40,5 @@ if true; then
 	rm -rf "${dircolorstemp}"
 fi
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

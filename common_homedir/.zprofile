@@ -54,6 +54,12 @@ go_update_utils() {
 	go get -u github.com/Masterminds/glide
 }
 
+mitmproxy_install_arch() {
+	sudo cp ~/.mitmproxy/mitmproxy-ca-cert.cer /etc/ca-certificates/trust-source/anchors/mitmproxy-ca-cert.cer
+	sudo trust extract-compat
+}
+
+
 ############################################################################################################################
 # Launcher Helpers
 ############################################################################################################################
