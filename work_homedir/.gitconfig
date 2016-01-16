@@ -1,6 +1,0 @@
-[user]
-	email = colemick@microsoft.com
-	name = Cole Mickens
-
-[init]
-	templatedir = ~/.git_template

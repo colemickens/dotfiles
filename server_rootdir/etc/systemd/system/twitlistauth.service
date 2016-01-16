@@ -1,8 +1,0 @@
-[Unit]
-Description=Twitter List Auth File Server
-
-[Service]
-ExecStart=/home/cole/Code/colemickens/twitlistauth/bin/twitlistauth -config /home/cole/Code/colemickens/twitlistauth/twitlistauth.config
-
-[Install]
-WantedBy=multi-user.target

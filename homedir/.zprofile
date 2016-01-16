@@ -78,7 +78,7 @@ orbment() {
 docker_clean() { docker rm `docker ps --no-trunc -aq` }
 du_summary() { sudo du -h / | sort -hr > $HOME/du.txt }
 archup() { sudo true; yaourt -Syua --noconfirm }
-nixup() { sudo nix-channel --update; sudo nixos-rebuild -I / switch; }
+nixup() { sudo nixos-rebuild -I / switch; }
 
 
 ############################################################################################################################
