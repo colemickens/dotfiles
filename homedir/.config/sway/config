@@ -24,9 +24,17 @@ client.unfocused        $grey       $grey       $lightgrey  $grey
 client.urgent           $red        $red        $black      $red
 client.background       $back
 
+input 0:0:Atmel_maXTouch_Touchscreen events disabled
+input 0:0:Atmel_maXTouch_Touchpad tap disabled
+input 0:0:Atmel_maXTouch_Touchpad dwt enabled
+input 0:0:Atmel_maXTouch_Touchpad click_method clickfinger
+input 0:0:Atmel_maXTouch_Touchpad natural_scroll enabled
+input 0:0:Atmel_maXTouch_Touchpad scroll_method two_finger
+
 output eDP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 output DP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 output DP-2 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
+
 
 bindsym Control+$mod+l exec swaylock
 
@@ -148,15 +156,15 @@ bindsym Control+$mod+l exec swaylock
 
 # swaybar
 #
-bar {
-  position bottom
-  status_command i3blocks -c ~/.config/i3blocks/config
-
-  font pango: Source Code Pro for Powerline 14
-
-  colors {
-    statusline #ffffff
-    background #323232
-    inactive_workspace #323232 #32323200 #5c5c5c
-  }
-}
+#bar {
+#  position bottom
+#  status_command i3blocks -c ~/.config/i3blocks/config
+#
+#  font pango: Source Code Pro for Powerline 14
+#
+#  colors {
+#    statusline #ffffff
+#    background #323232
+#    inactive_workspace #323232 #32323200 #5c5c5c
+#  }
+#}

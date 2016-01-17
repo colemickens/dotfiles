@@ -1,6 +1,15 @@
-#$###########################################################################################################################
-# Generic Stuff
-#############################################################################################################################
+####
+# Pixel Helpers
+###
+
+touchpad_reset() {
+	sudo modprobe i2c-dev &>/dev/null
+	echo -ne 'r\nq\n' | sudo mxt-app -d i2c-dev:{7,8}-004a &>/dev/null
+}
+
+############################################################################################################################
+# Development Helpers
+############################################################################################################################
 
 export MAKEFLAGS="-j `nproc`"
 export EDITOR=nvim
@@ -9,10 +18,6 @@ export PATH=$PATH:$GOPATH/bin
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export PROMPT_DIRTRIM=2
-
-############################################################################################################################
-# Development Helpers
-############################################################################################################################
 
 # use_python27 will ensure that running `python` runs python2.7
 use_python27() {
@@ -61,6 +66,28 @@ docker_clean() { docker rm `docker ps --no-trunc -aq` }
 du_summary() { sudo du -h / | sort -hr > $HOME/du.txt }
 archup() { sudo true; yaourt -Syua --noconfirm }
 nixup() { sudo nixos-rebuild -I / switch; }
+nixgc() {
+	nix-env --delete-generations old
+	nix-collect-garbage
+	nix-collect-garbage -d
+	sudo nix-env --delete-generations old
+	sudo nix-collect-garbage
+	sudo nix-collect-garbage -d
+}
+
+pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
+
+videomodeset() {
+	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
+	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 0
+	wmctrl -i -r ${windowid} -b add,above
+}
+
+videomodeunset() {
+	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
+	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
+	wmctrl -i -r ${windowid} -b remove,above
+}
 
 
 ############################################################################################################################
