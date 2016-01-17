@@ -2,6 +2,18 @@
 	"bootstrapped": true,
 	"in_process_packages":
 	[
+		"Dockerfile Syntax Highlighting",
+		"Focus File on Sidebar",
+		"Git",
+		"GitGutter",
+		"GitHub Flavored Markdown Preview",
+		"Github Tools",
+		"GoSublime",
+		"Material Theme",
+		"Origami",
+		"Pretty JSON",
+		"SublimeLinter",
+		"SublimeLinter-contrib-golint"
 	],
 	"installed_packages":
 	[

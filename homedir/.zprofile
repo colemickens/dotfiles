@@ -36,24 +36,6 @@ github_add_publickey() {
 		https://api.github.com/user/keys
 }
 
-# these are things that vim-go needs, or we otherwise use (glide)
-go_update_utils() {
-	export GOPATH=$HOME/Code/gopkgs
-
-	go get -u github.com/nsf/gocode # vim-go
-	go get -u github.com/alecthomas/gometalinter # vim-go
-	go get -u github.com/x/tools/cmd/goimports # vim-go
-	go get -u github.com/rogpeppe/godef # vim-go
-	go get -u github.com/x/tools/cmd/oracle # vim-go
-	go get -u github.com/x/tools/cmd/gorename # vim-go
-	go get -u github.com/golang/lint/golint # vim-go
-	go get -u github.com/kisielk/errcheck # vim-go
-	go get -u github.com/jstemmer/gotags # vim -go
-
-	go get -u github.com/golang/lint/golint
-	go get -u github.com/Masterminds/glide
-}
-
 mitmproxy_install_arch() {
 	sudo cp ~/.mitmproxy/mitmproxy-ca-cert.cer /etc/ca-certificates/trust-source/anchors/mitmproxy-ca-cert.cer
 	sudo trust extract-compat
@@ -307,5 +289,23 @@ cd_azkube() {
 	export PATH=$PATH:$GOPATH/bin
 	export GO15VENDOREXPERIMENT=1
 	cd $GOPATH/src/github.com/colemickens/azkube
+}
+
+# these are things that vim-go needs, or we otherwise use (glide)
+go_update_utils() {
+	export GOPATH=$HOME/Code/gopkgs
+
+	go get -u github.com/nsf/gocode # vim-go
+	go get -u github.com/alecthomas/gometalinter # vim-go
+	go get -u github.com/x/tools/cmd/goimports # vim-go
+	go get -u github.com/rogpeppe/godef # vim-go
+	go get -u github.com/x/tools/cmd/oracle # vim-go
+	go get -u github.com/x/tools/cmd/gorename # vim-go
+	go get -u github.com/golang/lint/golint # vim-go
+	go get -u github.com/kisielk/errcheck # vim-go
+	go get -u github.com/jstemmer/gotags # vim -go
+
+	go get -u github.com/golang/lint/golint
+	go get -u github.com/Masterminds/glide
 }
 

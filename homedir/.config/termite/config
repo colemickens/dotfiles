@@ -9,7 +9,7 @@ cursor_shape = ibeam
 foreground      = #cccccc
 foreground_bold = #cccccc
 cursor          = #ffffff
-background      = rgb(30, 30, 30, .80)
+background      = rgb(30, 30, 30, 0.80)
 
 # black
 color0  = #2e3436

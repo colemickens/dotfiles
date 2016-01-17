@@ -6,6 +6,18 @@
 	"font_size": 10,
 	"ignored_packages":
 	[
+		"Dockerfile Syntax Highlighting",
+		"Focus File on Sidebar",
+		"Git",
+		"GitGutter",
+		"GitHub Flavored Markdown Preview",
+		"Github Tools",
+		"GoSublime",
+		"Material Theme",
+		"Origami",
+		"Pretty JSON",
+		"SublimeLinter",
+		"SublimeLinter-contrib-golint",
 		"Vintage"
 	],
 	"indent_guide_options":
