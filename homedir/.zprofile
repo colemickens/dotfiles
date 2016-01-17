@@ -7,9 +7,9 @@ touchpad_reset() {
 	echo -ne 'r\nq\n' | sudo mxt-app -d i2c-dev:{7,8}-004a &>/dev/null
 }
 
-############################################################################################################################
-# Development Helpers
-############################################################################################################################
+#############################################################################################################################
+# Generic Stuff
+#############################################################################################################################
 
 export MAKEFLAGS="-j `nproc`"
 export EDITOR=nvim
@@ -18,6 +18,18 @@ export PATH=$PATH:$GOPATH/bin
 
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export PROMPT_DIRTRIM=2
+
+
+############################################################################################################################
+# NixOS
+############################################################################################################################
+
+export NIXPKGS=/nixpkgs
+
+
+############################################################################################################################
+# Development Helpers
+############################################################################################################################
 
 # use_python27 will ensure that running `python` runs python2.7
 use_python27() {
@@ -269,11 +281,25 @@ fi
 
 
 ############################################################################################################################
-# Azure/Kubernetes Helpers
+# Kubernetes Helpers
 ############################################################################################################################
 
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
+
+
+############################################################################################################################
+# Azure Helpers
+############################################################################################################################
+
+azure_cli() {
+	# docker run -it -v $HOME/.azure:/root/.azure microsoft/azure-cli /bin/bash
+	docker run -it -v $HOME/.azure:/root/.azure azure-cli /bin/bash
+}
+
+az_cli() {
+	docker run -it -v $HOME/.az:/root/.azure az-cli /bin/bash
+}
 
 agd() {
 	for group in ${@}; do
@@ -293,7 +319,6 @@ agd_all() {
 # Golang Stuff
 ############################################################################################################################
 
-export GOROOT=/usr/lib/go
 export GOPATH=$HOME/Code/gopkgs
 export PATH=$PATH:$GOPATH/bin
 
@@ -306,16 +331,20 @@ gocovpkg() {
 }
 
 cd_kube() {
-	export GOPATH=$HOME/Code/colemickens/kubernetes_gopath
-	export PATH=$PATH:$GOPATH/bin
-	export GO15VENDOREXPERIMENT=0
+	export GOPATH=$HOME/Code/colemickens/kubernetes_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=0
 	cd $GOPATH/src/k8s.io/kubernetes
 }
 cd_azkube() {
-	export GOPATH=$HOME/Code/colemickens/azkube_gopath
-	export PATH=$PATH:$GOPATH/bin
-	export GO15VENDOREXPERIMENT=1
+	export GOPATH=$HOME/Code/colemickens/azkube_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=1
 	cd $GOPATH/src/github.com/colemickens/azkube
+}
+cd_autorest() {
+	export GOPATH=$HOME/Code/colemickens/autorest_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=1
+	cd $GOPATH/src/github.com/Azure/go-autorest/autorest
+}
+cd_azuresdk() {
+	export GOPATH=$HOME/Code/colemickens/azuresdk_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=1
+	cd $GOPATH/src/github.com/Azure/azure-sdk-for-go
 }
 
 # these are things that vim-go needs, or we otherwise use (glide)
