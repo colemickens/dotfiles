@@ -40,5 +40,7 @@ if true; then
 	rm -rf "${dircolorstemp}"
 fi
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -d "$HOME/.fzf/shell" ]; then
+	source "$HOME/.fzf/shell/completion.zsh"
+	source "$HOME/.fzf/shell/key-bindings.zsh"
+fi

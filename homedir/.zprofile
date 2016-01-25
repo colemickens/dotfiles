@@ -294,7 +294,7 @@ export KUBE_RELEASE_RUN_TESTS=n
 
 azure_cli() {
 	# docker run -it -v $HOME/.azure:/root/.azure microsoft/azure-cli /bin/bash
-	docker run -it -v $HOME/.azure:/root/.azure azure-cli /bin/bash
+	docker run -it -v $HOME/.azure:/root/.azure -v $HOME/Code/colemickens/azure-nixos:/opt/azure-nixos azure-cli /bin/bash
 }
 
 az_cli() {
