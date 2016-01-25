@@ -1,12 +1,3 @@
-####
-# Pixel Helpers
-###
-
-touchpad_reset() {
-	sudo modprobe i2c-dev &>/dev/null
-	echo -ne 'r\nq\n' | sudo mxt-app -d i2c-dev:{7,8}-004a &>/dev/null
-}
-
 #############################################################################################################################
 # Generic Stuff
 #############################################################################################################################
@@ -25,6 +16,38 @@ export PROMPT_DIRTRIM=2
 ############################################################################################################################
 
 export NIXPKGS=/nixpkgs
+
+nixup() {
+	curdir=`pwd`
+	mkdir -p /tmp/nixup
+	cd /tmp/nixup
+	sudo nixos-rebuild -I / switch
+	cd "$curdir"
+}
+nixgc() {
+	nix-env --delete-generations old
+	nix-collect-garbage
+	nix-collect-garbage -d
+	sudo nix-env --delete-generations old
+	sudo nix-collect-garbage
+	sudo nix-collect-garbage -d
+}
+
+
+############################################################################################################################
+# Arch
+############################################################################################################################
+
+archup() { sudo true; yaourt -Syua --noconfirm }
+pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
+
+reflector_run() {
+	sudo true
+	wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/ \
+	&& reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new \
+	&& sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S` \
+	&& sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
+}
 
 
 ############################################################################################################################
@@ -53,11 +76,6 @@ github_add_publickey() {
 		https://api.github.com/user/keys
 }
 
-mitmproxy_install_arch() {
-	sudo cp ~/.mitmproxy/mitmproxy-ca-cert.cer /etc/ca-certificates/trust-source/anchors/mitmproxy-ca-cert.cer
-	sudo trust extract-compat
-}
-
 
 ############################################################################################################################
 # Launcher Helpers
@@ -69,25 +87,18 @@ orbment() {
 	/usr/bin/env orbment
 }
 
+mitmproxy() {
+	# make sure the secret is here from dropbox, use it in args to mitmproxy
+	/usr/bin/env mitmproxy
+}
+
 
 ############################################################################################################################
 # Generic Helpers
 ############################################################################################################################
 
 docker_clean() { docker rm `docker ps --no-trunc -aq` }
-du_summary() { sudo du -h / | sort -hr > $HOME/du.txt }
-archup() { sudo true; yaourt -Syua --noconfirm }
-nixup() { sudo nixos-rebuild -I / switch; }
-nixgc() {
-	nix-env --delete-generations old
-	nix-collect-garbage
-	nix-collect-garbage -d
-	sudo nix-env --delete-generations old
-	sudo nix-collect-garbage
-	sudo nix-collect-garbage -d
-}
-
-pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
+du_summary() { sudo du -h / | sort -hr > $HOME/du_summary.txt }
 
 videomodeset() {
 	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
@@ -209,19 +220,9 @@ upload_to_s3_screenshots() {
 	echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
 
-dpaste() {
-	local content
-	if read -t 0; then
-		content=$(</dev/stdin)
-	else
-		content="$(cat "$1")"
-	fi
-	curl -F "content=$content" https://dpaste.de/api/?format=url
-}
-
 
 ############################################################################################################################
-# Sysadmin Stuff
+# backups
 ############################################################################################################################
 
 backup_code() {
@@ -236,17 +237,21 @@ backup_code() {
 	echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
 }
 
-reflector_run() {
-	sudo true
-	wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/ \
-	&& reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new \
-	&& sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S` \
-	&& sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
-}
+
+#############################################################################################################################
+# pixel helpers
+#############################################################################################################################
+
+if [ `hostname` = "pixel" ]; then
+	touchpad_reset() {
+		sudo modprobe i2c-dev
+		echo -ne 'r\nq\n' | sudo mxt-app -d i2c-dev:{7,8}-004a
+	}
+fi
 
 
 ############################################################################################################################
-# Dual boot helpers (nucleus)
+# nucleus helpers
 ############################################################################################################################
 
 if [ `hostname` = "nucleus" ]; then
@@ -340,7 +345,7 @@ cd_azkube() {
 }
 cd_autorest() {
 	export GOPATH=$HOME/Code/colemickens/autorest_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=1
-	cd $GOPATH/src/github.com/Azure/go-autorest/autorest
+	cd $GOPATH/src/github.com/Azure/go-autorest
 }
 cd_azuresdk() {
 	export GOPATH=$HOME/Code/colemickens/azuresdk_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=1

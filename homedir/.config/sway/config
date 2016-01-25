@@ -24,12 +24,16 @@ client.unfocused        $grey       $grey       $lightgrey  $grey
 client.urgent           $red        $red        $black      $red
 client.background       $back
 
-input 0:0:Atmel_maXTouch_Touchscreen events disabled
-input 0:0:Atmel_maXTouch_Touchpad tap disabled
-input 0:0:Atmel_maXTouch_Touchpad dwt enabled
-input 0:0:Atmel_maXTouch_Touchpad click_method clickfinger
-input 0:0:Atmel_maXTouch_Touchpad natural_scroll enabled
-input 0:0:Atmel_maXTouch_Touchpad scroll_method two_finger
+input 0:0:Atmel_maXTouch_Touchscreen {
+	events disabled
+}
+input 0:0:Atmel_maXTouch_Touchpad {
+	tap disabled
+	dwt enabled
+	click_method clickfinger
+	natural_scroll enabled
+	scroll_method two_finger
+}
 
 output eDP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
 output DP-1 bg /home/cole/Dropbox/Wallpaper/Wf2C58G.jpg stretch
