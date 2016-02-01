@@ -3,51 +3,58 @@
 #############################################################################################################################
 
 export MAKEFLAGS="-j `nproc`"
-export EDITOR=nvim
-
-export PATH=$PATH:$GOPATH/bin
-
+export EDITOR="nvim"
+export BROWSER="chromium"
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
-export PROMPT_DIRTRIM=2
+
+export DISTRO="$(source /etc/os-release; echo "$ID")"
+
+myip() {
+	dig o-o.myaddr.l.google.com @ns1.google.com txt +short
+}
 
 
 ############################################################################################################################
 # NixOS
 ############################################################################################################################
 
-export NIXPKGS=/nixpkgs
+if [[ "$DISTRO" == "nixos" ]]; then
+	export NIXPKGS=/nixpkgs
 
-nixup() {
-	curdir=`pwd`
-	mkdir -p /tmp/nixup
-	cd /tmp/nixup
-	sudo nixos-rebuild -I / switch
-	cd "$curdir"
-}
-nixgc() {
-	nix-env --delete-generations old
-	nix-collect-garbage
-	nix-collect-garbage -d
-	sudo nix-env --delete-generations old
-	sudo nix-collect-garbage
-	sudo nix-collect-garbage -d
-}
+	nixup() {
+		curdir=`pwd`
+		mkdir -p /tmp/nixup
+		cd /tmp/nixup
+		sudo nixos-rebuild -I / switch
+		cd "$curdir"
+	}
+	nixgc() {
+		nix-env --delete-generations old
+		nix-collect-garbage
+		nix-collect-garbage -d
+		sudo nix-env --delete-generations old
+		sudo nix-collect-garbage
+		sudo nix-collect-garbage -d
+	}
+fi
 
 
 ############################################################################################################################
 # Arch
 ############################################################################################################################
 
-archup() { sudo true; yaourt -Syua --noconfirm }
-pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
+if [[ "$DISTRO" == "arch" ]]; then
+	archup() { sudo true; yaourt -Syua --noconfirm }
+	pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
 
-reflector_run() {
-	sudo true
-	wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/ \
-	&& reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new \
-	&& sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S` \
-	&& sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
-}
+	reflector_run() {
+		sudo true
+		wget -O /tmp/mirrorlist.new https://www.archlinux.org/mirrorlist/all/ \
+		&& reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /tmp/mirrorlist.new \
+		&& sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup-`date +%Y-%m-%d-%H%M%S` \
+		&& sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
+	}
+fi
 
 
 ############################################################################################################################
@@ -89,7 +96,7 @@ orbment() {
 
 mitmproxy() {
 	# make sure the secret is here from dropbox, use it in args to mitmproxy
-	/usr/bin/env mitmproxy
+	/usr/bin/env mitmproxy --cadir /secrets/mitmproxy
 }
 
 
@@ -211,19 +218,31 @@ take_screencast_full() {
 	echo $FILEPATH;
 }
 
-upload_to_s3_screenshots() {
-	FILEPATH=$1
-	FILENAME=$(basename $FILEPATH)
-
-	source ~/Dropbox/.secrets
-	aws s3 cp --acl=public-read $FILEPATH s3://colemickens-screenshots/ >/dev/null 2>&1;
-	echo "https://colemickens-screenshots.s3.amazonaws.com/$FILENAME"
-}
-
 
 ############################################################################################################################
 # backups
 ############################################################################################################################
+
+s3_upload() {
+	source /secrets/aws_credentials
+	FILEPATH="$1"
+	FILENAME=$(basename $FILEPATH)
+	BUCKET="$2"
+	aws s3 cp --acl=public-read $FILEPATH s3://$BUCKET/$FILENAME >/dev/null 2>&1;
+	echo "https://$BUCKET.s3.amazonaws.com/$FILENAME"
+}
+
+s3_random() {
+	FILEPATH="$1"
+	BUCKET="colemickens-random"
+	s3_upload "$FILEPATH" "$BUCKET"
+}
+
+s3_screenshots() {
+	FILEPATH="$1"
+	BUCKET="colemickens-random"
+	s3_upload "$FILEPATH" "$BUCKET"
+}
 
 backup_code() {
 	FILENAME=colemickens-Code-`hostname`-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
@@ -297,11 +316,6 @@ export KUBE_RELEASE_RUN_TESTS=n
 # Azure Helpers
 ############################################################################################################################
 
-azure_cli() {
-	# docker run -it -v $HOME/.azure:/root/.azure microsoft/azure-cli /bin/bash
-	docker run -it -v $HOME/.azure:/root/.azure -v $HOME/Code/colemickens/azure-nixos:/opt/azure-nixos azure-cli /bin/bash
-}
-
 az_cli() {
 	docker run -it -v $HOME/.az:/root/.azure az-cli /bin/bash
 }
@@ -356,12 +370,13 @@ cd_azuresdk() {
 go_update_utils() {
 	export GOPATH=$HOME/Code/gopkgs
 
+	go get -u golang.org/x/tools/cmd/goimports # vim-go
+	go get -u golang.org/x/tools/cmd/oracle # vim-go
+	go get -u golang.org/x/tools/cmd/gorename # vim-go
+
 	go get -u github.com/nsf/gocode # vim-go
-	go get -u github.com/alecthomas/gometalinter # vim-go
-	go get -u github.com/x/tools/cmd/goimports # vim-go
 	go get -u github.com/rogpeppe/godef # vim-go
-	go get -u github.com/x/tools/cmd/oracle # vim-go
-	go get -u github.com/x/tools/cmd/gorename # vim-go
+	go get -u github.com/alecthomas/gometalinter # vim-go
 	go get -u github.com/golang/lint/golint # vim-go
 	go get -u github.com/kisielk/errcheck # vim-go
 	go get -u github.com/jstemmer/gotags # vim -go
