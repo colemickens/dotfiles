@@ -6,6 +6,7 @@ export MAKEFLAGS="-j `nproc`"
 export EDITOR="nvim"
 export BROWSER="chromium"
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export TERMINAL="termite"
 
 export DISTRO="$(source /etc/os-release; echo "$ID")"
 
@@ -90,7 +91,6 @@ github_add_publickey() {
 
 orbment() {
 	export WLC_DIM=0.9
-	export TERMINAL=termite
 	/usr/bin/env orbment
 }
 
@@ -265,6 +265,12 @@ if [ `hostname` = "pixel" ]; then
 	touchpad_reset() {
 		sudo modprobe i2c-dev
 		echo -ne 'r\nq\n' | sudo mxt-app -d i2c-dev:{7,8}-004a
+	}
+
+	sound_reset() {
+		cd /nix/store/jcni323n5srjjacpadvrmjmd18yp77f6-linux-samus-eb4bb50-src/scripts/setup/sound
+		pulseaudio -k
+		sudo alsactl restore --file alsa/speakers.state
 	}
 fi
 
