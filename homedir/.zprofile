@@ -170,7 +170,7 @@ rdp_common() {
 
 	local -A rdpopts
 	rdpopts[nucleus]="/size:2560x1405"
-	rdpopts[pixel]="/size:2560x1650 /scale-device:140 /scale-desktop:140"
+	rdpopts[pixel]="/size:2560x1650 /scale:140"
 	rdpopts[cmcrbn]="/size:1910x1100"
 	rdpopts[cmz420]="/size:1920x1145"
 
@@ -190,8 +190,15 @@ rdp_common() {
 }
 
 rdp_cmcrbn() {
-	source $HOME/Dropbox/.secrets
+	source $HOME/Dropbox/.secrets/cmcrbn_credentials
 	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
+}
+
+rdp_winvm04() {
+	source $HOME/Dropbox/.secrets/winvm04_credentials
+	echo "$WINVM04_USERNAME"
+	echo "$WINVM04_PASSWORD"
+	rdp_common 191.232.32.221 "$WINVM04_USERNAME" "$WINVM04_PASSWORD"
 }
 
 
