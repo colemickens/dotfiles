@@ -56,14 +56,3 @@
   
 
 ) &!
-
-# zim stuff ^^^^ 
-
-# my stuff vvvv
-
-export TERMINAL="termite"
-
-if [[ `/usr/bin/env hostname` == "pixel" ]]; then
-	export GDK_SCALE=2
-fi
-
