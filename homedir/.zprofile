@@ -156,7 +156,7 @@ proxy_fwd_pixel() { autossh -N -T -M 20030 -L 22400:localhost:22400 cole@mickens
 ############################################################################################################################
 
 rdp_common() {
-	set +x
+	set -x
 	local rdpserver=$1
 	local rdpuser=$2
 	local rdppass=$3
@@ -165,12 +165,13 @@ rdp_common() {
 
 	local freerdp_bin=`which xfreerdp`
 	if [ -f $customfreerdp ]; then
+		echo "using custom build"
 		freerdp_bin=$customfreerdp
 	fi
 
 	local -A rdpopts
 	rdpopts[nucleus]="/size:2560x1405"
-	rdpopts[pixel]="/size:2560x1650 /scale:140"
+	rdpopts[pixel]="/scale:140 /size:2560x1650" # this doesn't work, doesnt expand right below
 	rdpopts[cmcrbn]="/size:1910x1100"
 	rdpopts[cmz420]="/size:1920x1145"
 
@@ -196,9 +197,12 @@ rdp_cmcrbn() {
 
 rdp_winvm04() {
 	source $HOME/Dropbox/.secrets/winvm04_credentials
-	echo "$WINVM04_USERNAME"
-	echo "$WINVM04_PASSWORD"
 	rdp_common 191.232.32.221 "$WINVM04_USERNAME" "$WINVM04_PASSWORD"
+}
+
+rdp_winvm() {
+	source $HOME/Dropbox/.secrets/winvm04_credentials
+	rdp_common 191.232.38.190 "$WINVM04_USERNAME" "$WINVM04_PASSWORD"
 }
 
 

@@ -4,5 +4,5 @@ Version=1.0
 Terminal=false
 Type=Application
 Name=Chromium Work
-Exec=/usr/bin/chromium --profile-directory=Profile\ 1
+Exec=/usr/bin/env chromium --profile-directory=Profile\ 1
 Icon=chromium

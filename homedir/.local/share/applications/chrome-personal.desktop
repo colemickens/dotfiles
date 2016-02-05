@@ -4,5 +4,5 @@ Version=1.0
 Terminal=false
 Type=Application
 Name=Chromium Personal
-Exec=/usr/bin/chromium --profile-directory=Default
+Exec=/usr/bin/env chromium --profile-directory=Default
 Icon=google-chrome
