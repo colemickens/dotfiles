@@ -11,7 +11,19 @@ export TERMINAL="termite"
 export DISTRO="$(source /etc/os-release; echo "$ID")"
 
 myip() {
-	dig o-o.myaddr.l.google.com @ns1.google.com txt +short
+	txt="$(dig o-o.myaddr.l.google.com @ns1.google.com txt +short)"
+	echo ${txt//\"}
+}
+
+gitup() {
+	curdir="$(pwd)"
+	cd $HOME/Code/colemickens
+	for d in * ; do
+		cd "$d"
+		git remote update --prune
+		cd ".."
+	done
+	cd "$curdir"
 }
 
 
@@ -96,7 +108,7 @@ orbment() {
 
 mitmproxy() {
 	# make sure the secret is here from dropbox, use it in args to mitmproxy
-	/usr/bin/env mitmproxy --cadir /secrets/mitmproxy
+	/usr/bin/env mitmproxy --cadir /secrets/mitmproxy "$@"
 }
 
 
@@ -328,15 +340,24 @@ az_cli() {
 
 agd() {
 	for group in ${@}; do
-		if [[ $group == kube* ]]; then
-			azure group delete --quiet "${group}"
+		if [[ $group == * ]]; then
+			echo "deleting ${group}"
+			#azure group delete --quiet "${group}"
+		else
+			echo "skipping ${group}"
 		fi
 	done
 }
 
 agd_all() {
-	kubergs=($(azure group list --json | jq -r '.[].name' -))
-	agd ${kubergs}
+	acct="$(azure account show)"
+	contains="$(echo "$acct" | grep "aff271ee-e9be-4441-b9bb-42f5af4cbaeb")"
+	if [[ -z "${contains}" ]]; then
+		echo "wrong subscription"
+		return
+	fi
+	rgs=($(azure group list --json | jq -r '.[].name' -))
+	agd ${rgs}
 }
 
 
@@ -355,22 +376,22 @@ gocovpkg() {
 	&& rm cover.out cover.html
 }
 
-cd_kube() {
-	export GOPATH=$HOME/Code/colemickens/kubernetes_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=0
-	cd $GOPATH/src/k8s.io/kubernetes
+gopath() {
+	OWNER="$1"
+	REPO="$2"
+	IMPORTPATH="$3"
+	export GOPATH="${HOME}/Code/${OWNER}/${REPO}_gopath"
+	export PATH="${PATH}:${GOPATH}/bin"
+	export GO15VENDOREXPERIMENT=1
+
+	cd "${GOPATH}/src/${IMPORTPATH}"
 }
-cd_azkube() {
-	export GOPATH=$HOME/Code/colemickens/azkube_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=1
-	cd $GOPATH/src/github.com/colemickens/azkube
-}
-cd_autorest() {
-	export GOPATH=$HOME/Code/colemickens/autorest_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=1
-	cd $GOPATH/src/github.com/Azure/go-autorest
-}
-cd_azuresdk() {
-	export GOPATH=$HOME/Code/colemickens/azuresdk_gopath; export PATH=$PATH:$GOPATH/bin; export GO15VENDOREXPERIMENT=1
-	cd $GOPATH/src/github.com/Azure/azure-sdk-for-go
-}
+
+cd_autorest() { gopath azure autorest github.com/Azure/go-autorest }
+cd_azkube() { gopath azure azkube github.com/colemickens/azkube }
+cd_azuresdk() { gopath azure azuresdk github.com/Azure/azure-sdk-for-go }
+cd_kubernetes() { gopath azure kuberneres github.com/kubernetes/kubernetes }
+cd_asciinema() { gopath colemickens asciinemae github.com/asciinema/asciinema }
 
 # these are things that vim-go needs, or we otherwise use (glide)
 go_update_utils() {
