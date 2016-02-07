@@ -16,14 +16,16 @@ myip() {
 }
 
 gitup() {
-	curdir="$(pwd)"
-	cd $HOME/Code/colemickens
-	for d in * ; do
-		cd "$d"
-		git remote update --prune
-		cd ".."
+	for p in $HOME/Code/* ; do
+		if [[ -d "$p" ]]; then 
+			for d in $p/* ; do
+				(
+					cd "$d"
+					git remote update --prune
+				)
+			done
+		fi
 	done
-	cd "$curdir"
 }
 
 
