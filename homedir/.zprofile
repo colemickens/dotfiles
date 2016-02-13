@@ -16,12 +16,15 @@ myip() {
 }
 
 gitup() {
-	for p in $HOME/Code/* ; do
-		if [[ -d "$p" ]]; then 
+	for p in $HOME/code/* ; do
+		if [[ -d "$p" ]]; then
 			for d in $p/* ; do
 				(
 					cd "$d"
+					echo
+					echo "---- updating $d"
 					git remote update --prune
+					git status
 				)
 			done
 		fi
@@ -200,7 +203,7 @@ rdp_common() {
 	local rdpuser=$2
 	local rdppass=$3
 	shift 3
-	local customfreerdp=$HOME/Code/colemickens/FreeRDP/build/client/X11/xfreerdp
+	local customfreerdp=$HOME/code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
 	local freerdp_bin=`which xfreerdp`
 	if [ -f $customfreerdp ]; then
@@ -307,10 +310,10 @@ s3_screenshots() {
 }
 
 backup_code() {
-	FILENAME=colemickens-Code-`hostname`-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
+	FILENAME=colemickens-code`hostname`-backup-`date +%Y-%m-%d-%H%M%S`.tar.gz
 	FILEPATH=$HOME/$FILENAME
 
-	tar -czf $FILENAME ~/Code/colemickens
+	tar -czf $FILENAME ~/code/colemickens
 	echo $FILENAME: `du -hs $FILEPATH`
 
 	source ~/Dropbox/.secrets
@@ -415,7 +418,7 @@ agd_all() {
 # Golang Stuff
 ############################################################################################################################
 
-export GOPATH=$HOME/Code/gopkgs
+export GOPATH=$HOME/code/gopkgs
 export PATH=$PATH:$GOPATH/bin
 
 gocovpkg() {
@@ -430,7 +433,7 @@ gopath() {
 	OWNER="$1"
 	REPO="$2"
 	IMPORTPATH="$3"
-	export GOPATH="${HOME}/Code/${OWNER}/${REPO}_gopath"
+	export GOPATH="${HOME}/code/${OWNER}/${REPO}_gopath"
 	export PATH="${PATH}:${GOPATH}/bin"
 	export GO15VENDOREXPERIMENT=1
 
@@ -445,7 +448,7 @@ cd_asciinema() { gopath colemickens asciinema github.com/asciinema/asciinema }
 
 # these are things that vim-go needs, or we otherwise use (glide)
 go_update_utils() {
-	export GOPATH=$HOME/Code/gopkgs
+	export GOPATH=$HOME/code/gopkgs
 
 	go get -u golang.org/x/tools/cmd/goimports # vim-go
 	go get -u golang.org/x/tools/cmd/oracle # vim-go
