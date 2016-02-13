@@ -28,6 +28,11 @@ gitup() {
 	done
 }
 
+gotty_wrap() {
+	set -e
+	gotty --address 0.0.0.0 --port "5050" tmux new-session -A -s gotty
+}
+
 
 ############################################################################################################################
 # NixOS
@@ -37,11 +42,24 @@ if [[ "$DISTRO" == "nixos" ]]; then
 	export NIXPKGS=/nixpkgs
 
 	nixup() {
-		curdir=`pwd`
-		mkdir -p /tmp/nixup
-		cd /tmp/nixup
-		sudo nixos-rebuild -I / switch
-		cd "$curdir"
+		(
+			d="$(mktemp -d)"
+			cd "$d"
+			sudo nixos-rebuild --keep-going -I / switch
+		)
+	}
+	nixupall() {
+		# replace this with a jenkins job once I setup jenkins (with the other skin and the declarative plugin)
+		(
+			set -x
+			tempd="$(mktemp -d)"
+			now="$(date)"
+			cd "$tempd"
+			for device in /nixcfg/devices/* ; do
+				cd "$device"
+				nix-build '<nixpkgs/nixos>' -A "config.system.build.toplevel" -I "nixos-config=$device/default.nix" 2>&1 | tee "$(basename "$device")".build.log
+			done
+		)
 	}
 	nixupall() {
 		(
@@ -422,8 +440,8 @@ gopath() {
 cd_autorest() { gopath azure autorest github.com/Azure/go-autorest }
 cd_azkube() { gopath azure azkube github.com/colemickens/azkube }
 cd_azuresdk() { gopath azure azuresdk github.com/Azure/azure-sdk-for-go }
-cd_kubernetes() { gopath azure kuberneres github.com/kubernetes/kubernetes }
-cd_asciinema() { gopath colemickens asciinemae github.com/asciinema/asciinema }
+cd_kubernetes() { gopath azure kubernetes github.com/kubernetes/kubernetes }
+cd_asciinema() { gopath colemickens asciinema github.com/asciinema/asciinema }
 
 # these are things that vim-go needs, or we otherwise use (glide)
 go_update_utils() {

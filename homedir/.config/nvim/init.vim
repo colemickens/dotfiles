@@ -1,9 +1,8 @@
 filetype plugin on
 
-"""""""""'""
-" Vim-Plug "
-""""""""""'"
-
+""""""""""""""""""""
+" Vim-Plug Plugins "
+""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged')
 
 " Statusbar bling
@@ -11,6 +10,7 @@ Plug 'bling/vim-airline'
 
 " Colorschemes
 Plug 'morhetz/gruvbox'
+Plug 'djjcast/mirodark'
 
 " File Management
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -28,15 +28,15 @@ Plug 'majutsushi/tagbar'
 
 " Language specific
 Plug 'fatih/vim-go'
-Plug 'rust-lang/rust.vim'
+"Plug 'rust-lang/rust.vim'
 Plug 'LnL7/vim-nix'
 
 call plug#end()
 
-""""""""""""""
-" Vim Config "
-""""""""""""""
-
+"""""""""""""""""
+" NeoVim Config "
+"""""""""""""""""
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 " show relative line numbers above and below absolute line number
