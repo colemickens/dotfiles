@@ -43,6 +43,25 @@ if [[ "$DISTRO" == "nixos" ]]; then
 		sudo nixos-rebuild -I / switch
 		cd "$curdir"
 	}
+	nixupall() {
+		(
+			set -x
+			tempd="$(mktemp -d)"
+			cd "$tempd"
+			for device in /nixcfg/devices/* ; do
+					echo "-----------------------------------------------------------------"
+					echo "-----------------------------------------------------------------"
+					echo "Building for $device"
+					echo "-----------------------------------------------------------------"
+					echo "-----------------------------------------------------------------"
+					cd "$device"
+					pwd
+					ls
+					read
+					nix-build -E "with import <nixpkgs>{}; callPackage ./default.nix {}"
+			done
+		)
+	}
 	nixgc() {
 		nix-env --delete-generations old
 		nix-collect-garbage
@@ -89,7 +108,7 @@ github_add_publickey() {
 	local hostname=`hostname`
 	echo "enter username: "; read username
 	echo "enter password: "; read password
-	echo "enter otp: ";      read otp
+	echo "enter otp: ";	  read otp
 	local sshPublicKeyData="$(cat $HOME/.ssh/id_rsa.pub)"
 	curl \
 		-u "$username:$password" \
@@ -138,15 +157,15 @@ videomodeunset() {
 # SSH Helpers
 ############################################################################################################################
 
-ssh_chimera_remote()  { ssh  cole@mickens.io    -p 222  }
-ssh_chimera_local()   { ssh  cole@chimera.local -p 222  }
-ssh_nucleus_remote()  { ssh  cole@mickens.io    -p 223  }
-ssh_nucleus_local()   { ssh  cole@nucleus.local -p 223  }
-ssh_pixel_local()     { ssh  cole@pixel.local   -p 224  }
-mosh_chimera_remote() { mosh cole@mickens.io    --ssh="ssh -p 222" }
-mosh_chimera_local()  { mosh cole@chimera.local --ssh="ssh -p 222" }
-mosh_nucleus_remote() { mosh cole@mickens.io    --ssh="ssh -p 223" -p 61000:61999 }
-mosh_nucleus_local()  { mosh cole@nucleus.local --ssh="ssh -p 223" -p 61000:61999 }
+ssh_chimera_remote()	{ ssh  cole@mickens.io		-p 222 }
+ssh_chimera_local()		{ ssh  cole@chimera.local	-p 222 }
+ssh_nucleus_remote()	{ ssh  cole@mickens.io		-p 223 }
+ssh_nucleus_local()		{ ssh  cole@nucleus.local	-p 223 }
+ssh_pixel_local()		{ ssh  cole@pixel.local		-p 224 }
+mosh_chimera_remote()	{ mosh cole@mickens.io		--ssh="ssh -p 222" }
+mosh_chimera_local()	{ mosh cole@chimera.local	--ssh="ssh -p 222" }
+mosh_nucleus_remote()	{ mosh cole@mickens.io		--ssh="ssh -p 223" -p 61000:61999 }
+mosh_nucleus_local()	{ mosh cole@nucleus.local	--ssh="ssh -p 223" -p 61000:61999 }
 socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
 
 proxy_rev_pixel() { autossh -N -T -M 20020 -R 22400:localhost:224 cole@mickens.io -p 222 }

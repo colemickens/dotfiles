@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
 
 set -x
-stow homedir --no-folding -t $HOME/
-
+stow --no-folding -t $HOME/ homedir
