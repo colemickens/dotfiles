@@ -7,8 +7,8 @@ export EDITOR="nvim"
 export BROWSER="chromium"
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export TERMINAL="termite"
-
 export DISTRO="$(source /etc/os-release; echo "$ID")"
+export PATH=$PATH:$HOME/bin
 
 myip() {
 	txt="$(dig o-o.myaddr.l.google.com @ns1.google.com txt +short)"
@@ -215,7 +215,7 @@ rdp_common() {
 	rdpopts[nucleus]="/size:2560x1405"
 	rdpopts[pixel]="/scale:140 /size:2560x1650" # this doesn't work, doesnt expand right below
 	rdpopts[cmcrbn]="/size:1910x1100"
-	rdpopts[cmz420]="/size:1920x1145"
+	rdpopts[cmz420]="/size:1920x1160"
 
 	# timeout 10 rdesktop $rdpserver
 
@@ -262,11 +262,12 @@ take_screenshot() {
 }
 
 take_screencast() {
+	set -x
 	mkdir -p ~/tmp/screencasts;
 	FILENAME=screencast-`date +%Y-%m-%d-%H%M%S`.mkv;
 	FILEPATH=$HOME/tmp/screencasts/$FILENAME
 	eval $(slop);
-	ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y $FILEPATH >/dev/null 2>&1;
+	ffmpeg -f x11grab -s "$W"x"$H" -i ${DISPLAY}+$X,$Y $FILEPATH >/dev/null 2>&1;
 	echo $FILEPATH;
 }
 
