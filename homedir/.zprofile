@@ -57,8 +57,6 @@ stopwatch() {
 ############################################################################################################################
 
 if [[ "$DISTRO" == "nixos" ]]; then
-	export NIXPKGS=/nixpkgs
-
 	nixup() {
 		(
 			d="$(mktemp -d)"
@@ -66,37 +64,22 @@ if [[ "$DISTRO" == "nixos" ]]; then
 			sudo nixos-rebuild --keep-going -I / switch
 		)
 	}
-	nixupall() {
-		# replace this with a jenkins job once I setup jenkins (with the other skin and the declarative plugin)
+	nixup-build-master() {
+		device="$1"
+		nixosConfig="/nixcfg/devices/$device/default.nix"
+		nixpkgs="/nixpkgs-master"
+		logfile="$(mktemp "/tmp/nixup-build-master-$device-XXX.log")"
+		echo "device($device) build log: ($logfile)"
 		(
-			set -x
-			tempd="$(mktemp -d)"
-			now="$(date)"
-			cd "$tempd"
-			for device in /nixcfg/devices/* ; do
-				cd "$device"
-				nix-build '<nixpkgs/nixos>' -A "config.system.build.toplevel" -I "nixos-config=$device/default.nix" 2>&1 | tee "$(basename "$device")".build.log
-			done
+			export NIX_PATH="nixos-config=$nixosConfig:nixpkgs=$nixpkgs"
+			nix-build '<nixpkgs/nixos>' -A "config.system.build.toplevel" --keep-going -I "nixos-config=$nixosConfig" >>"$logfile" 2>&1
 		)
 	}
 	nixupall() {
-		(
-			set -x
-			tempd="$(mktemp -d)"
-			cd "$tempd"
-			for device in /nixcfg/devices/* ; do
-					echo "-----------------------------------------------------------------"
-					echo "-----------------------------------------------------------------"
-					echo "Building for $device"
-					echo "-----------------------------------------------------------------"
-					echo "-----------------------------------------------------------------"
-					cd "$device"
-					pwd
-					ls
-					read
-					nix-build -E "with import <nixpkgs>{}; callPackage ./default.nix {}"
-			done
-		)
+		# replace this with a jenkins job once I setup jenkins (with the other skin and the declarative plugin)
+		nixup-build-master chimera
+		nixup-build-master nucleus
+		nixup-build-master pixel
 	}
 	nixgc() {
 		nix-env --delete-generations old
@@ -105,6 +88,16 @@ if [[ "$DISTRO" == "nixos" ]]; then
 		sudo nix-env --delete-generations old
 		sudo nix-collect-garbage
 		sudo nix-collect-garbage -d
+	}
+	nixazurevhd() {
+		NIXOS_CONFIG=/nixpkgs/nixos/modules/virtualisation/azure-image.nix \
+		NIX_PATH=/ \
+			nix-build '<nixpkgs/nixos>' \
+				-A config.system.build.azureImage \
+				--argstr system x86_64-linux \
+				-o azure \
+				--option extra-binary-caches https://hydra.nixos.org \
+				-j 4
 	}
 fi
 
