@@ -1,7 +1,7 @@
 servers = (
   {
     address = "irc.freenode.net";
-    chatnet = "Freenode";
+    chatnet = "freenode";
     port = "6697";
     use_ssl = "yes";
     autoconnect = "yes";
@@ -9,21 +9,21 @@ servers = (
   },
   {
     address = "irc.mozilla.org";
-    chatnet = "Mozilla";
+    chatnet = "mozilla";
     port = "6697";
     use_ssl = "yes";
     autoconnect = "yes";
   },
   {
     address = "irc.gnome.org";
-    chatnet = "Gnome";
+    chatnet = "gnome";
     port = "6697";
     use_ssl = "yes";
     autoconnect = "yes";
   },
   {
     address = "irc.oftc.net";
-    chatnet = "OFTC";
+    chatnet = "oftc";
     port = "6697";
     use_ssl = "yes";
     autoconnect = "yes";
@@ -31,37 +31,39 @@ servers = (
 );
 
 chatnets = {
-  Freenode = {
+  freenode = {
     type = "IRC";
     max_kicks = "1";
     max_msgs = "4";
     max_whois = "1";
   };
-  Mozilla = { type = "IRC"; };
-  Gnome = { type = "IRC"; };
-  OFTC = { type = "IRC"; };
+  mozilla = { type = "IRC"; };
+  gnome = { type = "IRC"; };
+  oftc = { type = "IRC"; };
 };
 
 channels = (
-  { chatnet = "Freenode"; name = "##linux"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#archlinux"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#bash"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#coreos"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#docker"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#git"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#github"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#go-nuts"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#mosh"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#neovim"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#nixos"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#security"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#tmux"; autojoin = "Yes"; },
-  { chatnet = "Freenode"; name = "#zsh"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "##linux"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#archlinux"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#bash"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#coreos"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#docker"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#git"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#github"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#go-nuts"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#mosh"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#neovim"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#nixos"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#security"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#tmux"; autojoin = "Yes"; },
+  { chatnet = "freenode"; name = "#zsh"; autojoin = "Yes"; },
 
-  { chatnet = "Mozilla"; name = "#rust"; autojoin = "Yes"; },
+  { chatnet = "mozilla"; name = "#rust"; autojoin = "Yes"; },
 
-  { chatnet = "Gnome"; name = "#gnome"; autojoin = "Yes"; },
-  { chatnet = "Gnome"; name = "#gnome-shell"; autojoin = "Yes"; }
+  { chatnet = "gnome"; name = "#gnome"; autojoin = "Yes"; },
+  { chatnet = "gnome"; name = "#gnome-shell"; autojoin = "Yes"; },
+
+  { chatnet = "oftc";  name = "#qemu"; autojoin = "Yes"; }
 );
 
 aliases = {
