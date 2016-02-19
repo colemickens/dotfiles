@@ -36,6 +36,21 @@ gotty_wrap() {
 	gotty --address 0.0.0.0 --port "5050" tmux new-session -A -s gotty
 }
 
+countdown() {
+   date1=$((`date +%s` + $1));
+   while [ "$date1" -ge `date +%s` ]; do
+     echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+     sleep 0.1
+   done
+}
+
+stopwatch() {
+  date1=`date +%s`;
+   while true; do
+    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
+    sleep 0.1
+   done
+}
 
 ############################################################################################################################
 # NixOS
@@ -159,7 +174,7 @@ mitmproxy() {
 ############################################################################################################################
 
 docker_clean() { docker rm `docker ps --no-trunc -aq` }
-du_summary() { sudo du -h / | sort -hr > $HOME/du_summary.txt }
+du_summary() { sudo du -x -h / | sort -hr > $HOME/du_summary.txt }
 
 videomodeset() {
 	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
