@@ -75,17 +75,13 @@ in {
       enable = true;
       config = lib.readFile ./nginx.conf;
     };
-    nix-serve = {
-      enable = true;
-      port = 11555;
-      secretKeyFile = "/secrets/nixcache.mickens.io/signing-key.prv";
-    };
     openssh = {
       enable = true;
       passwordAuthentication = false;
     };
     plex = {
       enable = true;
+      package = pkgs.plexpass;
     };
     #samba = {
     #  enable = true;
@@ -117,6 +113,7 @@ in {
     ];
   };
 
+<<<<<<< Updated upstream
   nixpkgs.config = {
     allowUnfree = true;
     plex.enablePlexPass = true;

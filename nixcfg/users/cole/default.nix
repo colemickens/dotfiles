@@ -75,6 +75,7 @@ in
     byobu
     mosh
     fzf
+    nox
 
     neovim
     irssi
@@ -104,6 +105,8 @@ in
     jq
 
     valgrind
+    slop
+    ffmpeg
 
     bashmount
     bind
@@ -115,6 +118,8 @@ in
     htop
     imgurbash
     pythonPackages.mitmproxy
+    file
+    htop
     pciutils
     psmisc
     ranger
