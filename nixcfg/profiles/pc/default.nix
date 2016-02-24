@@ -125,6 +125,7 @@
 
     firefox-wrapper
     chromiumDev
+    torbrowser
 
     virtmanager
     virtviewer
