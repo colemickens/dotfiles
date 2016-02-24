@@ -211,10 +211,13 @@ proxy_fwd_pixel() { autossh -N -T -M 20030 -L 22400:localhost:22400 cole@mickens
 
 rdp_common() {
 	set -x
+	export WLOG_LEVEL=TRACE
+
 	local rdpserver=$1
-	local rdpuser=$2
-	local rdppass=$3
-	shift 3
+	local rdpdomain=$2
+	local rdpuser=$3
+	local rdppass=$4
+	shift 4
 	local customfreerdp=$HOME/code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
 	local freerdp_bin=`which xfreerdp`
@@ -225,7 +228,8 @@ rdp_common() {
 
 	local -A rdpopts
 	rdpopts[nucleus]="/size:2560x1405"
-	rdpopts[pixel]="/scale:140 /size:2560x1650" # this doesn't work, doesnt expand right below
+	#rdpopts[pixel]="/scale:140 /size:2560x1650" # this doesn't work, doesnt expand right below
+	rdpopts[pixel]="/size:2560x1650" # this doesn't work, doesnt expand right below
 	rdpopts[cmcrbn]="/size:1910x1100"
 	rdpopts[cmz420]="/size:1920x1160"
 
@@ -233,30 +237,26 @@ rdp_common() {
 
 	$freerdp_bin \
 		/cert-ignore \
-		/v:$rdpserver \
 		/u:$rdpuser \
+		/d:$rdpdomain \
 		/p:$rdppass \
 		$rdpopts[$(hostname)] \
 		+fonts \
 		+compression \
 		+toggle-fullscreen \
 		-wallpaper \
-		"$@"
+		"$@" \
+		/v:$rdpserver
 }
 
 rdp_cmcrbn() {
-	source $HOME/Dropbox/.secrets/cmcrbn_credentials
-	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK10_USERNAME $COLEMICK10_PASSWORD
+	source $HOME/Dropbox/.secrets/colemick_credentials
+	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK_DOMAIN $COLEMICK_USERNAME $COLEMICK_PASSWORD
 }
 
-rdp_winvm04() {
-	source $HOME/Dropbox/.secrets/winvm04_credentials
-	rdp_common 191.232.32.221 "$WINVM04_USERNAME" "$WINVM04_PASSWORD"
-}
-
-rdp_winvm() {
-	source $HOME/Dropbox/.secrets/winvm04_credentials
-	rdp_common 191.232.38.190 "$WINVM04_USERNAME" "$WINVM04_PASSWORD"
+rdp_cmcrbn_remote() {
+	source $HOME/Dropbox/.secrets/colemick_credentials
+	rdp_common cmcrb.redmond.corp.microsoft.com $COLEMICK_DOMAIN $COLEMICK_USERNAME $COLEMICK_PASSWORD /g:redmondts.microsoft.com /gd:$COLEMICK_DOMAIN /gu:$COLEMICK_USERNAME /gp:$COLEMICK_PASSWORD 
 }
 
 

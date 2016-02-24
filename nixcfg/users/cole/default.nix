@@ -78,7 +78,7 @@ in
     nox
 
     neovim
-    irssi
+    weechat
 
     cvs
     git

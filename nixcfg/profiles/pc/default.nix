@@ -149,6 +149,8 @@
     yubikey-personalization
     yubikey-personalization-gui
 
+    freerdpUnstable
+
     # nonfree
     dropbox-cli
     sublime3
