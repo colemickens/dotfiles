@@ -32,7 +32,7 @@ gitup() {
 }
 
 gotty_wrap() {
-	set -e
+	set -x
 	gotty --address 0.0.0.0 --port "5050" tmux new-session -A -s gotty
 }
 
@@ -261,6 +261,7 @@ rdp_winvm() {
 ############################################################################################################################
 
 take_screenshot() {
+	set -x
 	# can call as `take_screenshot -s` to do a selection
 	mkdir -p ~/tmp/screenshots;
 	FILENAME=screenshot-`date +%Y-%m-%d-%H%M%S`.png;
