@@ -211,36 +211,33 @@ proxy_fwd_pixel() { autossh -N -T -M 20030 -L 22400:localhost:22400 cole@mickens
 
 rdp_common() {
 	set -x
-	export WLOG_LEVEL=TRACE
-
 	local rdpserver=$1
 	local rdpdomain=$2
 	local rdpuser=$3
 	local rdppass=$4
 	shift 4
-	local customfreerdp=$HOME/code/colemickens/FreeRDP/build/client/X11/xfreerdp
 
 	local freerdp_bin=`which xfreerdp`
+
+	local customfreerdp=$HOME/code/FreeRDP/FreeRDP/build/client/X11/xfreerdp
 	if [ -f $customfreerdp ]; then
 		echo "using custom build"
 		freerdp_bin=$customfreerdp
 	fi
 
 	local -A rdpopts
-	rdpopts[nucleus]="/size:2560x1405"
-	#rdpopts[pixel]="/scale:140 /size:2560x1650" # this doesn't work, doesnt expand right below
-	rdpopts[pixel]="/size:2560x1650" # this doesn't work, doesnt expand right below
-	rdpopts[cmcrbn]="/size:1910x1100"
-	rdpopts[cmz420]="/size:1920x1160"
-
-	# timeout 10 rdesktop $rdpserver
+	case $(hostname) in
+		"pixel")   rdpopts=("/scale:140" "/size:2560x1650") ;;
+		"nucleus") rdpopts=("/scale:100" "/size:2560x1380") ;; 
+		"cmz420")  rdpopts=("/size:1920x1160") ;;
+	esac
 
 	$freerdp_bin \
 		/cert-ignore \
 		/u:$rdpuser \
 		/d:$rdpdomain \
 		/p:$rdppass \
-		$rdpopts[$(hostname)] \
+		$rdpopts \
 		+fonts \
 		+compression \
 		+toggle-fullscreen \
@@ -256,7 +253,7 @@ rdp_cmcrbn() {
 
 rdp_cmcrbn_remote() {
 	source $HOME/Dropbox/.secrets/colemick_credentials
-	rdp_common cmcrb.redmond.corp.microsoft.com $COLEMICK_DOMAIN $COLEMICK_USERNAME $COLEMICK_PASSWORD /g:redmondts.microsoft.com /gd:$COLEMICK_DOMAIN /gu:$COLEMICK_USERNAME /gp:$COLEMICK_PASSWORD 
+	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK_DOMAIN $COLEMICK_USERNAME $COLEMICK_PASSWORD /g:redmondts.microsoft.com /gd:$COLEMICK_DOMAIN /gu:$COLEMICK_USERNAME /gp:$COLEMICK_PASSWORD 
 }
 
 
