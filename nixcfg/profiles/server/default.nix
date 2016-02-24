@@ -81,7 +81,6 @@ in {
     };
     plex = {
       enable = true;
-      package = pkgs.plexpass;
     };
     #samba = {
     #  enable = true;
@@ -113,7 +112,6 @@ in {
     ];
   };
 
-<<<<<<< Updated upstream
   nixpkgs.config = {
     allowUnfree = true;
     plex.enablePlexPass = true;
