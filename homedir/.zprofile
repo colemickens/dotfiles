@@ -406,7 +406,7 @@ agd() {
 	for group in ${@}; do
 		if [[ $group == * ]]; then
 			echo "deleting ${group}"
-			#azure group delete --quiet "${group}"
+			azure group delete --quiet "${group}"
 		else
 			echo "skipping ${group}"
 		fi
@@ -417,10 +417,13 @@ agd_all() {
 	acct="$(azure account show)"
 	contains="$(echo "$acct" | grep "aff271ee-e9be-4441-b9bb-42f5af4cbaeb")"
 	if [[ -z "${contains}" ]]; then
-		echo "wrong subscription"
-		return
+		echo "YOU ARE NOT ON YOUR PERSONAL SUBSCRIPTION. CTRL+C TO CANCEL"
+		read
 	fi
-	rgs=($(azure group list --json | jq -r '.[].name' -))
+	rgs=($(azure group list --json | jq -r '.[].name | select(contains("kube-"))' -))
+	echo "${rgs[@]}"
+	echo "CONFIRM BY PRESSING ENTER. CTRL+C TO CANCEL"
+	read
 	agd ${rgs}
 }
 
@@ -476,3 +479,13 @@ go_update_utils() {
 	go get -u github.com/Masterminds/glide
 }
 
+set_azkube_env_work() {
+	export AZKUBE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
+	export AZKUBE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
+}
+set_azkube_env_personal() {
+	export AZKUBE_TENANT_ID="13de0a15-b5db-44b9-b682-b4ba82afbd29"
+	export AZKUBE_SUBSCRIPTION_ID="aff271ee-e9be-4441-b9bb-42f5af4cbaeb"
+	export AZKUBE_CLIENT_ID="20f97fda-60b5-4557-9100-947b9db06ec0"
+	export AZKUBE_CLIENT_SECRET="$(cat /secrets/azure/azkube_client_secret)"
+}
