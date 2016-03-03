@@ -79,7 +79,7 @@
   };
 
   environment.gnome3.excludePackages = with pkgs.gnome3_18 ; [
-    baobab empathy eog epiphany
+    baobab empathy epiphany
     gucharmap totem vino yelp
     gnome-calculator gnome-contacts gnome-font-viewer
     gnome-system-log gnome-system-monitor
@@ -99,6 +99,7 @@
     tpm-tools
     efibootmgr
 
+    gnome3_18.eog
     gnome3_18.file-roller
     gnome3_18.gdm
     gnome3_18.gedit

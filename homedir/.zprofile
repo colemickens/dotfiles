@@ -2,6 +2,8 @@
 # Generic Stuff
 #############################################################################################################################
 
+# TODO: use autossh instead of ssh, especially for the remote connections
+
 export MAKEFLAGS="-j `nproc`"
 export EDITOR="nvim"
 export BROWSER="chromium"
@@ -37,19 +39,19 @@ gotty_wrap() {
 }
 
 countdown() {
-   date1=$((`date +%s` + $1));
-   while [ "$date1" -ge `date +%s` ]; do
-     echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
-     sleep 0.1
-   done
+	date1=$((`date +%s` + $1));
+	while [ "$date1" -ge `date +%s` ]; do
+		echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+		sleep 0.1
+	done
 }
 
 stopwatch() {
-  date1=`date +%s`;
-   while true; do
-    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
-    sleep 0.1
-   done
+	date1=`date +%s`;
+	while true; do
+		echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
+		sleep 0.1
+	done
 }
 
 md5sumb64() {
@@ -227,7 +229,7 @@ rdp_common() {
 
 	local -A rdpopts
 	case $(hostname) in
-		"pixel")   rdpopts=("/scale:140" "/size:2560x1650") ;;
+		"pixel")   rdpopts=("/scale:140" "/size:2560x1600") ;;
 		"nucleus") rdpopts=("/scale:100" "/size:2560x1380") ;; 
 		"cmz420")  rdpopts=("/size:1920x1160") ;;
 	esac

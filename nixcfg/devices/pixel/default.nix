@@ -60,5 +60,5 @@
   };
   powerManagement.enable = true;
 
-  environment.systemPackages = [ pkgs.mxt_app ];
+  environment.systemPackages = [ pkgs.mxt-app ];
 }
