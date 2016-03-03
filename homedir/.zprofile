@@ -38,6 +38,11 @@ gotty_wrap() {
 	gotty --address 0.0.0.0 --port "5050" tmux new-session -A -s gotty
 }
 
+gotty_wrap_w() {
+	set -x
+	gotty -w --address 0.0.0.0 --port "5050" tmux new-session -A -s gotty
+}
+
 countdown() {
 	date1=$((`date +%s` + $1));
 	while [ "$date1" -ge `date +%s` ]; do
@@ -490,4 +495,12 @@ set_azkube_env_personal() {
 	export AZKUBE_SUBSCRIPTION_ID="aff271ee-e9be-4441-b9bb-42f5af4cbaeb"
 	export AZKUBE_CLIENT_ID="20f97fda-60b5-4557-9100-947b9db06ec0"
 	export AZKUBE_CLIENT_SECRET="$(cat /secrets/azure/azkube_client_secret)"
+}
+
+azure_env_personal() {
+	azure account set "aff271ee-e9be-4441-b9bb-42f5af4cbaeb"
+}
+
+azure_env_work() {
+	azure account set "27b750cd-ed43-42fd-9044-8d75e124ae55"
 }

@@ -80,6 +80,9 @@ in
     neovim
     weechat
 
+    less
+    fswatch
+
     cvs
     git
     darcs
