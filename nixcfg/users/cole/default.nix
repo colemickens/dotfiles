@@ -18,7 +18,7 @@ in
   virtualisation = {
     docker.enable = true;
     rkt.enable = true;
-    libvirtd.enable = true;
+    #libvirtd.enable = true;
   };
 
   security.sudo.wheelNeedsPassword = false;
@@ -37,13 +37,6 @@ in
   users.mutableUsers = false;
 
   security.pki.certificateFiles = [ "/secrets/mitmproxy/mitmproxy-ca-cert.cer" ];
-
-  services.syncAuthKeysFromGitHub = {
-    enable = false;
-    gitHubUserName = "colemickens";
-    userName = "cole";
-    wgetOptions = "--no-check-certificate"; # this is embarrassingly horribly stupid, don't do this
-  };
 
   users.extraUsers.cole = {
       isNormalUser = true;
@@ -67,18 +60,17 @@ in
     npm2nix
     cryptsetup
     gettext
+    peco
 
     openssh
     autossh
     nmap_graphical
     tmux
-    byobu
     mosh
     fzf
     nox
 
     neovim
-    weechat
 
     less
     fswatch

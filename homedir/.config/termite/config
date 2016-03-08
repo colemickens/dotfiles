@@ -1,6 +1,6 @@
 [options]
 font = Source Code Pro for Powerline 11
-decorated = false
+decorated = true
 cursor_shape = ibeam
 
 [colors]
@@ -9,7 +9,7 @@ cursor_shape = ibeam
 foreground      = #cccccc
 foreground_bold = #cccccc
 cursor          = #ffffff
-background      = #222222
+background      = #1e1e1e
 
 # black
 color0  = #2e3436

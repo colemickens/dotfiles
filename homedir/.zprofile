@@ -6,11 +6,13 @@
 
 export MAKEFLAGS="-j `nproc`"
 export EDITOR="nvim"
-export BROWSER="chromium"
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
-export TERMINAL="termite"
-export DISTRO="$(source /etc/os-release; echo "$ID")"
 export PATH=$PATH:$HOME/bin
+
+if [[ "${PLATFORM_OS}" == "linux" ]]; then
+	export BROWSER="chromium"
+	export TERMINAL="termite"
+fi
 
 myip() {
 	txt="$(dig o-o.myaddr.l.google.com @ns1.google.com txt +short)"
@@ -67,7 +69,7 @@ md5sumb64() {
 # NixOS
 ############################################################################################################################
 
-if [[ "$DISTRO" == "nixos" ]]; then
+if [[ "${PLATFORM_DISTRO}" == "nixos" ]]; then
 	nixup() {
 		(
 			d="$(mktemp -d)"
@@ -77,7 +79,7 @@ if [[ "$DISTRO" == "nixos" ]]; then
 	}
 	nixup-build-master() {
 		device="$1"
-		nixosConfig="/nixcfg/devices/$device/default.nix"
+		nixosConfig="${HOME}/code/colemickens/dotfiles/nixcfg/devices/$device/default.nix"
 		nixpkgs="/nixpkgs-master"
 		logfile="$(mktemp "/tmp/nixup-build-master-$device-XXX.log")"
 		echo "device($device) build log: ($logfile)"
@@ -117,7 +119,7 @@ fi
 # Arch
 ############################################################################################################################
 
-if [[ "$DISTRO" == "arch" ]]; then
+if [[ "$PLATFORM_DISTRO" == "arch" ]]; then
 	archup() { sudo true; yaourt -Syua --noconfirm }
 	pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
 
@@ -157,6 +159,7 @@ github_add_publickey() {
 		https://api.github.com/user/keys
 }
 
+# add any keys in github to authorized_keys that are missing
 
 ############################################################################################################################
 # Launcher Helpers
@@ -179,18 +182,6 @@ mitmproxy() {
 
 docker_clean() { docker rm `docker ps --no-trunc -aq` }
 du_summary() { sudo du -x -h / | sort -hr > $HOME/du_summary.txt }
-
-videomodeset() {
-	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 0
-	wmctrl -i -r ${windowid} -b add,above
-}
-
-videomodeunset() {
-	windowid=$(xwininfo -int | grep "Window id" | awk '{ print $4 }')
-	python2.7 $HOME/.scripts/change-window-borders.py ${windowid} 1
-	wmctrl -i -r ${windowid} -b remove,above
-}
 
 
 ############################################################################################################################
@@ -402,40 +393,6 @@ export KUBE_RELEASE_RUN_TESTS=n
 
 
 ############################################################################################################################
-# Azure Helpers
-############################################################################################################################
-
-az_cli() {
-	docker run -it -v $HOME/.az:/root/.azure az-cli /bin/bash
-}
-
-agd() {
-	for group in ${@}; do
-		if [[ $group == * ]]; then
-			echo "deleting ${group}"
-			azure group delete --quiet "${group}"
-		else
-			echo "skipping ${group}"
-		fi
-	done
-}
-
-agd_all() {
-	acct="$(azure account show)"
-	contains="$(echo "$acct" | grep "aff271ee-e9be-4441-b9bb-42f5af4cbaeb")"
-	if [[ -z "${contains}" ]]; then
-		echo "YOU ARE NOT ON YOUR PERSONAL SUBSCRIPTION. CTRL+C TO CANCEL"
-		read
-	fi
-	rgs=($(azure group list --json | jq -r '.[].name | select(contains("kube-"))' -))
-	echo "${rgs[@]}"
-	echo "CONFIRM BY PRESSING ENTER. CTRL+C TO CANCEL"
-	read
-	agd ${rgs}
-}
-
-
-############################################################################################################################
 # Golang Stuff
 ############################################################################################################################
 
@@ -464,7 +421,7 @@ gopath() {
 cd_autorest() { gopath azure autorest github.com/Azure/go-autorest }
 cd_azkube() { gopath azure azkube github.com/colemickens/azkube }
 cd_azuresdk() { gopath azure azuresdk github.com/Azure/azure-sdk-for-go }
-cd_kubernetes() { gopath azure kubernetes github.com/kubernetes/kubernetes }
+cd_kubernetes() { gopath azure kubernetes k8s.io/kubernetes }
 cd_asciinema() { gopath colemickens asciinema github.com/asciinema/asciinema }
 
 # these are things that vim-go needs, or we otherwise use (glide)
@@ -486,21 +443,65 @@ go_update_utils() {
 	go get -u github.com/Masterminds/glide
 }
 
-set_azkube_env_work() {
-	export AZKUBE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
-	export AZKUBE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
+
+############################################################################################################################
+# Azure Helpers
+############################################################################################################################
+
+azure_cleanup() {
+	set -e
+	filter="$1"
+	
+	acct="$(azure account show)"
+	contains="$(echo "$acct" | grep "aff271ee-e9be-4441-b9bb-42f5af4cbaeb")"
+	if [[ -z "${contains}" ]]; then
+		echo "YOU ARE NOT ON YOUR PERSONAL SUBSCRIPTION. CTRL+C TO CANCEL"
+		read
+	fi
+	
+	rgs=($(azure group list --json | jq -r ".[].name | select(contains(\"$filter\"))" -))
+	echo "${rgs[@]}"
+	echo "CONFIRM BY PRESSING ENTER. CTRL+C TO CANCEL"
+	read
+
+	for group in ${rgs}; do
+		azure group delete --quiet "${group}"
+	done
 }
-set_azkube_env_personal() {
-	export AZKUBE_TENANT_ID="13de0a15-b5db-44b9-b682-b4ba82afbd29"
-	export AZKUBE_SUBSCRIPTION_ID="aff271ee-e9be-4441-b9bb-42f5af4cbaeb"
-	export AZKUBE_CLIENT_ID="20f97fda-60b5-4557-9100-947b9db06ec0"
-	export AZKUBE_CLIENT_SECRET="$(cat /secrets/azure/azkube_client_secret)"
+
+azure_env_reset() {
+	unset AZURE_TENANT_ID
+	unset AZURE_SUBSCRIPTION_ID
+	unset AZURE_CLIENT_ID
+	unset AZURE_CLIENT_SECRET
+	unset AZURE_AUTH_METHOD
+	unset AZURE_RESOURCE_GROUP
 }
 
 azure_env_personal() {
-	azure account set "aff271ee-e9be-4441-b9bb-42f5af4cbaeb"
+	azure_env_reset
+	export AZURE_TENANT_ID="13de0a15-b5db-44b9-b682-b4ba82afbd29"
+	export AZURE_SUBSCRIPTION_ID="aff271ee-e9be-4441-b9bb-42f5af4cbaeb"
+	export AZURE_CLIENT_ID="20f97fda-60b5-4557-9100-947b9db06ec0"
+	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/azkubeci_client_secret)"
+	export AZURE_AUTH_METHOD="client_secret"
+	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
 
-azure_env_work() {
-	azure account set "27b750cd-ed43-42fd-9044-8d75e124ae55"
+azure_env_work_cs() {
+	azure_env_reset
+	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
+	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
+	export AZURE_CLIENT_ID="dad4f1ea-8934-4532-a42c-1de2d62d73b2"
+	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/azkubeci-msft_client_secret)"
+	export AZURE_AUTH_METHOD="client_secret"
+	export AZURE_RESOURCE_GROUP="kube-deploy-sandbox"
+	azure account set "${AZURE_SUBSCRIPTION_ID}"
+}
+
+azure_env_work_device() {
+	azure_env_reset
+	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
+	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
+	export AZURE_AUTH_METHOD="device"
 }

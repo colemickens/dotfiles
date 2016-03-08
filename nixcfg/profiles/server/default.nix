@@ -120,7 +120,7 @@ in {
   environment.systemPackages = with pkgs ; [
     btrfs-progs
     htop
-    irssi
+    weechat
     rtorrent
 
     # nonfree

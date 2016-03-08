@@ -1,35 +1,68 @@
-#
-# User configuration sourced by interactive shells
-#
-
 DEFAULT_USER="cole"
 
-# Make sure zim is available
-if [ ! -d ${ZDOTDIR:-${HOME}}/.zim ]; then
-	git clone https://github.com/Eriner/zim.git ${ZDOTDIR:-${HOME}}/.zim
-	cd ${ZDOTDIR:-${HOME}}/.zim
-	git submodule init
-	git submodule update --recursive
-fi
-if [[ -s ${ZDOTDIR:-${HOME}}/.zim/init.zsh ]]; then
-	source ${ZDOTDIR:-${HOME}}/.zim/init.zsh
+##############################################################################
+# Environment Detection (used in ~/.zprofile as well)
+##############################################################################
+export PLATFORM_DISTRO="$(source /etc/os-release; echo "${ID}")"
+export PLATFORM_ARCH="$(echo "amd64")"
+export PLATFORM_OS="$(echo "linux")"
+
+##############################################################################
+# config for stuff loaded by zplug
+##############################################################################
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+POWERLEVEL9K_SHORTEN_DELIMITER=""
+POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(custom_ccontext dir vcs status)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time)
+POWERLEVEL9K_STATUS_VERBOSE=false
+
+POWERLEVEL9K_CUSTOM_CCONTEXT="echo $(hostname)"
+POWERLEVEL9K_CUSTOM_CCONTEXT_BACKGROUND="black"
+POWERLEVEL9K_CUSTOM_CCONTEXT_FOREGROUND="white"
+
+
+###############################################################################
+# Zplug
+###############################################################################
+[[ -d ~/.zplug ]] || {
+  curl -fLo ~/.zplug/zplug --create-dirs https://git.io/zplug
+  source ~/.zplug/zplug && zplug update --self
+}
+
+# Essential
+source ~/.zplug/zplug
+
+# Make sure to use double quotes to prevent shell expansion
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "bhilburn/powerlevel9k", of:powerlevel9k.zsh-theme
+
+# Install plugins that have not been installed yet
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    else
+        echo
+    fi
 fi
 
-# Make sure vim-plug is available
-if [[ ! -f "$HOME/.config/nvim/autoload/plug.vim" ]]; then
+zplug load
+
+
+###############################################################################
+# Vim-plug
+###############################################################################
+[[ -f "$HOME/.config/nvim/autoload/plug.vim" ]] || {
 	curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
+}
 
-# Make sure we start a tmux session
-if [[ -z "$TMUX" ]]; then
-	tmux attach || tmux new
-fi;
 
-source $HOME/.zprofile
-
-source $HOME/.scripts/zsh/tmux-pane-completion.zsh
-
+###############################################################################
+# coreutils - workaround for termite
+###############################################################################
 if true; then
 	dircolorstemp="$(mktemp -d)"
 	dircolors -p > "$dircolorstemp/dircolors"
@@ -40,7 +73,33 @@ if true; then
 	rm -rf "${dircolorstemp}"
 fi
 
+
+###############################################################################
+# fzf - load
+###############################################################################
 if [ -d "$HOME/.fzf/shell" ]; then
 	source "$HOME/.fzf/shell/completion.zsh"
 	source "$HOME/.fzf/shell/key-bindings.zsh"
 fi
+
+
+###############################################################################
+# tmux - auto attach or start new session
+###############################################################################
+if [[ -z "$TMUX" ]]; then
+	tmux attach || tmux new
+fi;
+
+
+###############################################################################
+# Other
+###############################################################################
+source $HOME/.scripts/zsh/tmux-pane-completion.zsh
+
+
+###############################################################################
+# Big Hammer
+###############################################################################
+source $HOME/.zprofile
+
+

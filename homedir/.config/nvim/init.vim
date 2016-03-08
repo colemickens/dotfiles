@@ -10,6 +10,8 @@ Plug 'bling/vim-airline'
 
 " Colorschemes
 Plug 'morhetz/gruvbox'
+Plug 'mkarmona/materialbox'
+Plug 'DrSpatula/vim-buddy'
 Plug 'djjcast/mirodark'
 
 " File Management

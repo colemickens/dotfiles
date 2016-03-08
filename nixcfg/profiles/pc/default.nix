@@ -58,6 +58,7 @@
     enableFontDir = true;
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
+      fantasque-sans-mono
       corefonts
       powerline-fonts
       inconsolata
