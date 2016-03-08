@@ -25,7 +25,7 @@
     openssh.enable = true;
     upower.enable = true;
     xserver = {
-      autorun = false;
+      autorun = true;
       desktopManager.gnome3 = {
         enable = true;
         sessionPath = [ pkgs.arc-gtk-theme ];
@@ -129,8 +129,8 @@
     chromiumDev
     torbrowser
 
-    virtmanager
-    virtviewer
+    #virtmanager
+    #virtviewer
 
     lxappearance
     arc-gtk-theme
@@ -154,7 +154,7 @@
     freerdpUnstable
 
     # nonfree
-    dropbox-cli
+    dropbox
     sublime3
 
     # need to package
