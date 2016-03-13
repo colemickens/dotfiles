@@ -10,6 +10,13 @@ export PLATFORM_OS="$(echo "linux")"
 ##############################################################################
 # config for stuff loaded by zplug
 ##############################################################################
+POWERLEVEL9K_MODE="compatible"
+ZLE_RPROMPT_INDENT=0 # removes the offset from the end of the right prompt
+
+POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=''
+POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=''
+POWERLEVEL9K_VCS_BRANCH_ICON=''
+
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
 POWERLEVEL9K_SHORTEN_DELIMITER=""
 POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
@@ -18,7 +25,7 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(custom_ccontext dir vcs status)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time)
 POWERLEVEL9K_STATUS_VERBOSE=false
 
-POWERLEVEL9K_CUSTOM_CCONTEXT="echo $(hostname)"
+POWERLEVEL9K_CUSTOM_CCONTEXT="hostname"
 POWERLEVEL9K_CUSTOM_CCONTEXT_BACKGROUND="black"
 POWERLEVEL9K_CUSTOM_CCONTEXT_FOREGROUND="white"
 
@@ -49,7 +56,6 @@ if ! zplug check --verbose; then
 fi
 
 zplug load
-
 
 ###############################################################################
 # Vim-plug

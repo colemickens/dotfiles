@@ -58,9 +58,8 @@
     enableFontDir = true;
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
-      fantasque-sans-mono
       corefonts
-      powerline-fonts
+      fira-mono
       inconsolata
       terminus_font
       ubuntu_font_family
