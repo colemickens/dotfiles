@@ -20,7 +20,7 @@
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" ];
     kernelModules = [ "i915" "kvm-intel" ];
     extraModulePackages = [ ];
-    kernelPackages = pkgs.linuxPackages_4_4;
+    kernelPackages = pkgs.linuxPackages_4_5;
     loader = {
       gummiboot.enable = true;
       efi.canTouchEfiVariables = true;
