@@ -77,7 +77,7 @@ in {
     };
     openssh = {
       enable = true;
-      passwordAuthentication = false;
+      #passwordAuthentication = false;
     };
     plex = {
       enable = true;

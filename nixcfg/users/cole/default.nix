@@ -4,6 +4,10 @@ let
   secrets = import "/secrets";
 in
 {
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "us";
@@ -52,8 +56,8 @@ in
     asciinema
     awscli
     azure-cli
+    goPackages.azure-vhd-tools-for-go.bin
     google-cloud-sdk
-    kubernetes
     ipfs
     iotop
     keybase
@@ -64,15 +68,16 @@ in
 
     openssh
     autossh
+    mosh
+    sshuttle
     nmap_graphical
     tmux
-    mosh
     fzf
-    nox
 
     neovim
 
     less
+    weechat
     fswatch
 
     cvs
@@ -103,6 +108,8 @@ in
     slop
     ffmpeg
 
+    sqlite
+
     bashmount
     bind
     curl
@@ -129,6 +136,7 @@ in
 
     p7zip
     unrar
+    parallel
     unzip
     xz
     zip

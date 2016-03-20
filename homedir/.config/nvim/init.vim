@@ -61,7 +61,7 @@ let g:gruvbox_italic=1
 
 
 " bling/vim-airline options
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 
 " scrooloose/nerdtree options
 map <C-n> :NERDTreeToggle<CR>

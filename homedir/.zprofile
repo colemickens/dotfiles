@@ -77,10 +77,10 @@ if [[ "${PLATFORM_DISTRO}" == "nixos" ]]; then
 			sudo nixos-rebuild --keep-going -I / switch
 		)
 	}
-	nixup-build-master() {
+	nixup-build-device() {
 		device="$1"
 		nixosConfig="${HOME}/code/colemickens/dotfiles/nixcfg/devices/$device/default.nix"
-		nixpkgs="/nixpkgs-master"
+		nixpkgs="/nixpkgs"
 		logfile="$(mktemp "/tmp/nixup-build-master-$device-XXX.log")"
 		echo "device($device) build log: ($logfile)"
 		(
@@ -90,9 +90,9 @@ if [[ "${PLATFORM_DISTRO}" == "nixos" ]]; then
 	}
 	nixupall() {
 		# replace this with a jenkins job once I setup jenkins (with the other skin and the declarative plugin)
-		nixup-build-master chimera
-		nixup-build-master nucleus
-		nixup-build-master pixel
+		nixup-build-device chimera
+		nixup-build-device nucleus
+		nixup-build-device pixel
 	}
 	nixgc() {
 		nix-env --delete-generations old
@@ -159,7 +159,11 @@ github_add_publickey() {
 		https://api.github.com/user/keys
 }
 
-# add any keys in github to authorized_keys that are missing
+github_load_keys() {
+	curl https://github.com/colemickens.keys > $HOME/.ssh/authorized_keys_backup
+	mv $HOME/.ssh/authorized_keys_backup $HOME/.ssh/authorized_keys
+}
+
 
 ############################################################################################################################
 # Launcher Helpers
@@ -188,19 +192,19 @@ du_summary() { sudo du -x -h / | sort -hr > $HOME/du_summary.txt }
 # SSH Helpers
 ############################################################################################################################
 
-ssh_chimera_remote()	{ ssh  cole@mickens.io		-p 222 }
-ssh_chimera_local()		{ ssh  cole@chimera.local	-p 222 }
-ssh_nucleus_remote()	{ ssh  cole@mickens.io		-p 223 }
-ssh_nucleus_local()		{ ssh  cole@nucleus.local	-p 223 }
-ssh_pixel_local()		{ ssh  cole@pixel.local		-p 224 }
-mosh_chimera_remote()	{ mosh cole@mickens.io		--ssh="ssh -p 222" }
-mosh_chimera_local()	{ mosh cole@chimera.local	--ssh="ssh -p 222" }
-mosh_nucleus_remote()	{ mosh cole@mickens.io		--ssh="ssh -p 223" -p 61000:61999 }
-mosh_nucleus_local()	{ mosh cole@nucleus.local	--ssh="ssh -p 223" -p 61000:61999 }
-socks_chimera() { autossh -N -T -M 20000 -D1080 cole@mickens.io -N -p 222 }
+autossh_host()				{ autossh -M 0 -p "${2}" -N -o "ServiceAliveInternal 45" -o "ServiceAliveCountMax 2" "${1}" }
 
-proxy_rev_pixel() { autossh -N -T -M 20020 -R 22400:localhost:224 cole@mickens.io -p 222 }
-proxy_fwd_pixel() { autossh -N -T -M 20030 -L 22400:localhost:22400 cole@mickens.io -p 222 }
+autossh_chimera_remote()	{ autossh_host	cole@mickens.io		222 }
+autossh_chimera_local()		{ autossh_host	cole@chimera.local	222 }
+ssh_chimera_remote()		{ ssh			cole@mickens.io		-p 222 }
+ssh_chimera_local()			{ ssh			cole@chimera.local	-p 222 }
+mosh_chimera_remote()		{ mosh			cole@mickens.io		--ssh="ssh -p 222" }
+mosh_chimera_local()		{ mosh			cole@chimera.local	--ssh="ssh -p 222" }
+
+socks_chimera_remote() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@mickens.io }
+socks_chimera_local() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@chimera.local }
+
+sshuttle_chimera() { sshuttle -r cole@mickens.io:222 '0.0.0.0/0' }
 
 
 ############################################################################################################################
@@ -448,34 +452,14 @@ go_update_utils() {
 # Azure Helpers
 ############################################################################################################################
 
-azure_cleanup() {
-	set -e
-	filter="$1"
-	
-	acct="$(azure account show)"
-	contains="$(echo "$acct" | grep "aff271ee-e9be-4441-b9bb-42f5af4cbaeb")"
-	if [[ -z "${contains}" ]]; then
-		echo "YOU ARE NOT ON YOUR PERSONAL SUBSCRIPTION. CTRL+C TO CANCEL"
-		read
-	fi
-	
-	rgs=($(azure group list --json | jq -r ".[].name | select(contains(\"$filter\"))" -))
-	echo "${rgs[@]}"
-	echo "CONFIRM BY PRESSING ENTER. CTRL+C TO CANCEL"
-	read
-
-	for group in ${rgs}; do
-		azure group delete --quiet "${group}"
-	done
-}
+export PATH=$PATH:$HOME/code/colemickens/azure-toolkit/helpers
 
 azure_env_reset() {
-	unset AZURE_TENANT_ID
-	unset AZURE_SUBSCRIPTION_ID
-	unset AZURE_CLIENT_ID
-	unset AZURE_CLIENT_SECRET
-	unset AZURE_AUTH_METHOD
-	unset AZURE_RESOURCE_GROUP
+	declare -a azureenvvars
+	azureenvvars=($(env | awk -F "=" '{print $1}' | grep "^AZURE_.*"))
+	for e in "${azureenvvars[@]}" ; do
+		unset "${e}"
+	done
 }
 
 azure_env_personal() {
@@ -483,7 +467,7 @@ azure_env_personal() {
 	export AZURE_TENANT_ID="13de0a15-b5db-44b9-b682-b4ba82afbd29"
 	export AZURE_SUBSCRIPTION_ID="aff271ee-e9be-4441-b9bb-42f5af4cbaeb"
 	export AZURE_CLIENT_ID="20f97fda-60b5-4557-9100-947b9db06ec0"
-	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/azkubeci_client_secret)"
+	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/azkubeci__client_secret)"
 	export AZURE_AUTH_METHOD="client_secret"
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
@@ -493,15 +477,27 @@ azure_env_work_cs() {
 	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
 	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
 	export AZURE_CLIENT_ID="dad4f1ea-8934-4532-a42c-1de2d62d73b2"
-	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/azkubeci-msft_client_secret)"
+	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/colemick-azkubeci__client_secret)"
 	export AZURE_AUTH_METHOD="client_secret"
 	export AZURE_RESOURCE_GROUP="kube-deploy-sandbox"
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
 
+azure_env_work_nix() {
+	azure_env_reset
+	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
+	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
+	export AZURE_USER="d829416c-7142-4de5-a5ad-bae9719f7b7d"
+	export AZURE_PASSWORD="$(cat /secrets/azure/colemick-nixops-client__client_secret)"
+	export AZURE_AUTHORITY_URL="https://login.microsoftonline.com/${AZURE_TENANT_ID}"
+	azure account set "${AZURE_SUBSCRIPTION_ID}"
+}
+
 azure_env_work_device() {
+	azure_env_work_cs
 	azure_env_reset
 	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
 	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
 	export AZURE_AUTH_METHOD="device"
+	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
