@@ -4,7 +4,7 @@
 
 # TODO: use autossh instead of ssh, especially for the remote connections
 
-export MAKEFLAGS="-j `nproc`"
+export MAKEFLAGS="-j ${NPROC}"
 export EDITOR="nvim"
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export PATH=$PATH:$HOME/bin
