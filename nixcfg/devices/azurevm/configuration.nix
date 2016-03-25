@@ -2,7 +2,7 @@
 
 {
   imports = [
-    "${modulesPath}/virtualization/azure-common.nix"
+    "${modulesPath}/virtualisation/azure-common.nix"
     ./azurevm.nix
   ];
 
