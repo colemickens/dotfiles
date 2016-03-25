@@ -69,7 +69,7 @@ if ! zplug check --verbose; then
 #        echo; zplug install
 #    else
 #        echo
-    fi
+#    fi
 fi
 
 zplug load
