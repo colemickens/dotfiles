@@ -26,7 +26,7 @@ git clone git@github.com:colemickens/kubernetes ~/code/azure/kubernetes
 
 sudo git clone git@github.com:colemickens/nixpkgs /nixpkgs
 git clone git@github.com:colemickens/nixpkgs /nixpkgs
-sudo chown cole:users /nixpkgs
+sudo chown -R cole:users /nixpkgs
 
 nvim -c ":PlugInstall | q | q | q" &> /dev/null
 
