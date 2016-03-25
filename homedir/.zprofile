@@ -102,16 +102,6 @@ if [[ "${PLATFORM_DISTRO}" == "nixos" ]]; then
 		sudo nix-collect-garbage
 		sudo nix-collect-garbage -d
 	}
-	nixazurevhd() {
-		NIXOS_CONFIG=/nixpkgs/nixos/modules/virtualisation/azure-image.nix \
-		NIX_PATH=/ \
-			nix-build '<nixpkgs/nixos>' \
-				-A config.system.build.azureImage \
-				--argstr system x86_64-linux \
-				-o azure \
-				--option extra-binary-caches https://hydra.nixos.org \
-				-j 4
-	}
 fi
 
 
@@ -146,7 +136,7 @@ use_python27() {
 
 # add a key to github with OTP code
 github_add_publickey() {
-	local date=`date`
+	local date="$(date +"%Y%m%d-%H%M%S")"
 	local hostname=`hostname`
 	echo "enter username: "; read username
 	echo "enter password: "; read password

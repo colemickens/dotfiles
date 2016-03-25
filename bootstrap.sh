@@ -28,5 +28,8 @@ nvim -c ":PlugInstall | q | q | q" &> /dev/null
 
 sudo rm /etc/nixos/configuration.nix
 sudo ln -s ~/code/colemickens/dotfiles/nixcfg/devices/azurevm/configuration.nix /etc/nixos/configuration.nix
-sudo nixos-rebuild --switch
+
+sudo nixos-rebuild switch
+
+read -q
 sudo reboot
