@@ -39,6 +39,7 @@
     #"/mnt/data" = {
     #  device = "/dev/sdc";
     #  fsType = "btrfs";
+    #  options = [ "recovery" "ro" ];
     #};
   };
 

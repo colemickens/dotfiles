@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  secrets = import "/secrets";
 in
 {
   nixpkgs.config = {
@@ -44,7 +43,7 @@ in
 
   users.extraUsers.cole = {
       isNormalUser = true;
-      hashedPassword = secrets.cole.hashedPassword;
+      hashedPassword = "$6$QkpMbkmyIIj$CY3Q81hMUd.1wOlEfJcESJ2JYWZM0yVGl5Dwf1vgVnyXm2aSb60Sl.H3LGiz/fl/305DZzFSI0SNEeAdZZvol.";
       shell = "/run/current-system/sw/bin/zsh";
       home = "/home/cole";
       extraGroups = [ "wheel" "networkmanager" "kvm" "libvirtd" "docker" ];

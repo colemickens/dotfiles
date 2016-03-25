@@ -394,6 +394,11 @@ fi
 
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
+proxkube() {
+	set -x
+	kubectl proxy --address=0.0.0.0 --accept-hosts='.+'
+	set +x
+}
 
 
 ############################################################################################################################
@@ -483,21 +488,15 @@ azure_env_work_cs() {
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
 
-azure_env_work_nix() {
+azure_env_work() {
 	azure_env_reset
 	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
 	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
-	export AZURE_USER="d829416c-7142-4de5-a5ad-bae9719f7b7d"
-	export AZURE_PASSWORD="$(cat /secrets/azure/colemick-nixops-client__client_secret)"
+	export AZURE_CLIENT_ID="d829416c-7142-4de5-a5ad-bae9719f7b7d"
+	export AZURE_SERVICE_PRINCIPAL="${AZURE_CLIENT_ID}"
+	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/colemick-nixops-client__client_secret)"
+	export AZURE_PASSWORD="${AZURE_CLIENT_SECRET}"
 	export AZURE_AUTHORITY_URL="https://login.microsoftonline.com/${AZURE_TENANT_ID}"
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
 
-azure_env_work_device() {
-	azure_env_work_cs
-	azure_env_reset
-	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
-	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
-	export AZURE_AUTH_METHOD="device"
-	azure account set "${AZURE_SUBSCRIPTION_ID}"
-}
