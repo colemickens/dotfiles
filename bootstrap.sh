@@ -6,7 +6,8 @@ HOSTNAME="$(hostname)"
 
 sudo true
 
-ssh-keygen -t rsa -C "cole.mickens@gmail.com"
+mkdir -p ~/.ssh
+ssh-keygen -f ~/.ssh/id_rsa -t rsa -C "cole.mickens@gmail.com" -N ''
 github_add_publickey
 
 mkdir -p code/colemickens
