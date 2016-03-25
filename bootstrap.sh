@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 set -x
 
@@ -18,9 +18,7 @@ source ~/.zprofile
 
 github_add_publickey
 
-mkdir -p code/colemickens
-
-git clone git@github.com/colemickens/dotfiles $HOME/code/colemickens/dotfiles
+(cd ~/code/colemickens/dotfiles; git remote set-url origin git@github.com:colemickens/dotfiles.git)
 
 sudo git clone git@github.com/colemickens/nixpkgs /nixpkgs
 sudo chown cole:users /nixpkgs
