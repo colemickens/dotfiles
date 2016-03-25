@@ -69,6 +69,13 @@ md5sumb64() {
 # NixOS
 ############################################################################################################################
 
+if [[ "${PLATFORM_OS}" == "mac" ]]; then
+	export NIX_PATH=nixpkgs=/nixpkgs
+	nixload() {
+		source /Users/cole/.nix-profile/etc/profile.d/nix.sh
+	}
+fi
+
 if [[ "${PLATFORM_DISTRO}" == "nixos" ]]; then
 	nixup() {
 		(
