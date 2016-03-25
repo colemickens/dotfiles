@@ -7,7 +7,15 @@ HOSTNAME="$(hostname)"
 sudo true
 
 mkdir -p ~/.ssh
+mkdir -p ~/code/colemickens
+
 ssh-keygen -f ~/.ssh/id_rsa -t rsa -C "cole.mickens@gmail.com" -N ''
+
+git clone https://github.com/colemickens/dotfiles ~/code/colemickens
+(cd ~/code/colemickens/dotfiles; ./stow.sh)
+
+source ~/.zprofile
+
 github_add_publickey
 
 mkdir -p code/colemickens

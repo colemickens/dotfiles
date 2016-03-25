@@ -63,11 +63,12 @@ zplug "bhilburn/powerlevel9k", of:powerlevel9k.zsh-theme
 
 # Install plugins that have not been installed yet
 if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    else
-        echo
+  zplug install
+#    printf "Install? [y/N]: "
+#    if read -q; then
+#        echo; zplug install
+#    else
+#        echo
     fi
 fi
 
