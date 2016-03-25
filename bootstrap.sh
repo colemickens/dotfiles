@@ -12,6 +12,8 @@ mkdir -p ~/code/colemickens
 ssh-keygen -f ~/.ssh/id_rsa -t rsa -C "cole.mickens@gmail.com" -N ''
 
 ls ~/code/colemickens
+exit
+
 git clone https://github.com/colemickens/dotfiles ~/code/colemickens/dotfiles
 (cd ~/code/colemickens/dotfiles; ./stow.sh)
 
