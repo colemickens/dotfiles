@@ -102,6 +102,9 @@ if [[ "${PLATFORM_DISTRO}" == "nixos" ]]; then
 		sudo nix-collect-garbage
 		sudo nix-collect-garbage -d
 	}
+	nixops() {
+		$HOME/code/colemickens/nixops/result/bin/nixops "$@"
+	}
 fi
 
 
@@ -489,4 +492,3 @@ azure_env_work() {
 	export AZURE_AUTHORITY_URL="https://login.microsoftonline.com/${AZURE_TENANT_ID}"
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
-
