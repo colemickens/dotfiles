@@ -26,5 +26,7 @@ sudo chown cole:users /nixpkgs
 # run tmux insatll
 nvim -c ":PlugInstall | q | q | q" &> /dev/null
 
+sudo rm /etc/nixos/configuration.nix
+sudo ln -s ~/code/colemickens/dotfiles/nixcfg/devices/azurevm/configuration.nix /etc/nixos/configuration.nix
 sudo nixos-rebuild --switch
 sudo reboot
