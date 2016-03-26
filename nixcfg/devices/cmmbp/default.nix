@@ -19,9 +19,7 @@
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" ];
     kernelModules = [ "i915" "kvm-intel" "tun" "virtio" ];
-    #kernelPackages = pkgs.linuxPackages_4_4;
-    #kernelPackages = pkgs.linuxPackages_samus_4_4;
-    kernelPackages = pkgs.linuxPackages_chromiumos_3_14;
+    kernelPackages = pkgs.linuxPackages_4_5;
     extraModulePackages = [ ];
     loader.grub = {
       enable = true;
@@ -37,12 +35,8 @@
   swapDevices = [ ];
 
   networking = {
-    hostName = "pixel";
+    hostName = "cmmbp";
     networkmanager.enable = true;
-    nat = {
-      enable = true;
-      externalInterface = "wlp1s0";
-    };
   };
 
   services.openssh.ports = [ 224 ];
@@ -50,7 +44,6 @@
 
   time.timeZone = "US/Pacific";
 
-  # safe to enable on Chromebook Pixel 2015?
   nixpkgs.config.pulseaudio = true;
   hardware = {
     bluetooth.enable = true;
@@ -59,6 +52,4 @@
     pulseaudio.enable = true;
   };
   powerManagement.enable = true;
-
-  environment.systemPackages = [ pkgs.mxt-app ];
 }
