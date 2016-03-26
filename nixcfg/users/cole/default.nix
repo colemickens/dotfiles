@@ -39,7 +39,7 @@ in
 
   users.mutableUsers = false;
 
-  security.pki.certificateFiles = [ "/secrets/mitmproxy/mitmproxy-ca-cert.cer" ];
+  #security.pki.certificateFiles = [ "/secrets/mitmproxy/mitmproxy-ca-cert.cer" ];
 
   users.extraUsers.cole = {
       isNormalUser = true;
@@ -70,8 +70,21 @@ in
     mosh
     sshuttle
     nmap_graphical
-    tmux
     fzf
+
+    (lib.overrideDerivation pkgs.tmux (oldAttrs: {
+      rev = "b429a00cce4c150cf8050545f903ecb304691ab9";
+      name = "tmux-git";
+      src = fetchFromGitHub {
+        rev = "b429a00cce4c150cf8050545f903ecb304691ab9";
+        owner = "tmux";
+        repo = "tmux";
+        sha256 = "08nnrgrzrahhyiyam39wxbq9k588x6w6y9k3jrrwzk348ji226i3";
+      };
+      nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ automake autoconf ];
+      preConfigure = "sh autogen.sh";
+      postInstall = "mkdir -p $out/etc/bash_completion.d";
+    }))
 
     neovim
 
@@ -84,10 +97,11 @@ in
     darcs
     mercurial
     subversion
-    pijul
+    #pijul
 
     gitAndTools.hub
     tig
+    dropbox-cli
 
     cmake
     gnumake

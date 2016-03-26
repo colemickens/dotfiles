@@ -17,11 +17,6 @@
       };
     };
     locate.enable = true;
-    mopidy = {
-      enable = true;
-      configuration = "";
-      extensionPackages = [ pkgs.mopidy-gmusic pkgs.mopidy-spotify ];
-    };
     openssh.enable = true;
     upower.enable = true;
     xserver = {
@@ -31,8 +26,6 @@
         sessionPath = [ pkgs.arc-gtk-theme ];
       };
       displayManager.gdm.enable = true;
-      #windowManager.i3.enable = true;
-      #displayManager.sddm.enable = true;
       videoDrivers = [ "intel" ];
       enable = true;
       layout = "us";
@@ -82,11 +75,11 @@
     baobab empathy epiphany
     gucharmap totem vino yelp
     gnome-calculator gnome-contacts gnome-font-viewer
-    gnome-system-log gnome-system-monitor
+    gnome-system-log
     gnome-user-docs bijiben evolution
     gnome-clocks gnome-music gnome-photos
     nautilus-sendto vinagre gnome-weather gnome-logs
-    gnome-maps gnome-characters gnome-calendar accerciser gnome-nettool
+    gnome-maps gnome-characters gnome-calendar accerciser
     gnome-getting-started-docs gnome-shell-extensions gnome-documents
   ];
 
@@ -117,10 +110,6 @@
 
     wayland
     weston
-    sway
-    imagemagick # remove this eventually
-    orbment
-    rofi
 
     termite
 
@@ -140,7 +129,6 @@
     pavucontrol
     mpd
     ncmpcpp
-    mpv
     vlc
 
     inkscape
@@ -153,11 +141,6 @@
     freerdpUnstable
 
     # nonfree
-    dropbox
     sublime3
-
-    # need to package
-    # pulseaudio-mixer-git
-    # cloudflare-dyndns
   ];
 }
