@@ -5,15 +5,14 @@ let
   };
 
 in {
-  azurevm =
-    { resources, ...}:  {
-      deployment.targetEnv = "azure";
-      deployment.azure = credentials // {
-        location = "westus";
-        size = "Standard_D3_v2";
-        networkInterfaces.default.ip.allocationMethod = "static";
-      };
-
-      imports = [ ./azurevm.nix ];
+  azurevm = { resources, ...}:  {
+    deployment.targetEnv = "azure";
+    deployment.azure = credentials // {
+      location = "westus";
+      size = "Standard_DS4";
+      networkInterfaces.default.ip.allocationMethod = "static";
     };
+
+    imports = [ ./azurevm.nix ];
+  };
 }
