@@ -24,6 +24,7 @@
       desktopManager.gnome3 = {
         enable = true;
         sessionPath = [ pkgs.arc-gtk-theme ];
+        #sessionPath = [ pkgs.arc-gtk-theme pkgs.os-x-el-capitan-theme ];
       };
       displayManager.gdm.enable = true;
       videoDrivers = [ "intel" ];
@@ -92,6 +93,7 @@
     tpm-tools
     efibootmgr
 
+    gnome3_18.cheese
     gnome3_18.eog
     gnome3_18.file-roller
     gnome3_18.gdm
@@ -122,6 +124,7 @@
 
     lxappearance
     arc-gtk-theme
+    #os-x-el-capitan-theme
     numix-icon-theme
     numix-icon-theme-circle
     tango-icon-theme

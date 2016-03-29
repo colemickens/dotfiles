@@ -21,9 +21,11 @@
     kernelModules = [ "i915" "kvm-intel" "tun" "virtio" ];
     kernelPackages = pkgs.linuxPackages_4_5;
     extraModulePackages = [ ];
-    loader.grub = {
-      enable = true;
-      device = "/dev/sda";
+    extraModprobeConfig = ''
+      options hid_apple iso_layout=0
+    '';
+    loader = {
+      gummiboot.enable = true;
     };
   };
 

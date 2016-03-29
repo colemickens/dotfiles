@@ -127,7 +127,8 @@ fi
 # tmux - auto attach or start new session
 ###############################################################################
 if [[ -z "$TMUX" ]]; then
-	tmux attach || tmux new
+	#tmux attach || tmux new
+	echo tmux attach
 fi;
 
 
