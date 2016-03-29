@@ -21,8 +21,12 @@ in
   virtualisation = {
     docker.enable = true;
     rkt.enable = true;
-    #libvirtd.enable = true;
+    libvirtd.enable = true;
   };
+
+  services.timesyncd.enable = true;
+  boot.tmpOnTmpfs = true;
+  boot.cleanTmpDir = true;
 
   security.sudo.wheelNeedsPassword = false;
 

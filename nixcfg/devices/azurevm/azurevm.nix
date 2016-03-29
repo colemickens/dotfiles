@@ -1,7 +1,18 @@
+{ pkgs, ... }:
+
 {
   imports = [
     ../../users/cole/default.nix
   ];
 
-  config.networking.firewall.enable = false;
+  config = {
+    boot = {
+      kernelPackages = pkgs.linuxPackages_4_5;
+    };
+    networking = {
+      hostName = "azdev";
+      firewall.enable = false;
+    };
+    time.timeZone = "US/Pacific";
+  };
 }
