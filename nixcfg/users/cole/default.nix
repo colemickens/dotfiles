@@ -39,7 +39,7 @@ in
 
   users.mutableUsers = false;
 
-  #security.pki.certificateFiles = [ "/secrets/mitmproxy/mitmproxy-ca-cert.cer" ];
+  # security.pki.certificateFiles = [ "/home/cole/code/colemickens/secrets/mitmproxy/mitmproxy-ca-cert.cer" ];
 
   users.extraUsers.cole = {
       isNormalUser = true;
@@ -51,107 +51,74 @@ in
   };
 
   environment.systemPackages = with pkgs ; [
-    lsof
-    asciinema
-    awscli
-    azure-cli
-    goPackages.azure-vhd-tools-for-go.bin
-    google-cloud-sdk
-    ipfs
-    iotop
-    keybase
-    npm2nix
-    cryptsetup
-    gettext
-    peco
-
-    openssh
-    autossh
-    mosh
-    sshuttle
-    nmap_graphical
-    fzf
-
     (lib.overrideDerivation pkgs.tmux (oldAttrs: {
-      rev = "b429a00cce4c150cf8050545f903ecb304691ab9";
+      rev = "5658b628b9bf1c1e0bd5856736332ce8b9c51517";
       name = "tmux-git";
       src = fetchFromGitHub {
-        rev = "b429a00cce4c150cf8050545f903ecb304691ab9";
+        rev = "5658b628b9bf1c1e0bd5856736332ce8b9c51517";
         owner = "tmux";
         repo = "tmux";
-        sha256 = "08nnrgrzrahhyiyam39wxbq9k588x6w6y9k3jrrwzk348ji226i3";
+        sha256 = "04gq5avvskx3320clqriinawg6m9n6ch34yhlvjxgd63zxk7h0fg";
       };
       nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ automake autoconf ];
       preConfigure = "sh autogen.sh";
       postInstall = "mkdir -p $out/etc/bash_completion.d";
     }))
 
+    azure-cli awscli google-cloud-sdk
+
     neovim
 
-    less
-    weechat
-    fswatch
+    openssh autossh mosh sshuttle
+    lsof fzf nmap_graphical
 
-    cvs
-    git
-    darcs
-    mercurial
-    subversion
-    #pijul
-
-    gitAndTools.hub
-    tig
-    dropbox-cli
-
-    cmake
-    gnumake
-
-    cargo
-    gcc
-    go
-    nodejs
-    python
-    python3
-    racerRust
-    ruby
-    rustc
-    jq
-
-    valgrind
-    slop
-    ffmpeg
-
-    sqlite
-
-    bashmount
+    asciinema
+    goPackages.azure-vhd-tools-for-go.bin
     bind
+    cryptsetup
     curl
-    httpie
     file
+    ffmpeg
+    fswatch
+    gettext
     gist
+    gnupg
+    gitAndTools.hub
     gotty
-    htop
+    httpie
     imgurbash
-    pythonPackages.mitmproxy
-    file
+    iotop
+    ipfs
     htop
+    jq
+    keybase
+    npm2nix
+    less
+    lsof
+    openssl
     pciutils
+    peco
     psmisc
-    ranger
+    pythonPackages.mitmproxy
+    slop
     stow
+    sqlite
     tree
+    valgrind
+    weechat
     wget
     which
     usbutils
 
-    gnupg
-    openssl
+    cmake gnumake
+    cvs git tig darcs mercurial subversion
+    p7zip unrar parallel unzip xz zip
 
-    p7zip
-    unrar
-    parallel
-    unzip
-    xz
-    zip
+    cargo rustc racerRust
+    gcc go nodejs
+    python python3
+    ruby
+
+    dropbox-cli
   ];
 }

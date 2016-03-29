@@ -335,59 +335,6 @@ backup_code() {
 }
 
 
-#############################################################################################################################
-# pixel helpers
-#############################################################################################################################
-
-if [ `hostname` = "pixel" ]; then
-	touchpad_reset() {
-		sudo modprobe i2c-dev
-		echo -ne 'r\nq\n' | sudo mxt-app -d i2c-dev:{7,8}-004a
-	}
-
-	sound_reset() {
-		cd /nix/store/jcni323n5srjjacpadvrmjmd18yp77f6-linux-samus-eb4bb50-src/scripts/setup/sound
-		pulseaudio -k
-		sudo alsactl restore --file alsa/speakers.state
-	}
-fi
-
-
-############################################################################################################################
-# nucleus helpers
-############################################################################################################################
-
-if [ `hostname` = "nucleus" ]; then
-	reboot_windows_once() {
-		BOOTNEXTNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-		sudo efibootmgr --bootnext $BOOTNEXTNUM
-		sleep 3; sudo reboot
-	}
-
-	reboot_windows_permanently() {
-		BOOTWINDOWSNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-		BOOTLINUXNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-		echo sudo efibootmgr --bootorder $BOOTWINDOWSNUM,$BOOTLINUXNUM
-		sudo efibootmgr --bootorder $BOOTWINDOWSNUM,$BOOTLINUXNUM
-		sleep 3; sudo reboot
-	}
-
-	reboot_linux_permanently() {
-		BOOTWINDOWSNUM=`efibootmgr | grep Windows\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-		BOOTLINUXNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-		echo sudo efibootmgr --bootorder $BOOTLINUXNUM,$BOOTWINDOWSNUM
-		sudo efibootmgr --bootorder $BOOTLINUXNUM,$BOOTWINDOWSNUM
-		sleep 3; sudo reboot
-	}
-
-	reboot_linux_once() {
-		BOOTNEXTNUM=`efibootmgr | grep Linux\ Boot\ Manager | sed -n 's/.*Boot\([0-9a-f]\{4\}\).*/\1/p'`
-		sudo efibootmgr --bootnext $BOOTNEXTNUM
-		sleep 3; sudo reboot
-	}
-fi
-
-
 ############################################################################################################################
 # Kubernetes Helpers
 ############################################################################################################################
@@ -472,7 +419,7 @@ azure_env_personal() {
 	export AZURE_TENANT_ID="13de0a15-b5db-44b9-b682-b4ba82afbd29"
 	export AZURE_SUBSCRIPTION_ID="aff271ee-e9be-4441-b9bb-42f5af4cbaeb"
 	export AZURE_CLIENT_ID="20f97fda-60b5-4557-9100-947b9db06ec0"
-	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/azkubeci__client_secret)"
+	export AZURE_CLIENT_SECRET="$(cat $HOME/code/colemickens/secrets/azure/azkubeci__client_secret)"
 	export AZURE_AUTH_METHOD="client_secret"
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
@@ -482,7 +429,7 @@ azure_env_work_cs() {
 	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
 	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
 	export AZURE_CLIENT_ID="dad4f1ea-8934-4532-a42c-1de2d62d73b2"
-	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/colemick-azkubeci__client_secret)"
+	export AZURE_CLIENT_SECRET="$(cat $HOME/code/colemickens/secrets/azure/colemick-azkubeci__client_secret)"
 	export AZURE_AUTH_METHOD="client_secret"
 	export AZURE_RESOURCE_GROUP="kube-deploy-sandbox"
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
@@ -494,7 +441,7 @@ azure_env_work() {
 	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"
 	export AZURE_CLIENT_ID="d829416c-7142-4de5-a5ad-bae9719f7b7d"
 	export AZURE_SERVICE_PRINCIPAL="${AZURE_CLIENT_ID}"
-	export AZURE_CLIENT_SECRET="$(cat /secrets/azure/colemick-nixops-client__client_secret)"
+	export AZURE_CLIENT_SECRET="$(cat $HOME/code/colemickens/secrets/azure/colemick-nixops-client__client_secret)"
 	export AZURE_PASSWORD="${AZURE_CLIENT_SECRET}"
 	export AZURE_AUTHORITY_URL="https://login.microsoftonline.com/${AZURE_TENANT_ID}"
 	azure account set "${AZURE_SUBSCRIPTION_ID}"

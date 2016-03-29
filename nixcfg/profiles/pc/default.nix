@@ -24,23 +24,12 @@
       desktopManager.gnome3 = {
         enable = true;
         sessionPath = [ pkgs.arc-gtk-theme ];
-        #sessionPath = [ pkgs.arc-gtk-theme pkgs.os-x-el-capitan-theme ];
       };
       displayManager.gdm.enable = true;
       videoDrivers = [ "intel" ];
       enable = true;
       layout = "us";
-      libinput = {
-        enable = true;
-        accelProfile = "adaptive";
-        clickMethod = "clickfinger";
-        disableWhileTyping = true;
-        middleEmulation = false;
-        naturalScrolling = true;
-        scrollMethod = "twofinger";
-        tapping = false;
-        tappingDragLock = false;
-      };
+      libinput.enable = true;
       useGlamor = true;
     };
     udev.extraRules = ''
@@ -51,14 +40,7 @@
   fonts = {
     enableFontDir = true;
     enableGhostscriptFonts = true;
-    fonts = with pkgs; [
-      corefonts
-      fira-mono
-      inconsolata
-      terminus_font
-      ubuntu_font_family
-      unifont
-    ];
+    fonts = with pkgs; [ corefonts fira-mono inconsolata terminus_font ubuntu_font_family unifont ];
   };
 
   nixpkgs.config = {
@@ -84,66 +66,28 @@
     gnome-getting-started-docs gnome-shell-extensions gnome-documents
   ];
 
-  environment.systemPackages = with pkgs ; [
-    xorg.glamoregl
-    xorg.xprop
-    scrot
-    xdotool
-    redshift
-    tpm-tools
+  environment.systemPackages = with pkgs pkgs.gnome_3_18; [
     efibootmgr
+    xdotool xorg.glamoregl xorg.xprop
 
-    gnome3_18.cheese
-    gnome3_18.eog
-    gnome3_18.file-roller
-    gnome3_18.gdm
-    gnome3_18.gedit
-    gnome3_18.gnome_control_center
-    gnome3_18.gnome_desktop
-    gnome3_18.gnome-disk-utility parted gptfdisk
-    gnome3_18.gnome_shell
-    gnome3_18.gnome_session
-    gnome3_18.gnome_settings_daemon
-    gnome3_18.gnome_terminal
+    cheese eog file-roller gdm gedit gnome_control_center gnome_desktop gnome-disk-utility parted gptfdisk
+    gnome_shell gnome_session gnome_settings_daemon gnome_terminal
 
-    mopidy
-    mopidy-gmusic
-    rtorrent
+    lxappearance arc-gtk-theme numix-icon-theme numix-icon-theme-circle tango-icon-theme
 
-    wayland
-    weston
-
-    termite
-
-    firefox-wrapper
-    chromiumDev
-    torbrowser
-
-    #virtmanager
-    #virtviewer
-
-    lxappearance
-    arc-gtk-theme
-    #os-x-el-capitan-theme
-    numix-icon-theme
-    numix-icon-theme-circle
-    tango-icon-theme
-
-    pavucontrol
-    mpd
-    ncmpcpp
-    vlc
-
-    inkscape
-    graphviz
-    gimp
-
-    yubikey-personalization
-    yubikey-personalization-gui
+    chromiumDev firefox-wrapper torbrowser
 
     freerdpUnstable
-
-    # nonfree
-    sublime3
+    gimp
+    graphviz
+    inkscape
+    pavucontrol
+    redshift
+    scrot
+    termite
+    virtmanager virtviewer
+    vlc
+    yubikey-personalization
+    yubikey-personalization-gui
   ];
 }

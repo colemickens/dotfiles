@@ -19,8 +19,7 @@
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" ];
     kernelModules = [ "i915" "kvm-intel" "tun" "virtio" ];
-    #kernelPackages = pkgs.linuxPackages_4_4;
-    #kernelPackages = pkgs.linuxPackages_samus_4_4;
+    #kernelPackages = pkgs.linuxPackages_4_5;
     kernelPackages = pkgs.linuxPackages_chromiumos_3_14;
     extraModulePackages = [ ];
     loader.grub = {
