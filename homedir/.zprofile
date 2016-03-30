@@ -194,12 +194,15 @@ du_summary() { sudo du -x -h / | sort -hr > $HOME/du_summary.txt }
 
 autossh_host()				{ autossh -M 0 -p "${2}" -N -o "ServiceAliveInternal 45" -o "ServiceAliveCountMax 2" "${1}" }
 
-autossh_chimera_remote()	{ autossh_host	cole@mickens.io		222 }
-autossh_chimera_local()		{ autossh_host	cole@chimera.local	222 }
-ssh_chimera_remote()		{ ssh			cole@mickens.io		-p 222 }
-ssh_chimera_local()			{ ssh			cole@chimera.local	-p 222 }
-mosh_chimera_remote()		{ mosh			cole@mickens.io		--ssh="ssh -p 222" }
-mosh_chimera_local()		{ mosh			cole@chimera.local	--ssh="ssh -p 222" }
+autossh_chimera_remote()	{ autossh_host	cole@mickens.io				222 }
+autossh_chimera_local()		{ autossh_host	cole@chimera.local			222 }
+autossh_azev()				{ autossh_host	cole@azdev.mickens.io		22 }
+ssh_chimera_remote()		{ ssh			cole@mickens.io			-p 222 }
+ssh_chimera_local()			{ ssh			cole@chimera.local		-p 222 }
+ssh_azdev()					{ ssh			cole@azdev.mickens.io	-p 22 }
+mosh_chimera_remote()		{ mosh			cole@mickens.io			--ssh="ssh -p 222" }
+mosh_chimera_local()		{ mosh			cole@chimera.local		--ssh="ssh -p 222" }
+mosh_azdev()				{ mosh			cole@azdev.mickens.io	--ssh="ssh -p 22" }
 
 socks_chimera_remote() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@mickens.io }
 socks_chimera_local() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@chimera.local }
