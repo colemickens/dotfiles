@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  secrets = import "/secrets";
+  secrets = import "/home/cole/code/colemickens/secrets";
 in {
   imports = [
     ../../users/cole
