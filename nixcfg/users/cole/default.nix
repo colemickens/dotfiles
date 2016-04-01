@@ -13,6 +13,9 @@ in
     defaultLocale = "en_US.UTF-8";
   };
 
+  nix.binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs=" ];
+  nix.trustedBinaryCaches = [ "http://hydra.nixos.org/" ];
+
   boot.kernel.sysctl = {
     "fs.inotify.max_user_instances" = 256;
     "fs.inotify.max_user_watches" = 500000;
@@ -55,6 +58,7 @@ in
   };
 
   environment.systemPackages = with pkgs ; [
+
     (lib.overrideDerivation pkgs.tmux (oldAttrs: {
       rev = "5658b628b9bf1c1e0bd5856736332ce8b9c51517";
       name = "tmux-git";
@@ -68,6 +72,8 @@ in
       preConfigure = "sh autogen.sh";
       postInstall = "mkdir -p $out/etc/bash_completion.d";
     }))
+
+    nixopsUnstable
 
     azure-cli awscli google-cloud-sdk
 
@@ -107,6 +113,7 @@ in
     slop
     stow
     sqlite
+    traceroute
     tree
     valgrind
     weechat

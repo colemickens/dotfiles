@@ -367,21 +367,20 @@ gocovpkg() {
 }
 
 gopath() {
-	OWNER="$1"
-	REPO="$2"
-	IMPORTPATH="$3"
-	export GOPATH="${HOME}/code/${OWNER}/${REPO}_gopath"
+	REPO="$1"
+	IMPORTPATH="$2"
+	export GOPATH="${HOME}/code/colemickens/${REPO}_gopath"
 	export PATH="${PATH}:${GOPATH}/bin"
 	export GO15VENDOREXPERIMENT=1
 
 	cd "${GOPATH}/src/${IMPORTPATH}"
 }
 
-cd_autorest() { gopath azure autorest github.com/Azure/go-autorest }
-cd_azkube() { gopath azure azkube github.com/colemickens/azkube }
-cd_azuresdk() { gopath azure azuresdk github.com/Azure/azure-sdk-for-go }
-cd_kubernetes() { gopath azure kubernetes k8s.io/kubernetes }
-cd_asciinema() { gopath colemickens asciinema github.com/asciinema/asciinema }
+cd_autorest() { gopath autorest github.com/Azure/go-autorest }
+cd_azkube() { gopath azkube github.com/colemickens/azkube }
+cd_azuresdk() { gopath azuresdk github.com/Azure/azure-sdk-for-go }
+cd_kubernetes() { gopath kubernetes k8s.io/kubernetes }
+cd_asciinema() { gopath asciinema github.com/asciinema/asciinema }
 
 # these are things that vim-go needs, or we otherwise use (glide)
 go_update_utils() {
@@ -438,7 +437,7 @@ azure_env_work_cs() {
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
 }
 
-azure_env_work() {
+azure_env_work_nix() {
 	azure_env_reset
 	export AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47"
 	export AZURE_SUBSCRIPTION_ID="27b750cd-ed43-42fd-9044-8d75e124ae55"

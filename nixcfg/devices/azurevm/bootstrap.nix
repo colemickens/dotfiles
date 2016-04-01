@@ -9,8 +9,8 @@ in {
     deployment.targetEnv = "azure";
     deployment.azure = credentials // {
       location = "westus";
-      size = "Standard_DS4";
-      networkInterfaces.default.ip.allocationMethod = "static";
+      size = "Standard_D4_v2";
+      networkInterfaces.default.ip.allocationMethod = "Static";
     };
 
     imports = [ ./azurevm.nix ];
