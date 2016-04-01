@@ -66,7 +66,7 @@
     gnome-getting-started-docs gnome-shell-extensions gnome-documents
   ];
 
-  environment.systemPackages = with pkgs pkgs.gnome_3_18; [
+  environment.systemPackages = with pkgs; with pkgs.gnome3_18; [
     efibootmgr
     xdotool xorg.glamoregl xorg.xprop
 
@@ -85,7 +85,7 @@
     redshift
     scrot
     termite
-    virtmanager virtviewer
+    #virtmanager virtviewer
     vlc
     yubikey-personalization
     yubikey-personalization-gui
