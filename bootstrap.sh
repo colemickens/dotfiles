@@ -21,12 +21,8 @@ github_add_publickey
 
 (cd ~/code/colemickens/dotfiles; git remote set-url origin git@github.com:colemickens/dotfiles.git)
 
-git clone git@github.com:colemickens/nixops ~/code/colemickens/nixops
-git clone git@github.com:colemickens/kubernetes ~/code/azure/kubernetes
-
-sudo git clone git@github.com:colemickens/nixpkgs /nixpkgs
-git clone git@github.com:colemickens/nixpkgs /nixpkgs
-sudo chown -R cole:users /nixpkgs
+git clone git@github.com:colemickens/nixpkgs ~/nixpkgs
+sudo mv ~/nixpkgs /nixpkgs
 
 nvim -c ":PlugInstall | q | q | q" &> /dev/null
 
