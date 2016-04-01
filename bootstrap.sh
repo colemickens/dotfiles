@@ -4,6 +4,10 @@ set -x
 
 HOSTNAME="$(hostname)"
 
+if [[ "$(whoami)" != "cole" ]]; then
+	echo "You should \`su cole\` and then run this"
+fi
+
 sudo true
 
 mkdir -p ~/.ssh
@@ -24,7 +28,10 @@ github_add_publickey
 git clone git@github.com:colemickens/nixpkgs ~/nixpkgs
 sudo mv ~/nixpkgs /nixpkgs
 
-nvim -c ":PlugInstall | q | q | q" &> /dev/null
+# autoinstall nvim plugins
+# nvim -c ":PlugInstall | q | q | q" &> /dev/null
+# autoinstall tmux plugins
+# ???
 
 sudo rm /etc/nixos/configuration.nix
 sudo ln -s ~/code/colemickens/dotfiles/nixcfg/devices/azurevm/configuration.nix /etc/nixos/configuration.nix
