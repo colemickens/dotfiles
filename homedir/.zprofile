@@ -184,7 +184,11 @@ mitmproxy() {
 # Generic Helpers
 ############################################################################################################################
 
-docker_clean() { docker rm `docker ps --no-trunc -aq` }
+docker_clean() {
+	docker rm `docker ps --no-trunc -aq`
+	docker images | grep "<none>" | awk '{ print "docker rmi " $3 }' | bash
+	docker volume rm $(docker volume ls -qf dangling=true)
+}
 du_summary() { sudo du -x -h / | sort -hr > $HOME/du_summary.txt }
 
 
