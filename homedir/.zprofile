@@ -189,6 +189,7 @@ docker_clean() {
 	docker images | grep "<none>" | awk '{ print "docker rmi " $3 }' | bash
 	docker volume rm $(docker volume ls -qf dangling=true)
 }
+docker_clean_hard() { docker rmi -f $(docker images -q) }
 du_summary() { sudo du -x -h / | sort -hr > $HOME/du_summary.txt }
 
 
