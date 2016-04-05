@@ -27,7 +27,6 @@ fi
 # config for stuff loaded by zplug
 ##############################################################################
 POWERLEVEL9K_MODE="compatible"
-ZLE_RPROMPT_INDENT=0 # removes the offset from the end of the right prompt
 
 POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=''
 POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=''
@@ -58,21 +57,27 @@ POWERLEVEL9K_CUSTOM_CCONTEXT_FOREGROUND="white"
 source ~/.zplug/zplug
 
 # Make sure to use double quotes to prevent shell expansion
-zplug "zsh-users/zsh-syntax-highlighting"
 zplug "bhilburn/powerlevel9k", of:powerlevel9k.zsh-theme
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-completions"
 
 # Install plugins that have not been installed yet
 if ! zplug check --verbose; then
   zplug install
-#    printf "Install? [y/N]: "
-#    if read -q; then
-#        echo; zplug install
-#    else
-#        echo
-#    fi
 fi
 
 zplug load
+
+if zplug check zsh-users/zsh-history-substring-search; then
+  zmodload zsh/terminfo
+  bindkey "$terminfo[kcuu1]" history-substring-search-up
+  bindkey "$terminfo[kcud1]" history-substring-search-down
+fi
+
+zstyle ':completion:*' menu select
+bindkey '^[[Z'    reverse-menu-complete
 
 
 ###############################################################################
@@ -127,14 +132,7 @@ fi
 # tmux - auto attach or start new session
 ###############################################################################
 if [[ -z "$TMUX" ]]; then
-	#tmux attach || tmux new
-	echo tmux attach
+	tmux ls
 fi;
 
-
-###############################################################################
-# Big Hammer
-###############################################################################
-source $HOME/.zprofile
-
-
+autoload -U compinit && compinit

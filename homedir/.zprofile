@@ -6,7 +6,7 @@
 
 export MAKEFLAGS="-j ${NPROC}"
 export EDITOR="nvim"
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
+#export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export PATH=$PATH:$HOME/bin
 
 if [[ "${PLATFORM_OS}" == "linux" ]]; then
@@ -176,7 +176,7 @@ orbment() {
 
 mitmproxy() {
 	# make sure the secret is here from dropbox, use it in args to mitmproxy
-	/usr/bin/env mitmproxy --cadir /secrets/mitmproxy "$@"
+	/usr/bin/env mitmproxy --cadir $HOME/code/colemickens/secrets/mitmproxy "$@"
 }
 
 

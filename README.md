@@ -1,5 +1,9 @@
 # dotfiles
 
-Uses GNU stow to restore my personal configuration files.
+Uses:
 
-`bootstrap.sh` will bootstrap a new machine. assumes you already set zsh. only tested with nixos/azure profile
+ * `stow` to manage symlinks
+ * `zplug` to manage zsh plugins
+ * `tpm` to manage tpm plugins
+
+`bootstrap.sh` will bootstrap a new NixOS/NixOps machine.

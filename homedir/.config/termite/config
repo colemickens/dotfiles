@@ -3,6 +3,7 @@
 font = Fira Mono 10
 decorated = true
 cursor_shape = ibeam
+allow_bold = false
 
 [colors]
 

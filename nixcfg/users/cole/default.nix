@@ -44,9 +44,11 @@ in
     promptInit = "";
   };
 
+  programs.fish.enable = true;
+
   users.mutableUsers = false;
 
-  # security.pki.certificateFiles = [ "/home/cole/code/colemickens/secrets/mitmproxy/mitmproxy-ca-cert.cer" ];
+  security.pki.certificateFiles = [ "/home/cole/code/colemickens/secrets/mitmproxy/mitmproxy-ca-cert.cer" ];
 
   users.extraUsers.cole = {
       isNormalUser = true;
@@ -88,6 +90,7 @@ in
     cryptsetup
     curl
     file
+    fish
     ffmpeg
     fswatch
     gettext
@@ -113,6 +116,7 @@ in
     slop
     stow
     sqlite
+    telnet
     traceroute
     tree
     valgrind
@@ -120,6 +124,7 @@ in
     wget
     which
     usbutils
+    zsh
 
     cmake gnumake
     cvs git tig darcs mercurial subversion
@@ -131,5 +136,6 @@ in
     ruby
 
     dropbox-cli
+    kubernetes
   ];
 }

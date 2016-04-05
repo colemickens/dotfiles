@@ -13,6 +13,7 @@ Plug 'morhetz/gruvbox'
 Plug 'mkarmona/materialbox'
 Plug 'DrSpatula/vim-buddy'
 Plug 'djjcast/mirodark'
+Plug 'notpratheek/vim-luna'
 
 " File Management
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -38,7 +39,7 @@ call plug#end()
 """""""""""""""""
 " NeoVim Config "
 """""""""""""""""
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 " show relative line numbers above and below absolute line number
@@ -54,10 +55,11 @@ set list
 
 " colorscheme/appearance
 colors gruvbox
+"colors buddy
 set background=dark
 
 " gruvbox options
-let g:gruvbox_italic=1
+"let g:gruvbox_italic=1
 
 
 " bling/vim-airline options
