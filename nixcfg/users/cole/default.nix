@@ -138,5 +138,6 @@ in
 
     dropbox-cli
     kubernetes
+    aria2
   ];
 }
