@@ -169,11 +169,6 @@ github_load_keys() {
 # Launcher Helpers
 ############################################################################################################################
 
-orbment() {
-	export WLC_DIM=0.9
-	/usr/bin/env orbment
-}
-
 mitmproxy() {
 	# make sure the secret is here from dropbox, use it in args to mitmproxy
 	/usr/bin/env mitmproxy --cadir $HOME/code/colemickens/secrets/mitmproxy "$@"
@@ -197,20 +192,26 @@ du_summary() { sudo du -x -h / | sort -hr > $HOME/du_summary.txt }
 # SSH Helpers
 ############################################################################################################################
 
-autossh_host()				{ autossh -M 0 -p "${2}" -N -o "ServiceAliveInternal 45" -o "ServiceAliveCountMax 2" "${1}" }
+assh() {
+	set -x
+	autossh -M 0 "$@" -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2"
+}
 
-autossh_chimera_remote()	{ autossh_host	cole@mickens.io				222 }
-autossh_chimera_local()		{ autossh_host	cole@chimera.local			222 }
-autossh_azev()				{ autossh_host	cole@azdev.mickens.io		22 }
-ssh_chimera_remote()		{ ssh			cole@mickens.io			-p 222 }
-ssh_chimera_local()			{ ssh			cole@chimera.local		-p 222 }
-ssh_azdev()					{ ssh			cole@azdev.mickens.io	-p 22 }
-mosh_chimera_remote()		{ mosh			cole@mickens.io			--ssh="ssh -p 222" }
-mosh_chimera_local()		{ mosh			cole@chimera.local		--ssh="ssh -p 222" }
-mosh_azdev()				{ mosh			cole@azdev.mickens.io	--ssh="ssh -p 22" }
+autossh_chimera_remote()	{ assh	cole@mickens.io			-p 222 }
+autossh_chimera_local()		{ assh	cole@chimera.local		-p 222 }
+autossh_azdev()				{ assh	cole@azdev.mickens.io	-p 22 }
+ssh_chimera_remote()		{ ssh	cole@mickens.io			-p 222 }
+ssh_chimera_local()			{ ssh	cole@chimera.local		-p 222 }
+ssh_azdev()					{ ssh	cole@azdev.mickens.io	-p 22 }
+mosh_chimera_remote()		{ mosh	cole@mickens.io			--ssh="ssh -p 222" }
+mosh_chimera_local()		{ mosh	cole@chimera.local		--ssh="ssh -p 222" }
+mosh_azdev()				{ mosh	cole@azdev.mickens.io	--ssh="ssh -p 22" }
 
-socks_chimera_remote() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@mickens.io }
-socks_chimera_local() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@chimera.local }
+proxy_rev() { assh cole@azdev.mickens.io -p 22 -N -T -R 2222:localhost:${1} }
+proxy_fwd() { assh cole@azdev.mickens.io -p 22 -N -T -L 2222:localhost:2222 }
+proxy_connect() { assh cole@localhost -p 2222 }
+
+socks_chimera() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@mickens.io }
 
 sshuttle_chimera() { sshuttle -r cole@mickens.io:222 '0.0.0.0/0' }
 
