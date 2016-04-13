@@ -392,6 +392,8 @@ cd_asciinema() { gopath asciinema github.com/asciinema/asciinema }
 go_update_utils() {
 	export GOPATH=$HOME/code/gopkgs
 
+	go get -u github.com/tools/godep
+
 	go get -u golang.org/x/tools/cmd/goimports # vim-go
 	go get -u golang.org/x/tools/cmd/oracle # vim-go
 	go get -u golang.org/x/tools/cmd/gorename # vim-go
@@ -453,4 +455,8 @@ azure_env_work_nix() {
 	export AZURE_PASSWORD="${AZURE_CLIENT_SECRET}"
 	export AZURE_AUTHORITY_URL="https://login.microsoftonline.com/${AZURE_TENANT_ID}"
 	azure account set "${AZURE_SUBSCRIPTION_ID}"
+}
+
+azure_cleanup() {
+	$HOME/code/colemickens/azure-helpers/azure_cleanup.sh "$@"
 }

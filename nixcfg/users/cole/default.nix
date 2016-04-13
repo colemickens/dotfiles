@@ -52,7 +52,7 @@ in
 
   users.extraUsers.cole = {
       isNormalUser = true;
-      hashedPassword = "$6$QkpMbkmyIIj$CY3Q81hMUd.1wOlEfJcESJ2JYWZM0yVGl5Dwf1vgVnyXm2aSb60Sl.H3LGiz/fl/305DZzFSI0SNEeAdZZvol.";
+      hashedPassword = "$6$hbfF6gWxsh$PlXFyMQZMDhzU5fCQokx2BSe5xXiu/qPA1VeYNP8laFHh.BzZaYACZgshA.Fv.blSHSueESzuaqAy1cKkYqyL0";
       shell = "/run/current-system/sw/bin/zsh";
       home = "/home/cole";
       extraGroups = [ "wheel" "networkmanager" "kvm" "libvirtd" "docker" ];
@@ -97,6 +97,7 @@ in
     gist
     gnupg
     gitAndTools.hub
+    gitAndTools.git-annex
     gotty
     httpie
     imgurbash
