@@ -1,27 +1,8 @@
+echo "zshrc: start"
+
 DEFAULT_USER="cole"
 
-##############################################################################
-# Environment Detection (used in ~/.zprofile as well)
-##############################################################################
-export HOSTNAME="$(hostname)"
-export UNAMESTR="$(uname)"
-
-export PLATFORM_OS="unknown"
-export PLATFORM_DISTRO="unknown"
-export PLATFORM_ARCH="unknown"
-export NPROC=1
-
-if [[ "${UNAMESTR}" == "Darwin" ]]; then
-	export PLATFORM_OS="mac"
-	export PLATFORM_DISTRO=""
-	export PLATFORM_ARCH="amd64"
-	export NPROC="$(sysctl -n hw.ncpu)"
-elif [[ "${UNAMESTR}" == "Linux" ]]; then
-	export PLATFORM_OS="linux"
-	export PLATFORM_DISTRO="$(source /etc/os-release; echo "${ID}")"
-	export PLATFORM_ARCH="amd64"
-	export NPROC="$(nproc)"
-fi
+source ~/.zprofile
 
 ##############################################################################
 # config for stuff loaded by zplug
@@ -136,3 +117,7 @@ if [[ -z "$TMUX" ]]; then
 fi;
 
 autoload -U compinit && compinit
+
+echo "zshrc: finish"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

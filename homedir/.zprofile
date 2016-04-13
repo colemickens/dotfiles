@@ -1,3 +1,29 @@
+echo "zprofile: start"
+
+##############################################################################
+# Environment Detection (used in ~/.zprofile as well)
+##############################################################################
+export HOSTNAME="$(hostname)"
+export UNAMESTR="$(uname)"
+
+export PLATFORM_OS="unknown"
+export PLATFORM_DISTRO="unknown"
+export PLATFORM_ARCH="unknown"
+export NPROC=1
+
+if [[ "${UNAMESTR}" == "Darwin" ]]; then
+	export PLATFORM_OS="mac"
+	export PLATFORM_DISTRO=""
+	export PLATFORM_ARCH="amd64"
+	export NPROC="$(sysctl -n hw.ncpu)"
+elif [[ "${UNAMESTR}" == "Linux" ]]; then
+	export PLATFORM_OS="linux"
+	export PLATFORM_DISTRO="$(source /etc/os-release; echo "${ID}")"
+	export PLATFORM_ARCH="amd64"
+	export NPROC="$(nproc)"
+fi
+
+
 #############################################################################################################################
 # Generic Stuff
 #############################################################################################################################
@@ -236,7 +262,7 @@ rdp_common() {
 		freerdp_bin=$customfreerdp
 	fi
 
-	local -A rdpopts
+	local -a rdpopts
 	case $(hostname) in
 		"pixel")   rdpopts=("/scale:140" "/size:2560x1600") ;;
 		"nucleus") rdpopts=("/scale:100" "/size:2560x1380") ;; 
@@ -258,12 +284,12 @@ rdp_common() {
 }
 
 rdp_cmcrbn() {
-	source $HOME/Dropbox/.secrets/colemick_credentials
+	source $HOME/code/colemickens/secrets/work/colemick_credentials
 	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK_DOMAIN $COLEMICK_USERNAME $COLEMICK_PASSWORD
 }
 
 rdp_cmcrbn_remote() {
-	source $HOME/Dropbox/.secrets/colemick_credentials
+	source $HOME/code/colemickens/secrets/work/colemick_credentials
 	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK_DOMAIN $COLEMICK_USERNAME $COLEMICK_PASSWORD /g:redmondts.microsoft.com /gd:$COLEMICK_DOMAIN /gu:$COLEMICK_USERNAME /gp:$COLEMICK_PASSWORD 
 }
 
@@ -460,3 +486,4 @@ azure_env_work_nix() {
 azure_cleanup() {
 	$HOME/code/colemickens/azure-helpers/azure_cleanup.sh "$@"
 }
+echo "zprofile: end"

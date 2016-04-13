@@ -28,6 +28,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'benekastah/neomake'
 Plug 'Shougo/deoplete.nvim'
 Plug 'majutsushi/tagbar'
+Plug 'PProvost/vim-ps1'
 
 " Language specific
 Plug 'fatih/vim-go'
