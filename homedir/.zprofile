@@ -1,5 +1,3 @@
-echo "zprofile: start"
-
 ##############################################################################
 # Environment Detection (used in ~/.zprofile as well)
 ##############################################################################
@@ -486,4 +484,3 @@ azure_env_work_nix() {
 azure_cleanup() {
 	$HOME/code/colemickens/azure-helpers/azure_cleanup.sh "$@"
 }
-echo "zprofile: end"

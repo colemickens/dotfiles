@@ -1,5 +1,3 @@
-echo "zshrc: start"
-
 DEFAULT_USER="cole"
 
 source ~/.zprofile
@@ -117,7 +115,5 @@ if [[ -z "$TMUX" ]]; then
 fi;
 
 autoload -U compinit && compinit
-
-echo "zshrc: finish"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
