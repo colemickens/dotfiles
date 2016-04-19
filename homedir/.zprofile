@@ -217,7 +217,6 @@ du_summary() { sudo du -x -h / | sort -hr > $HOME/du_summary.txt }
 ############################################################################################################################
 
 assh() {
-	set -x
 	autossh -M 0 "$@" -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2"
 }
 
@@ -236,6 +235,22 @@ proxy_azdev_fwd() { assh cole@azdev.mickens.io -p 22 -N -T -L 2222:localhost:222
 proxy_chimera_rev() { assh cole@chimera.mickens.io -p 222 -N -T -R 2222:localhost:${1} }
 proxy_chimera_fwd() { assh cole@chimera.mickens.io -p 222 -N -T -L 2222:localhost:2222 }
 proxy_connect() { assh cole@localhost -p 2222 }
+proxy_mac_socks_up() {
+	networksetup -setsocksfirewallproxy Wi-Fi localhost 1080
+	networksetup -setsocksfirewallproxystate Wi-Fi on
+}
+proxy_mac_socks_down() {
+	networksetup -setsocksfirewallproxystate Wi-Fi off
+}
+proxy_socks() {
+	if [[ "${PLATFORM_OS}" == "mac" ]]; then
+		proxy_mac_socks_up
+		assh cole@localhost -p 2222 -N -D1080
+		proxy_mac_socks_down
+	else
+		assh cole@localhost -p 2222 -N -D1080
+	fi
+}
 
 socks_chimera() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@mickens.io }
 
