@@ -229,9 +229,8 @@ ssh_azdev()					{ ssh	cole@azdev.mickens.io	-p 22 }
 mosh_chimera_remote()		{ mosh	cole@mickens.io			--ssh="ssh -p 222" }
 mosh_chimera_local()		{ mosh	cole@chimera.local		--ssh="ssh -p 222" }
 mosh_azdev()				{ mosh	cole@azdev.mickens.io	--ssh="ssh -p 22" }
+mosh_azudev()				{ mosh	cole@azudev.mickens.io	--ssh="ssh -p 22" }
 
-proxy_azdev_rev() { assh cole@azdev.mickens.io -p 22 -N -T -R 2222:localhost:${1} }
-proxy_azdev_fwd() { assh cole@azdev.mickens.io -p 22 -N -T -L 2222:localhost:2222 }
 proxy_chimera_rev() { assh cole@chimera.mickens.io -p 222 -N -T -R 2222:localhost:${1} }
 proxy_chimera_fwd() { assh cole@chimera.mickens.io -p 222 -N -T -L 2222:localhost:2222 }
 proxy_connect() { assh cole@localhost -p 2222 }
@@ -253,7 +252,6 @@ proxy_socks() {
 }
 
 socks_chimera() { autossh -M 0 -p 222 -N -D 1080 -o "ServerAliveInterval 45" -o "ServiceAliveCountMax 2" cole@mickens.io }
-
 sshuttle_chimera() { sshuttle -r cole@mickens.io:222 '0.0.0.0/0' }
 
 
