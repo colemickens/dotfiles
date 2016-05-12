@@ -100,7 +100,7 @@ in
     gitAndTools.git-annex
     gotty
     httpie
-    imgurbash
+    imgurbash2
     iotop
     ipfs
     htop
@@ -132,7 +132,9 @@ in
     p7zip unrar parallel unzip xz zip
 
     cargo rustc racerRust
-    gcc go nodejs
+    gcc
+    go_1_6
+    nodejs
     python python3
     ruby
 
