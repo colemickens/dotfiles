@@ -31,16 +31,18 @@ POWERLEVEL9K_CUSTOM_CCONTEXT_FOREGROUND="white"
 ###############################################################################
 # Zplug
 ###############################################################################
+export ZPLUG_HOME=$HOME/.zplug
 [[ -d ~/.zplug ]] || {
-  curl -fLo ~/.zplug/zplug --create-dirs https://git.io/zplug
-  source ~/.zplug/zplug && zplug update --self
+  mkdir -p $ZPLUG_HOME
+  git clone https://github.com/zplug/zplug $ZPLUG_HOME
+  source ~/.zplug/init.zsh && zplug update --self
 }
 
 # Essential
-source ~/.zplug/zplug
+source ~/.zplug/init.zsh
 
 # Make sure to use double quotes to prevent shell expansion
-zplug "bhilburn/powerlevel9k", of:powerlevel9k.zsh-theme
+zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-history-substring-search"
