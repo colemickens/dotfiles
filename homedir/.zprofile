@@ -390,12 +390,25 @@ backup_code() {
 
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
-proxkube() {
-	set -x
-	kubectl proxy --address=0.0.0.0 --accept-hosts='.+'
-	set +x
+export kubectl_real="$(command which kubectl)"
+
+kubectl_proxy() {
+	# use port 9999 since we punch it for cloud vms
+	echo "using kubectl: ${kubectl_real}"
+	echo "--"
+	(set -x; command "${kubectl_real}" proxy --address=0.0.0.0 --accept-hosts='.+' --port 9999)
 }
 
+kubectl_() {
+	(set -x; command "${kubectl_real}" "${@}" --all-namespaces)
+}
+
+kubectl() {
+	if [[ -z "${KUBENS:-}" ]]; then
+		KUBECTL_NAMESPACE="default"
+	fi
+	(set -x; command "${kubectl_real}" "${@}" --namespace="${KUBENS}")
+}
 
 ############################################################################################################################
 # Golang Stuff
