@@ -32,6 +32,7 @@ export MAKEFLAGS="-j ${NPROC}"
 export EDITOR="nvim"
 #export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/.local/bin
 
 if [[ "${PLATFORM_OS}" == "linux" ]]; then
 	export BROWSER="chromium"
