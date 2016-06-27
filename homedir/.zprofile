@@ -232,6 +232,22 @@ mosh_chimera_local()		{ mosh	cole@chimera.local		--ssh="ssh -p 222" }
 mosh_azdev()				{ mosh	cole@azdev.mickens.io	--ssh="ssh -p 22" }
 mosh_azudev()				{ mosh	cole@azudev.mickens.io	--ssh="ssh -p 22" }
 
+sshfs_common() {
+	host="$1"
+	location="$2"
+	command sshfs -o reconnect,compression=yes,transform_symlinks,ServerAliveInterval=45,ServerAliveCountMax=2,ssh_command='autossh -M 0' cole@"$1":/home/cole "$2"
+}
+
+
+sshfs_azdev() { sshfs_common azdev.mickens.io ~/mnt/azdev }
+sshfs_cmz420() { sshfs_common cmz420 ~/mnt/cmz420 }
+
+unsshfs() {
+	sudo diskutil unmount ~/mnt/azdev || true
+	sudo diskutil unmount ~/mnt/chimera || true
+	sudo diskutil unmount ~/mnt/cmz420 || true
+}
+
 proxy_chimera_rev() { assh cole@chimera.mickens.io -p 222 -N -T -R 2222:localhost:${1} }
 proxy_chimera_fwd() { assh cole@chimera.mickens.io -p 222 -N -T -L 2222:localhost:2222 }
 proxy_connect() { assh cole@localhost -p 2222 }
