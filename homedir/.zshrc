@@ -5,6 +5,8 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 source ~/.zprofile
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
 
 ##############################################################################
 # config for stuff loaded by zplug

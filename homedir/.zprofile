@@ -290,6 +290,7 @@ rdp_common() {
 		/p:$rdppass \
 		$rdpopts \
 		+fonts \
+		+clipboard \
 		+compression \
 		+toggle-fullscreen \
 		-wallpaper \
