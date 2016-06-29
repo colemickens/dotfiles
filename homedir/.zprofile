@@ -407,7 +407,6 @@ backup_code() {
 
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
-export kubectl_real="$(command which kubectl)"
 
 kubectl_proxy() {
 	# use port 9999 since we punch it for cloud vms
