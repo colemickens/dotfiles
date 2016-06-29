@@ -17,6 +17,8 @@
   system.stateVersion = "16.03";
 
   boot = {
+    cleanTmpDir = true;
+    tmpOnTmpfs = true;
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" ];
     kernelModules = [ "i915" "kvm-intel" ];
     extraModulePackages = [ ];

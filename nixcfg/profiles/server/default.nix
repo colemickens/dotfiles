@@ -18,14 +18,26 @@ in {
         hinfo = true;
       };
     };
-    locate.enable = true;
+    jenkins = {
+      enable = true;
+      port = 9999;
+    };
+    locate = {
+      enable = true;
+    };
+    nginx = {
+      enable = true;
+      config = lib.readFile ./nginx.conf;
+    };
     openssh = {
       enable = true;
     };
     plex = {
       enable = true;
     };
-    upower.enable = true;
+    upower = {
+      enable = true;
+    };
   };
 
   networking.firewall = {

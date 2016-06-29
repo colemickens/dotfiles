@@ -24,7 +24,8 @@ in
   virtualisation = {
     docker.enable = true;
     rkt.enable = true;
-    libvirtd.enable = true;
+    #libvirtd.enable = true;
+    virtualbox.host.enable = true;
   };
 
   services.timesyncd.enable = true;
@@ -141,5 +142,6 @@ in
     dropbox-cli
     kubernetes
     aria2
+    vagrant
   ];
 }
