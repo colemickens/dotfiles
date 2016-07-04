@@ -80,9 +80,5 @@ let g:deoplete#enable_at_startup = 1
 
 
 
-
-
-
-
 " DISABLE YAML for now
 autocmd FileType yaml let b:did_indent = 1

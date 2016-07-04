@@ -194,9 +194,14 @@ github_load_keys() {
 # Launcher Helpers
 ############################################################################################################################
 
-mitmproxy() {
+mitm() {
 	# make sure the secret is here from dropbox, use it in args to mitmproxy
-	/usr/bin/env mitmproxy --cadir $HOME/code/colemickens/secrets/mitmproxy "$@"
+	/usr/bin/env mitmproxy -b 127.0.0.1 -p 9000 "$@"
+}
+mitm_install_cert() {
+	sudo mkdir /usr/local/share/ca-certificates
+	sudo cp ~/.mitmproxy/mitmproxy-ca-cert.cer /usr/local/share/ca-certificates/mitmproxy-ca-cert.crt
+	sudo dpkg-reconfigure ca-certificates
 }
 
 
@@ -408,23 +413,17 @@ backup_code() {
 export KUBERNETES_PROVIDER=azure
 export KUBE_RELEASE_RUN_TESTS=n
 
-kubectl_proxy() {
-	# use port 9999 since we punch it for cloud vms
-	echo "using kubectl: ${kubectl_real}"
-	echo "--"
-	(set -x; command "${kubectl_real}" proxy --address=0.0.0.0 --accept-hosts='.+' --port 9999)
-}
+kubectl_proxy() { (set -x; command kubectl proxy --address=0.0.0.0 --accept-hosts='.+' --port 9090) }
 
-kubectl_() {
-	(set -x; command "${kubectl_real}" "${@}" --all-namespaces)
-}
+kubectl_registry_tunnel() {(
+	set -x;
+	REGISTRY_POD_NAME="$(kubectl get pods --namespace=kube-system -o json | jq -r '.items | map(select(contains ({"metadata":{"labels":{"k8s-app":"kube-registry"}}}))) | .[0].metadata.name')"
+	command kubectl port-forward --namespace=kube-system ${REGISTRY_POD_NAME} 5000
+)}
 
-kubectl() {
-	if [[ -z "${KUBENS:-}" ]]; then
-		KUBECTL_NAMESPACE="default"
-	fi
-	(set -x; command "${kubectl_real}" "${@}" --namespace="${KUBENS}")
-}
+kubens() { command kubectl config set-context "$(kubectl config current-context)" --namespace="$1" }
+
+kctl() { command kubectl "$@" --all-namespaces }
 
 ############################################################################################################################
 # Golang Stuff

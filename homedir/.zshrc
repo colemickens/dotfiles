@@ -124,5 +124,6 @@ if [[ -z "$TMUX" ]]; then
 fi;
 
 autoload -U compinit && compinit
+source <(kubectl completion zsh)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
