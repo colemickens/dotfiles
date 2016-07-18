@@ -71,9 +71,9 @@ bindkey '^[[Z'    reverse-menu-complete
 ###############################################################################
 # Vim-plug
 ###############################################################################
-[[ -f "$HOME/.config/nvim/autoload/plug.vim" ]] || {
-	curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+[[ -d "$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim" ]] || {
+	mkdir -p $HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
+	git clone https://github.com/Shougo/dein.vim $HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 }
 
 

@@ -1,46 +1,57 @@
-filetype plugin on
+if &compatible
+  set nocompatible
+endif
 
-""""""""""""""""""""
-" Vim-Plug Plugins "
-""""""""""""""""""""
-call plug#begin('~/.config/nvim/plugged')
+"""""""""""""""""""
+" dein
+"""""""""""""""""""
+set runtimepath^=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
+
+call dein#begin(expand('~/.config/nvim/dein/repos/github.com/Shougo/dein.vim'))
+
+call dein#add('Shougo/dein.vim')
 
 " Statusbar bling
-Plug 'bling/vim-airline'
+call dein#add('bling/vim-airline')
 
 " Colorschemes
-Plug 'morhetz/gruvbox'
-Plug 'mkarmona/materialbox'
-Plug 'DrSpatula/vim-buddy'
-Plug 'djjcast/mirodark'
-Plug 'notpratheek/vim-luna'
+call dein#add('morhetz/gruvbox')
+call dein#add('mkarmona/materialbox')
+call dein#add('DrSpatula/vim-buddy')
+call dein#add('djjcast/mirodark')
+call dein#add('notpratheek/vim-luna')
 
 " File Management
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+call dein#add('scrooloose/nerdtree', { 'on_cmd':  'NERDTreeToggle' })
+call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/vimfiler.vim')
+call dein#add('junegunn/fzf', { 'build': './install', 'rtp': '' })
 
 " Git Plugins
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+call dein#add('Xuyuanp/nerdtree-git-plugin')
+call dein#add('tpope/vim-fugitive')
+call dein#add('airblade/vim-gitgutter')
 
 " Syntax completion/checking
-Plug 'benekastah/neomake'
-Plug 'Shougo/deoplete.nvim'
-Plug 'majutsushi/tagbar'
-Plug 'PProvost/vim-ps1'
+call dein#add('Shougo/deoplete.nvim')
+call dein#add('Shougo/neocomplete.vim')
+call dein#add('majutsushi/tagbar')
+call dein#add('PProvost/vim-ps1')
 
 " Language specific
-Plug 'fatih/vim-go'
-"Plug 'rust-lang/rust.vim'
-Plug 'LnL7/vim-nix'
+call dein#add('fatih/vim-go')
+call dein#add('rust-lang/rust.vim')
+call dein#add('LnL7/vim-nix')
 
-call plug#end()
+call dein#end()
 
 """""""""""""""""
 " NeoVim Config "
 """""""""""""""""
-"let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"filetype plugin on
+filetype plugin indent on
+
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 " show relative line numbers above and below absolute line number
@@ -60,7 +71,9 @@ colors gruvbox
 set background=dark
 
 " gruvbox options
-"let g:gruvbox_italic=1
+let g:gruvbox_italic=1
+
+
 
 
 " bling/vim-airline options
