@@ -5,4 +5,4 @@ Terminal=false
 Type=Application
 Name=Chromium Personal
 Exec=/usr/bin/env google-chrome-unstable --profile-directory=Default
-Icon=google-chrome
+Icon=google-chrome-unstable
