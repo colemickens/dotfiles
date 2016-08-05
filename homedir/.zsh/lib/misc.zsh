@@ -19,16 +19,6 @@ gitup() {
 	done
 }
 
-gotty_wrap() {
-	set -x
-	gotty --address 0.0.0.0 --port "5050" tmux new-session -A -s gotty
-}
-
-gotty_wrap_w() {
-	set -x
-	gotty -w --address 0.0.0.0 --port "5050" tmux new-session -A -s gotty
-}
-
 countdown() {
 	date1=$((`date +%s` + $1));
 	while [ "$date1" -ge `date +%s` ]; do

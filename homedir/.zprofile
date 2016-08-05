@@ -9,6 +9,7 @@ source $HOME/.zsh/lib/arch.zsh
 source $HOME/.zsh/lib/azure.zsh
 source $HOME/.zsh/lib/docker.zsh
 source $HOME/.zsh/lib/golang.zsh
+source $HOME/.zsh/lib/gotty.zsh
 source $HOME/.zsh/lib/kubernetes.zsh
 source $HOME/.zsh/lib/maintenance.zsh
 source $HOME/.zsh/lib/misc.zsh
