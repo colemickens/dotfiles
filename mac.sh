@@ -11,7 +11,7 @@ brew install jsonnet
 brew install macvim
 brew install mercurial
 brew install mobile-shell
-brew install neovim
+#brew install neovim
 brew install sshfs
 brew install sshuttle
 brew install stow
@@ -20,6 +20,14 @@ brew install tmux
 brew install wget
 brew install watch
 
+
+## neovim
+
+brew tap neovim/neovim
+brew install --HEAD --with-release neovim
+
+#brew update
+#brew reinstall --HEAD neovim
 
 ## fonts
 

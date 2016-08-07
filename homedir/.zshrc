@@ -104,3 +104,5 @@ source <(kubectl completion zsh)
 if [[ -z "$TMUX" ]]; then
 	tmux ls
 fi;
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
