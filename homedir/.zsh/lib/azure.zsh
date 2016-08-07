@@ -1,6 +1,3 @@
-### Azure completion
-source <(azure --completion)
-
 ### some random script
 ### TODO: move it back here
 export PATH=$PATH:$HOME/code/colemickens/azure-toolkit/helpers

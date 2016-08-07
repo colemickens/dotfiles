@@ -1,6 +1,3 @@
-### Kubectl completion
-source <(kubectl completion zsh)
-
 kubectl_proxy() { (set -x; command kubectl proxy --address=0.0.0.0 --accept-hosts='.+' --port 9090) }
 
 kubectl_registry_tunnel() {(

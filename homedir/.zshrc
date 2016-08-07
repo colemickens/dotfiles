@@ -96,6 +96,9 @@ elif [[ "${PLATFORM_OS}" == "macos" ]]; then
 	alias ls='ls -G'
 fi
 
+source <(azure --completion)
+source <(kubectl completion zsh)
+
 
 ### Tmux info
 if [[ -z "$TMUX" ]]; then
