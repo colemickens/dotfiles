@@ -1,11 +1,12 @@
 ### zsh
 export DEFAULT_USER="cole"
-export HISTSIZE=10000
-export SAVEHIST=10000
-export HISTFILE="$HOME/.zsh_history"
-setopt AUTO_CD
+export HISTSIZE=100000
+export SAVEHIST=100000
+export HISTFILE="$HOME/.zhistory"
+#setopt AUTO_CD
 setopt inc_append_history
 setopt share_history
+setopt HIST_SAVE_NO_DUPS
 mkdir -p "$HOME/.zsh/completions"
 fpath=(~/.zsh/completions $fpath)
 
@@ -55,26 +56,21 @@ source ~/.zplug/init.zsh
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "zsh-users/zsh-completions"
 zplug "willghatch/zsh-saneopt"
-zplug "junegunn/fzf", use:"shell/*.zsh"
 zplug "supercrabtree/k"
 zplug "b4b4r07/enhancd"
 zplug "lib/completion",            from:oh-my-zsh
 zplug "lib/correction",            from:oh-my-zsh
 zplug "lib/key-bindings",          from:oh-my-zsh
+#zplug "zsh-users/zsh-history-substring-search"
 #zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-history-substring-search"
+zplug "junegunn/fzf", use:"shell/*.zsh", nice:11
 if ! zplug check --verbose; then
 	zplug install
 fi
 zplug load
-if zplug check zsh-users/zsh-history-substring-search; then
-	zmodload zsh/terminfo
-	bindkey "$terminfo[kcuu1]" history-substring-search-up
-	bindkey "$terminfo[kcud1]" history-substring-search-down
-fi
-zstyle ':completion:*' menu select
-bindkey '^[[Z'    reverse-menu-complete
+#zstyle ':completion:*' menu select
+#bindkey '^[[Z'    reverse-menu-complete
 
 
 ### vim: dein
@@ -104,5 +100,3 @@ source <(kubectl completion zsh)
 if [[ -z "$TMUX" ]]; then
 	tmux ls
 fi;
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
