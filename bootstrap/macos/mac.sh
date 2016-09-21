@@ -10,6 +10,7 @@ brew install htop
 brew install jsonnet
 brew install macvim
 brew install mercurial
+brew install mitmproxy
 brew install mobile-shell
 #brew install neovim
 brew install sshfs
@@ -32,9 +33,9 @@ brew install --HEAD --with-release neovim
 ## fonts
 
 brew tap caskroom/fonts
-brew cask install font-courier-prime
-brew cask install font-fira-code
-brew cask install font-fira-mono
-brew cask install font-hack
-brew cask install font-hasklig
-brew cask install font-source-code-pro
+brew cask install --force font-courier-prime
+brew cask install --force font-fira-code
+brew cask install --force font-fira-mono
+brew cask install --force font-hack
+brew cask install --force font-hasklig
+brew cask install --force font-source-code-pro
