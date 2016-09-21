@@ -1,3 +1,7 @@
+export PATH=$PATH:$HOME/.local/bin
+export MAKEFLAGS="-j ${NPROC}"
+export EDITOR="nvim"
+
 ### zsh
 export DEFAULT_USER="cole"
 export HISTSIZE=100000
@@ -56,7 +60,7 @@ source ~/.zplug/init.zsh
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "zsh-users/zsh-completions"
 zplug "willghatch/zsh-saneopt"
-zplug "supercrabtree/k"
+#zplug "supercrabtree/k"
 zplug "b4b4r07/enhancd"
 zplug "lib/completion",            from:oh-my-zsh
 zplug "lib/correction",            from:oh-my-zsh
@@ -92,11 +96,33 @@ elif [[ "${PLATFORM_OS}" == "macos" ]]; then
 	alias ls='ls -G'
 fi
 
-source <(azure --completion)
-source <(kubectl completion zsh)
-
-
 ### Tmux info
 if [[ -z "$TMUX" ]]; then
 	tmux ls
 fi;
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /home/cole/.local/share/google-cloud-sdk/path.zsh.inc ]; then
+  source '/home/cole/.local/share/google-cloud-sdk/path.zsh.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /home/cole/.local/share/google-cloud-sdk/completion.zsh.inc ]; then
+  source '/home/cole/.local/share/google-cloud-sdk/completion.zsh.inc'
+fi
+
+#export NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+source $HOME/.zsh/lib/arch.zsh
+source $HOME/.zsh/lib/azure.zsh
+source $HOME/.zsh/lib/docker.zsh
+source $HOME/.zsh/lib/golang.zsh
+source $HOME/.zsh/lib/gotty.zsh
+source $HOME/.zsh/lib/kubernetes.zsh
+source $HOME/.zsh/lib/maintenance.zsh
+source $HOME/.zsh/lib/misc.zsh
+source $HOME/.zsh/lib/mitmproxy.zsh
+source $HOME/.zsh/lib/rdp.zsh
+source $HOME/.zsh/lib/ssh.zsh
