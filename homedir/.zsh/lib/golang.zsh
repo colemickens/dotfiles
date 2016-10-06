@@ -1,3 +1,6 @@
+export GOPATH=$HOME/code/gopkgs
+export PATH=${PATH}:$HOME/code/gopkgs/bin
+
 gocovpkg() {
 	time go test -coverprofile cover.out . \
 	&& go tool cover -html=cover.out -o cover.html \

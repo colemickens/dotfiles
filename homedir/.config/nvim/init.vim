@@ -117,3 +117,7 @@ au BufReadPost Jenkinsfile* set syntax=groovy
 "let g:terminal_color_13 = '#ad7fa8'
 "let g:terminal_color_14 = '#00f5e9'
 "let g:terminal_color_15 = '#eeeeec'
+
+highlight Normal ctermbg=none
+
+au BufReadPost Jenkinsfile.* set syntax=groovy

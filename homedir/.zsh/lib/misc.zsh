@@ -1,3 +1,9 @@
+## ruby
+
+export PATH=${PATH}:$HOME/.gem/ruby/2.3.0/bin
+
+## misc
+
 myip() {
 	txt="$(dig o-o.myaddr.l.google.com @ns1.google.com txt +short)"
 	echo ${txt//\"}

@@ -14,8 +14,7 @@ k8s_registry() {
 	command kubectl port-forward --namespace=kube-system ${REGISTRY_POD_NAME} 5000
 }
 
-kubectla() {
-	command kubectl "$@" --all-namespaces
-}
-
 source <(kubectl completion zsh)
+
+alias k="kubectl"
+compdef k=kubectl

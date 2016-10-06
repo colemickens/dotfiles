@@ -1,1 +1,1 @@
-source <(azure --completion)
+#source <(azure --completion)

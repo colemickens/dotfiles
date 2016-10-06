@@ -115,6 +115,8 @@ fi
 
 #export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
+alias ll="LC_ALL=C ls -al --group-directories-first"
+
 source $HOME/.zsh/lib/arch.zsh
 source $HOME/.zsh/lib/azure.zsh
 source $HOME/.zsh/lib/docker.zsh
