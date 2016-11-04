@@ -10,19 +10,7 @@ myip() {
 }
 
 gitup() {
-	for p in $HOME/code/* ; do
-		if [[ -d "$p" ]]; then
-			for d in $p/* ; do
-				(
-					cd "$d"
-					echo
-					echo "---- updating $d"
-					git remote update --prune
-					git status
-				)
-			done
-		fi
-	done
+	git remote update -p
 }
 
 countdown() {
