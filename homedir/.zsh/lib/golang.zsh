@@ -23,7 +23,7 @@ cd_autorest() { gopath autorest github.com/Azure/go-autorest }
 cd_azkube() { gopath azkube github.com/colemickens/azkube }
 cd_azuresdk() { gopath azuresdk github.com/Azure/azure-sdk-for-go }
 cd_kubernetes() { gopath kubernetes k8s.io/kubernetes }
-cd_asciinema() { gopath asciinema github.com/asciinema/asciinema }
+cd_acsengine() { gopath acs-engine github.com/Azure/acs-engine }
 
 # these are things that vim-go needs, or we otherwise use (glide)
 go_update_utils() {
