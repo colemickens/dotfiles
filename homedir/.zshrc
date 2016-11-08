@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/.local/bin
+export PATH=${HOME}/.local/bin:${PATH}
 export MAKEFLAGS="-j ${NPROC}"
 export EDITOR="nvim"
 
