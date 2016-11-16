@@ -1,5 +1,4 @@
 export PATH=${HOME}/.local/bin:${PATH}
-export MAKEFLAGS="-j ${NPROC}"
 export EDITOR="nvim"
 
 ### zsh
@@ -32,6 +31,8 @@ elif [[ "${UNAMESTR}" == "Linux" ]]; then
 	export PLATFORM_ARCH="amd64"
 	export NPROC="$(nproc)"
 fi
+
+export MAKEFLAGS="-j${NPROC}"
 
 ### powerlevel9k config
 POWERLEVEL9K_MODE="compatible"
@@ -128,3 +129,7 @@ source $HOME/.zsh/lib/misc.zsh
 source $HOME/.zsh/lib/mitmproxy.zsh
 source $HOME/.zsh/lib/rdp.zsh
 source $HOME/.zsh/lib/ssh.zsh
+
+if [[ "$(hostname)" == "pixel" ]]; then
+	source $HOME/.zsh/lib/pixel.zsh
+fi
