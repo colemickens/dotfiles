@@ -1,7 +1,5 @@
 archup() {
 	yaourt -Syua --noconfirm
-	pip install --user --upgrade --quiet 'azure-cli'
-	npm install --quiet --prefix="${HOME}/.local/share/node_modules" 'azure-cli'
 }
 pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
 
@@ -22,4 +20,8 @@ arch_bootstrap() {
 		asciinema bind-tools weechat mitmproxy
 
 	sudo gpasswd -a "$(id -nu)" docker
+
+	mkdir -p "${HOME}/.local/share/node_modules"
+	pip install --user --upgrade --quiet 'azure-cli'
+	npm install --quiet --prefix="${HOME}/.local/share/node_modules" 'azure-cli'
 }
