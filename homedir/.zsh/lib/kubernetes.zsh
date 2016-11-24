@@ -14,6 +14,17 @@ k8s_registry() {
 	command kubectl port-forward --namespace=kube-system ${REGISTRY_POD_NAME} 5000
 }
 
+k8s_dashboard_latest() {
+	kubectl --namespace=kube-system set image \
+		deployment/kubernetes-dashboard \
+		"kubernetes-dashboard=docker.io/kubernetesdashboarddev/kubernetes-dashboard-amd64:head"
+
+	kubectl --namespace=kube-system rollout status \
+		deployment/kubernetes-dashboard
+
+	kubectl --namespace=kube-system delete pod kubernetes-dashboard
+}
+
 source <(kubectl completion zsh)
 
 alias k="kubectl"
