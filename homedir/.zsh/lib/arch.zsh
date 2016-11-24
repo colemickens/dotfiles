@@ -1,5 +1,9 @@
 if [[ "$PLATFORM_DISTRO" == "arch" ]]; then
-	archup() { sudo true; yaourt -Syua --noconfirm }
+	archup() {
+		yaourt -Syua --noconfirm
+		pip install --user --upgrade --quiet 'azure-cli'
+		npm install --quiet --prefix="${HOME}/.local/share/node_modules" 'azure-cli'
+	}
 	pacman_clean() { sudo pacman -Sc; sudo pacman -Scc; }
 
 	reflector_run() {
