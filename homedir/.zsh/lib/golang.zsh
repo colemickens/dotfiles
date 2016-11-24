@@ -32,7 +32,7 @@ go_update_utils() {
 	go get -u github.com/tools/godep
 
 	go get -u golang.org/x/tools/cmd/goimports # vim-go
-	go get -u golang.org/x/tools/cmd/oracle # vim-go
+	go get -u golang.org/x/tools/cmd/guru # vim-go
 	go get -u golang.org/x/tools/cmd/gorename # vim-go
 
 	go get -u github.com/nsf/gocode # vim-go
