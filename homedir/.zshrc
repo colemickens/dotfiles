@@ -1,6 +1,6 @@
 export PATH=$HOME/.local/share/node_modules/.bin:$PATH
-export PATH=$HOME/.local/bin:$PATH
-export MAKEFLAGS="-j ${NPROC}"
+export PATH=${HOME}/.local/bin:${PATH}
+export PATH=${HOME}/.cargo/bin:${PATH}
 export EDITOR="nvim"
 
 ### zsh
