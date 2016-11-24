@@ -63,21 +63,16 @@ source ~/.zplug/init.zsh
 zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "zsh-users/zsh-completions"
 zplug "willghatch/zsh-saneopt"
-#zplug "supercrabtree/k"
 zplug "b4b4r07/enhancd"
 zplug "lib/completion",            from:oh-my-zsh
 zplug "lib/correction",            from:oh-my-zsh
 zplug "lib/key-bindings",          from:oh-my-zsh
-#zplug "zsh-users/zsh-history-substring-search"
-#zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "junegunn/fzf", use:"shell/*.zsh", nice:11
 if ! zplug check --verbose; then
 	zplug install
 fi
 zplug load
-#zstyle ':completion:*' menu select
-#bindkey '^[[Z'    reverse-menu-complete
 
 
 ### vim: dein
@@ -106,22 +101,11 @@ fi;
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f /home/cole/.local/share/google-cloud-sdk/path.zsh.inc ]; then
-  source '/home/cole/.local/share/google-cloud-sdk/path.zsh.inc'
-fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f /home/cole/.local/share/google-cloud-sdk/completion.zsh.inc ]; then
-  source '/home/cole/.local/share/google-cloud-sdk/completion.zsh.inc'
-fi
-
 #export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 alias ll="LC_ALL=C ls -al --group-directories-first"
 
 source $HOME/.zsh/lib/arch.zsh
-source $HOME/.zsh/lib/azure.zsh
 source $HOME/.zsh/lib/docker.zsh
 source $HOME/.zsh/lib/golang.zsh
 source $HOME/.zsh/lib/gotty.zsh
@@ -131,7 +115,9 @@ source $HOME/.zsh/lib/misc.zsh
 source $HOME/.zsh/lib/mitmproxy.zsh
 source $HOME/.zsh/lib/rdp.zsh
 source $HOME/.zsh/lib/ssh.zsh
+source $HOME/.zsh/lib/azure.zsh
 
 if [[ "$(hostname)" == "pixel" ]]; then
 	source $HOME/.zsh/lib/pixel.zsh
 fi
+
