@@ -1,0 +1,10 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "editor.fontFamily": "'Fira Code', 'Source Code Pro'",
+    "window.zoomLevel": 1,
+    "editor.lineNumbers": "relative",
+    "editor.fontLigatures": true,
+    "editor.renderIndentGuides": true,
+    "editor.renderControlCharacters": true,
+    "editor.rulers": [80,120]
+}
