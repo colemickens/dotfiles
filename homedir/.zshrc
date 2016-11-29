@@ -16,6 +16,10 @@ setopt HIST_SAVE_NO_DUPS
 mkdir -p "$HOME/.zsh/completions"
 fpath=(~/.zsh/completions $fpath)
 
+## nvim settings that must be env vars? TODO: check on this
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
 ### env
 export HOSTNAME="$(hostname)"
 export UNAMESTR="$(uname)"
