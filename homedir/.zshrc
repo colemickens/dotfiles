@@ -1,6 +1,7 @@
-export PATH=$HOME/.local/share/node_modules/.bin:$PATH
-export PATH=${HOME}/.local/bin:${PATH}
-export PATH=${HOME}/.cargo/bin:${PATH}
+export PATH="${HOME}/.local/share/node_modules/.bin:${PATH}"
+export PATH="${HOME}/.cargo/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${PATH}"
+export PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
 export EDITOR="nvim"
 
 ### zsh
@@ -109,6 +110,7 @@ source $HOME/.zsh/lib/docker.zsh
 source $HOME/.zsh/lib/golang.zsh
 source $HOME/.zsh/lib/gotty.zsh
 source $HOME/.zsh/lib/kubernetes.zsh
+source $HOME/.zsh/lib/macos.zsh
 source $HOME/.zsh/lib/maintenance.zsh
 source $HOME/.zsh/lib/misc.zsh
 source $HOME/.zsh/lib/mitmproxy.zsh
