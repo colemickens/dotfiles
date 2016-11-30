@@ -42,6 +42,7 @@ call dein#add('PProvost/vim-ps1')
 call dein#add('fatih/vim-go')
 call dein#add('rust-lang/rust.vim')
 call dein#add('LnL7/vim-nix')
+call dein#add('leafgarland/typescript-vim')
 
 call dein#end()
 
