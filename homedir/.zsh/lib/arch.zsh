@@ -11,6 +11,7 @@ reflector_run() {
 }
 
 arch_bootstrap() {
+	set -x
 	yaourt -S --needed \
 		zsh mosh openssh vim stow wget curl htop docker \
 		git subversion mercurial \
@@ -21,7 +22,7 @@ arch_bootstrap() {
 
 	sudo gpasswd -a "$(id -nu)" docker
 
-	mkdir -p "${HOME}/.local/share/node_modules"
+	mkdir -p "${HOME}/.local/share/nodejs"
 	pip install --user --upgrade --quiet 'azure-cli'
-	npm install --quiet --prefix="${HOME}/.local/share/node_modules" 'azure-cli'
+	npm install --quiet --global --prefix="${HOME}/.local/share/nodejs" 'azure-cli'
 }
