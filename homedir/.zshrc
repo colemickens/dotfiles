@@ -99,14 +99,22 @@ elif [[ "${PLATFORM_OS}" == "macos" ]]; then
 	alias ls='ls -G'
 fi
 
+
 ### Tmux info
 if [[ -z "$TMUX" ]]; then
 	tmux ls
-fi;
+fi
+if [[ "$(hostname)" == "azdev" ]]; then
+	export TMUX_HOSTNAME_COLOR=4
+elif [[ "$(hostname)" == "pixel" ]]; then
+	export TMUX_HOSTNAME_COLOR=5
+elif [[ "$(hostname)" == "colemickmbp" ]]; then
+	export TMUX_HOSTNAME_COLOR=7
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-#export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 alias ll="LC_ALL=C ls -al --group-directories-first"
 
@@ -129,4 +137,3 @@ fi
 if [[ "$PLATFORM_DISTRO" == "arch" ]]; then
 	source $HOME/.zsh/lib/arch.zsh
 fi
-
