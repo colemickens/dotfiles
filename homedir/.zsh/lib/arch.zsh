@@ -17,12 +17,40 @@ arch_bootstrap() {
 		git subversion mercurial \
 		go python ruby perl rustup npm nodejs \
 		jq tig parallel jenkins weechat gist fzf python-pip rsync reflector \
-		kubectl-bin \
-		asciinema bind-tools weechat mitmproxy
+		kubectl-bin helm-git \
+		asciinema bind-tools weechat mitmproxy neofetch \
+		libu2f-host \
+		#record-query-git \
 
 	sudo gpasswd -a "$(id -nu)" docker
 
+	arch_update_az
+	arch_update_azure_legacy
+}
+
+arch_update_azure_legacy() {
+	# legacy 'azure' azure-xplat-cli
 	mkdir -p "${HOME}/.local/share/nodejs"
-	pip install --user --upgrade --quiet 'azure-cli'
 	npm install --quiet --global --prefix="${HOME}/.local/share/nodejs" 'azure-cli'
+}
+
+arch_update_az() {
+	# new 'az' azure-cli
+	#pip install --user --upgrade --quiet 'azure-cli'
+	rm -rf /home/cole/.local/lib/python3.5/site-packages/*az*
+	pip install --user --upgrade --pre azure-cli --extra-index-url https://azureclinightly.blob.core.windows.net/packages
+
+	# optional modules:
+	#export AZURE_COMPONENT_PACKAGE_INDEX_URL=https://azureclinightly.blob.core.windows.net/packages
+    #az component update --add keyvault --private
+	pip install --user --upgrade --pre azure-cli-keyvault --extra-index-url https://azureclinightly.blob.core.windows.net/packages
+}
+
+arch_bootstrap_gui() {
+	set -x
+	yaourt -S --needed \
+		google-chrome-dev vlc firefox \
+		gedit visual-studio-code-bin \
+		remmina slack-desktop skype-for-linux-beta \
+		gnome-screenshot gnome-boxes cheese gnome-image-viewer
 }
