@@ -24,6 +24,8 @@ cd_azkube() { gopath azkube github.com/colemickens/azkube }
 cd_azuresdk() { gopath azuresdk github.com/Azure/azure-sdk-for-go }
 cd_kubernetes() { gopath kubernetes k8s.io/kubernetes }
 cd_acsengine() { gopath acs-engine github.com/Azure/acs-engine }
+cd_acs() { cd $HOME/msazure/Compute-CPlat-Containers }
+cd_acs2() { cd $HOME/msazure/Compute-ContainerService }
 
 # these are things that vim-go needs, or we otherwise use (glide)
 go_update_utils() {

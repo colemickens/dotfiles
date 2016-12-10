@@ -21,20 +21,19 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 ### env
-export HOSTNAME="$(hostname)"
-export UNAMESTR="$(uname)"
 export PLATFORM_OS="unknown"
 export PLATFORM_DISTRO="unknown"
 export PLATFORM_ARCH="unknown"
 export NPROC=1
-if [[ "${UNAMESTR}" == "Darwin" ]]; then
+if [[ "$(uname)" = "Darwin" ]]; then
 	export PLATFORM_OS="macos"
 	export PLATFORM_DISTRO=""
 	export PLATFORM_ARCH="amd64"
 	export NPROC="$(sysctl -n hw.ncpu)"
-elif [[ "${UNAMESTR}" == "Linux" ]]; then
+elif [[ "$(uname)" == "Linux" ]]; then
 	export PLATFORM_OS="linux"
 	export PLATFORM_DISTRO="$(source /etc/os-release; echo "${ID}")"
+export HOSTNAME="$(hostname)"
 	export PLATFORM_ARCH="amd64"
 	export NPROC="$(nproc)"
 fi
@@ -108,13 +107,13 @@ if [[ "$(hostname)" == "azdev" ]]; then
 	export TMUX_HOSTNAME_COLOR=4
 elif [[ "$(hostname)" == "pixel" ]]; then
 	export TMUX_HOSTNAME_COLOR=5
-elif [[ "$(hostname)" == "colemickmbp" ]]; then
+elif [[ "$(hostname)" == "chimera" ]]; then
+	export TMUX_HOSTNAME_COLOR=2
+elif [[ "$(hostname)" == "cmmbp" ]]; then
 	export TMUX_HOSTNAME_COLOR=7
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 alias ll="LC_ALL=C ls -al --group-directories-first"
 
