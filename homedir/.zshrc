@@ -117,6 +117,7 @@ fi
 
 alias ll="LC_ALL=C ls -al --group-directories-first"
 
+source $HOME/.zsh/lib/azure.zsh
 source $HOME/.zsh/lib/docker.zsh
 source $HOME/.zsh/lib/golang.zsh
 source $HOME/.zsh/lib/gotty.zsh
@@ -127,7 +128,6 @@ source $HOME/.zsh/lib/misc.zsh
 source $HOME/.zsh/lib/mitmproxy.zsh
 source $HOME/.zsh/lib/rdp.zsh
 source $HOME/.zsh/lib/ssh.zsh
-source $HOME/.zsh/lib/azure.zsh
 
 if [[ "$(hostname)" == "pixel" ]]; then
 	source $HOME/.zsh/lib/pixel.zsh
@@ -136,3 +136,5 @@ fi
 if [[ "$PLATFORM_DISTRO" == "arch" ]]; then
 	source $HOME/.zsh/lib/arch.zsh
 fi
+
+KUBE_FASTBUILD=true

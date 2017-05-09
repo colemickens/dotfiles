@@ -3,6 +3,10 @@ k8s_proxy() {
 	command kubectl proxy --port 9090
 }
 
+kubu() {
+	kubectl run -it --image=buildpack-deps:xenial-curl --restart=Never xenial-$RANDOM
+}
+
 k8s_proxy_public() {
 	set -x
 	command kubectl proxy --address=0.0.0.0 --accept-hosts='.+' --port 9090

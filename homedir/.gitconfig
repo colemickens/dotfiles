@@ -3,3 +3,5 @@
 	name = Cole Mickens
 [credential]
 	helper = store
+[http "https://gopkg.in"]
+	followRedirects = true

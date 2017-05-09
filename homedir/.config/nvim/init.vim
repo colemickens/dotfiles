@@ -17,8 +17,10 @@ call dein#add('bling/vim-airline')
 " Colorschemes
 call dein#add('morhetz/gruvbox')
 call dein#add('mkarmona/materialbox')
+call dein#add('nanotech/jellybeans.vim')
 call dein#add('DrSpatula/vim-buddy')
 call dein#add('djjcast/mirodark')
+call dein#add('w0ng/vim-hybrid')
 call dein#add('notpratheek/vim-luna')
 
 " File Management
@@ -37,12 +39,14 @@ call dein#add('Shougo/deoplete.nvim')
 call dein#add('Shougo/neocomplete.vim')
 call dein#add('majutsushi/tagbar')
 call dein#add('PProvost/vim-ps1')
+call dein#add('ekalinin/Dockerfile.vim')
 
 " Language specific
 call dein#add('fatih/vim-go')
 call dein#add('rust-lang/rust.vim')
 call dein#add('LnL7/vim-nix')
 call dein#add('leafgarland/typescript-vim')
+call dein#add('cespare/vim-toml')
 
 call dein#end()
 
@@ -59,6 +63,8 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 set rnu
 set nu
 
+set mouse=a
+
 " tab configuration (?)
 set shiftwidth=4
 set tabstop=4
@@ -66,10 +72,12 @@ set tabstop=4
 " show tabs
 set list
 
-" colorscheme/appearance
-colors gruvbox
-"colors buddy
 set background=dark
+"colors jellybeans
+colors hybrid
+" colorscheme/appearance
+"colors gruvbox
+"colors buddy
 
 " gruvbox options
 let g:gruvbox_italic=1
