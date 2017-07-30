@@ -1,10 +1,24 @@
 // Place your settings in this file to overwrite the default settings
 {
-    "editor.fontFamily": "'Fira Code', 'Source Code Pro'",
+    //"editor.fontFamily": "'Fira Code', 'Source Code Pro'",
+    "editor.fontFamily": "'Hasklig'",
     "window.zoomLevel": 1,
+    "editor.fontSize": 12,
     "editor.lineNumbers": "relative",
     "editor.fontLigatures": true,
     "editor.renderIndentGuides": true,
     "editor.renderControlCharacters": true,
-    "editor.rulers": [80,120]
+    "editor.rulers": [80,120],
+    "extensions.autoUpdate": true,
+    "update.channel": "none",
+    "workbench.welcome.enabled": false,
+    "workbench.colorTheme": "Tomorrow Night",
+    "rust.rustup": {
+        "toolchain": "nightly-x86_64-unknown-linux-gnu",
+        "nightlyToolchain": "nightly-x86_64-unknown-linux-gnu"
+    },
+    "rust.mode": "rls",
+    "rust.rls": {
+        "useRustfmt": false
+    }
 }
