@@ -43,6 +43,7 @@ call dein#add('ekalinin/Dockerfile.vim')
 
 " Language specific
 call dein#add('fatih/vim-go')
+call dein#add('cespare/vim-toml')
 call dein#add('rust-lang/rust.vim')
 call dein#add('LnL7/vim-nix')
 call dein#add('leafgarland/typescript-vim')
@@ -72,12 +73,15 @@ set tabstop=4
 " show tabs
 set list
 
-set background=dark
-"colors jellybeans
-colors hybrid
+
 " colorscheme/appearance
+
 "colors gruvbox
 "colors buddy
+"colors jellybeans
+set background=dark
+colors hybrid
+
 
 " gruvbox options
 let g:gruvbox_italic=1
@@ -86,7 +90,7 @@ let g:gruvbox_italic=1
 
 
 " bling/vim-airline options
-let g:airline_powerline_fonts = 0
+"let g:airline_powerline_fonts = 0
 
 " scrooloose/nerdtree options
 map <C-n> :NERDTreeToggle<CR>
@@ -106,27 +110,4 @@ let g:deoplete#enable_at_startup = 1
 autocmd FileType yaml let b:did_indent = 1
 
 au BufReadPost Jenkinsfile* set syntax=groovy
-
-
-
-
-"let g:terminal_color_0  = '#2e3436'
-"let g:terminal_color_1  = '#cc0000'
-"let g:terminal_color_2  = '#4e9a06'
-"let g:terminal_color_3  = '#c4a000'
-"let g:terminal_color_4  = '#3465a4'
-"let g:terminal_color_5  = '#75507b'
-"let g:terminal_color_6  = '#0b939b'
-"let g:terminal_color_7  = '#d3d7cf'
-"let g:terminal_color_8  = '#555753'
-"let g:terminal_color_9  = '#ef2929'
-"let g:terminal_color_10 = '#8ae234'
-"let g:terminal_color_11 = '#fce94f'
-"let g:terminal_color_12 = '#729fcf'
-"let g:terminal_color_13 = '#ad7fa8'
-"let g:terminal_color_14 = '#00f5e9'
-"let g:terminal_color_15 = '#eeeeec'
-
-highlight Normal ctermbg=none
-
 au BufReadPost Jenkinsfile.* set syntax=groovy
