@@ -72,7 +72,7 @@ zplug "lib/completion",            from:oh-my-zsh
 zplug "lib/correction",            from:oh-my-zsh
 zplug "lib/key-bindings",          from:oh-my-zsh
 zplug "zsh-users/zsh-syntax-highlighting"
-zplug "junegunn/fzf", use:"shell/*.zsh", nice:11
+zplug "junegunn/fzf", use:"shell/*.zsh"
 if ! zplug check --verbose; then
 	zplug install
 fi

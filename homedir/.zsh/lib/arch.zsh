@@ -1,5 +1,10 @@
+# to get pacaur installed:
+# gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
+
+# TODO: get pacaur to actually not prompt
+
 archup() {
-	yaourt -Syua --noconfirm
+	pacaur -Syua --noconfirm
 }
 
 reflector_run() {
@@ -11,29 +16,45 @@ reflector_run() {
 
 arch_bootstrap() {
 	set -x
-	yaourt -Syua --needed --noconfirm \
-		zsh mosh openssh vim stow wget curl htop docker \
+	sudo pacman -Syu --needed --noconfirm \
+		zsh tmux mosh openssh vim stow wget curl htop docker \
 		git subversion mercurial \
 		go python ruby perl rustup npm nodejs \
-		jq tig parallel jenkins weechat gist fzf python-pip rsync reflector \
+		jq tig parallel jenkins weechat gist fzf python-pip rsync reflector
+
+	pacaur -S --needed --noconfirm
 		kubectl-bin kubernetes-helm \
-		asciinema bind-tools weechat mitmproxy neofetch \
+		asciinema bind-tools weechat mitmproxy \
 		libu2f-host \
-		python-azure-cli
+		neovim \
+		python-azure-cli nodejs-azure-cli
 }
 
 arch_bootstrap_gui() {
 	set -x
 	arch_bootstrap
-	yaourt -S --needed \
-		google-chrome-dev vlc firefox \
-		gedit remmina visual-studio-code-insiders \
-		gnome-screenshot gnome-boxes cheese eog \
-		skypeforlinux-bin
+
+	# main repo GUI apps
+	sudo pacman -S --needed --noconfirm \
+		firefox chromium \
+		gedit gnome-{screenshot,boxes,tweak-tool} \
+		remmina cheese eog vlc
+
+	# other AUR applications
+	pacaur -S --needed --noconfirm google-chrome-dev
+	pacaur -S --needed --noconfirm google-chrome-beta
+	pacaur -S --needed --noconfirm skypeforlinux-bin
+	pacaur -S --needed --noconfirm chrome-gnome-shell-git
+
+	# appearance
+	pacaur -S --needed --noconfirm \
+		gtk-theme-arc-git \
+		numix-circle-icon-theme-git \
+		ttf-ms-fonts ttf-fira-mono ttf-fira-code
 }
 
 pixelup() {
-	yaourt -S linux-samus4 --noconfirm
+	pacaur -S linux-samus4 --noconfirm
 }
 
 arch_update_vsci() {
