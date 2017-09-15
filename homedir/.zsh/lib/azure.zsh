@@ -1,9 +1,4 @@
-source <(azure --completion)
 source az.completion.sh &>/dev/null
-
-az_anthony () { az account set --subscription=$(az account list --all --query "[?contains(name, 'Anthony')] | [0].id" --output tsv); az account show; }
-az_acsdev () { az account set --subscription=$(az account list --all --query "[?contains(name, 'Container Service - Development')] | [0].id" --output tsv); az account show; }
-az_acstest () { az account set --subscription=$(az account list --all --query "[?contains(name, 'Container Service - Test')] | [0].id" --output tsv); az account show; } 
 
 az_cleanup () {(
 	pattern="${1:-"colemick"}"
