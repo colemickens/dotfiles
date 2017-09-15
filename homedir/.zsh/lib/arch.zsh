@@ -1,10 +1,10 @@
-# to get pacaur installed:
+# to get yaourt installed:
 # gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
 
-# TODO: get pacaur to actually not prompt
+# TODO: get yaourt to actually not prompt
 
 archup() {
-	pacaur -Syua --noconfirm
+	yaourt -Syua --noconfirm
 }
 
 reflector_run() {
@@ -22,12 +22,12 @@ arch_bootstrap() {
 		go python ruby perl rustup npm nodejs \
 		jq tig parallel jenkins weechat gist fzf python-pip rsync reflector
 
-	pacaur -S --needed --noconfirm
+	yaourt -S --needed --noconfirm \
 		kubectl-bin kubernetes-helm \
 		asciinema bind-tools weechat mitmproxy \
 		libu2f-host \
 		neovim \
-		python-azure-cli nodejs-azure-cli
+		python-azure-cli
 }
 
 arch_bootstrap_gui() {
@@ -41,27 +41,23 @@ arch_bootstrap_gui() {
 		remmina cheese eog vlc
 
 	# other AUR applications
-	pacaur -S --needed --noconfirm google-chrome-dev
-	pacaur -S --needed --noconfirm google-chrome-beta
-	pacaur -S --needed --noconfirm skypeforlinux-bin
-	pacaur -S --needed --noconfirm chrome-gnome-shell-git
+	yaourt -S --needed --noconfirm google-chrome-dev
+	yaourt -S --needed --noconfirm google-chrome-beta
+	yaourt -S --needed --noconfirm skypeforlinux-bin
+	yaourt -S --needed --noconfirm chrome-gnome-shell-git
 
 	# appearance
-	pacaur -S --needed --noconfirm \
+	yaourt -S --needed --noconfirm \
 		gtk-theme-arc-git \
 		numix-circle-icon-theme-git \
 		ttf-ms-fonts ttf-fira-mono ttf-fira-code
 }
 
 pixelup() {
-	pacaur -S linux-samus4 --noconfirm
+	yaourt -S linux-samus4 --noconfirm
 }
 
 arch_update_vsci() {
 	set -x
-	D=$(mktemp -d)
-	trap "rm -rf $D" EXIT
-	cd $D
-	git clone https://aur.archlinux.org/visual-studio-code-insiders.git/ .
-	makepkg -si --skipinteg
+	MAKEPKG="makepkg --skipinteg" yaourt -S visual-studio-code-insiders --noconfirm
 }
