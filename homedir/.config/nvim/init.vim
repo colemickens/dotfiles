@@ -74,11 +74,12 @@ set tabstop=4
 set list
 
 
-" colorscheme/appearance
-
 "colors gruvbox
+"colors gruvbox
+"colors hybrid
 "colors buddy
 "colors jellybeans
+
 set background=dark
 colors hybrid
 
@@ -102,7 +103,7 @@ map <C-p> :FZF<CR>
 " let g:rustfmt_autosave = 1
 
 " Shougo/deoplete.nvim options
-let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_at_startup = 1
 
 
 
