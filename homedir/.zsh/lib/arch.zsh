@@ -5,37 +5,42 @@ reflector_run() {
 		&& sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
 }
 
-archup() {
-	yaourt -Syua --noconfirm
+aurhelper() {
+	pacaur --noconfirm --noedit $@
 }
 
-# yes, I know I'm worse than satan for using `yaourt`, but `pacaur` is slow and annoying...
-arch_bootstrap_yaourt() {
-	gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
-	
-	packages=(package-query yaourt)
-	sudo pacman -S base-devel yajl --needed --noconfirm
-	for pkg in "${packages[@]}"
-	do
-		mkdir /tmp/$pkg
-		chmod 0777 /tmp/$pkg
-		(
-			cd /tmp/$pkg
-			curl "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=${pkg}" > PKGBUILD
-			makepkg -s --noconfirm
-			sudo pacman -U ./$pkg*.pkg.tar --noconfirm
-		)
-		rm -rf /tmp/$pkg
-	done
+archup() {
+	#yaourt -Syua --noconfirm
+	aurhelper -Syua
 }
+
+# TODO: replace with "bootstrap_pacaur"
+#arch_bootstrap_aurhelper() {
+#	gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
+#	
+#	packages=(package-query aurhelper)
+#	sudo pacman -S base-devel yajl --needed --noconfirm
+#	for pkg in "${packages[@]}"
+#	do
+#		mkdir /tmp/$pkg
+#		chmod 0777 /tmp/$pkg
+#		(
+#			cd /tmp/$pkg
+#			curl "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=${pkg}" > PKGBUILD
+#			makepkg -s --noconfirm
+#			sudo pacman -U ./$pkg*.pkg.tar --noconfirm
+#		)
+#		rm -rf /tmp/$pkg
+#	done
+#}
 
 arch_bootstrap() {
 	set -x
 
 	# TODO: make the following bit idempotent
-	# arch_bootstrap_yaourt
+	# arch_bootstrap_aurhelper
 
-	yaourt -S --needed --noconfirm \
+	aurhelper -S --needed --noconfirm \
 		zsh tmux mosh openssh vim stow wget curl htop docker \
 		git subversion mercurial \
 		go python ruby perl rustup npm nodejs \
@@ -58,7 +63,7 @@ arch_bootstrap_gui() {
 	arch_bootstrap
 
 	# All
-	yaourt -S --needed --noconfirm \
+	aurhelper -S --needed --noconfirm \
 		networkmanager \
 		remmina cheese eog vlc \
 		\
@@ -76,13 +81,13 @@ arch_bootstrap_gui() {
 		ttf-fira-code
 
 	# GNOME
-	yaourt -S --needed --noconfirm \
+	aurhelper -S --needed --noconfirm \
 		gdm gedit eog cheese \
 		gnome-{boxes,builder,control-center,screenshot,session,shell,tweak-tool} \
 		
 
 	# KDE
-	yaourt -S --needed --noconfirm \
+	aurhelper -S --needed --noconfirm \
 		plasma-desktop plasma-wayland-session \
 		plasma5-applets-redshift-control plasma-nm \
 		kdemultimedia-kmix kscreen powerdevil bluedevil kwalletmanager \
@@ -97,10 +102,10 @@ arch_bootstrap_gui() {
 }
 
 pixelup() {
-	yaourt -S linux-samus4 --noconfirm
+	aurhelper -S linux-samus4 --noconfirm
 }
 
 arch_update_vsci() {
 	set -x
-	MAKEPKG="makepkg --skipinteg" yaourt -S visual-studio-code-insiders --noconfirm
+	MAKEPKG="makepkg --skipinteg" aurhelper -S visual-studio-code-insiders --noconfirm
 }
