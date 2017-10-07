@@ -6,110 +6,115 @@ reflector_run() {
 }
 
 aur() {
+	arch_bootstrap_pacaur
 	pacaur --noconfirm --noedit $@
 }
 
 archup() {
 	aur -Syua
+	_archup_gui_extra
 }
 
-# TODO: replace with "bootstrap_pacaur"
-#arch_bootstrap_aur() {
-#	gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
-#	
-#	packages=(package-query aur)
-#	sudo pacman -S base-devel yajl --needed --noconfirm
-#	for pkg in "${packages[@]}"
-#	do
-#		mkdir /tmp/$pkg
-#		chmod 0777 /tmp/$pkg
-#		(
-#			cd /tmp/$pkg
-#			curl "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=${pkg}" > PKGBUILD
-#			makepkg -s --noconfirm
-#			sudo pacman -U ./$pkg*.pkg.tar --noconfirm
-#		)
-#		rm -rf /tmp/$pkg
-#	done
-#}
+arch_bootstrap_pacaur() {
+	if ! which pacaur ; then
+		gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
+
+		# pacaur dependencies
+		sudo pacman -S curl sudo git perl expac yajl --needed --noconfirm
+	
+		packages=(cower pacaur)
+		for pkg in "${packages[@]}"
+		do
+			mkdir /tmp/$pkg
+			chmod 0777 /tmp/$pkg
+			(
+				cd /tmp/$pkg
+				curl "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=${pkg}" > PKGBUILD
+				makepkg -s --noconfirm
+				sudo pacman -U ./$pkg*.pkg.tar --noconfirm
+			)
+			rm -rf /tmp/$pkg
+		done
+	fi
+}
 
 arch_bootstrap() {
 	set -x
 
-	# TODO: make the following bit idempotent
-	# arch_bootstrap_aur
-
-	aur -S --needed --noconfirm \
+	sudo pacman -S --needed --noconfirm \
 		zsh tmux mosh openssh vim stow wget curl htop docker \
 		git subversion mercurial \
 		go python ruby perl rustup npm nodejs \
 		jq tig parallel jenkins weechat gist fzf python-pip rsync reflector \
-		\
-		kubectl-bin kubernetes-helm \
 		asciinema bind-tools weechat mitmproxy \
 		libu2f-host \
-		neovim \
-		#python-azure-cli
-	
-	sudo systemctl enable docker
-	# TODO: I know this isn't needed, or great, but I'm already in 'wheel' group anyway
-	# and some certain stuff assumes that they can call `docker` directly as the normal user...
-	sudo gpasswd -a docker cole # TODO: dynamically do this based on whatever username is logged in (id -u) ?
+		neovim
+
+	aur -S --needed kubectl-bin kubernetes-helm
+
+	sudo systemctl enable docker libvirtd
+	sudo systemctl start docker libvirtd
+
+	sudo gpasswd -a ${USER} libvirtd
+	sudo gpasswd -a ${USER} kvm
+	sudo gpasswd -a ${USER} docker
 }
 
 arch_bootstrap_gui() {
 	set -x
 	arch_bootstrap
 
-	# All
-	aur -S --needed --noconfirm \
+	# All (except git/latest packages)
+	sudo pacman -S --needed --noconfirm \
 		networkmanager \
-		remmina cheese eog vlc \
-		\
-		firefox-nightly \
-		google-chrome-dev \
-		skypeforlinux-bin \
-		chrome-gnome-shell-git \
-		\
-		gtk-theme-arc-git \
-		numix-circle-icon-theme-git \
-		emojione-fonts \
-		ttf-ms-fonts \
-		ttf-fira-mono \
-		ttf-fira-code
+		vlc \
+		ttf-fira-mono
 
 	# GNOME
-	aur -S --needed --noconfirm \
-		gdm gedit eog cheese \
+	sudo pacman -S --needed --noconfirm \
+		gdm gedit eog cheese remmina \
 		gnome-{boxes,builder,control-center,screenshot,session,shell,tweak-tool} \
 		
 
 	# KDE
-	aur -S --needed --noconfirm \
-		plasma-meta \
+	sudo pacman -S --needed --noconfirm \
+		plasma \
 		plasma-desktop plasma-wayland-session \
 		plasma5-applets-redshift-control plasma-nm \
 		kdemultimedia-kmix kscreen powerdevil bluedevil kwalletmanager \
 		kate spectacle \
 		breeze-gtk kde-gtk-config
 
-	aur -R discover || true # does weird stuff in Arch
+	sudo pacman -R --noconfirm discover || true # does weird stuff in Arch
 
 	sudo systemctl enable sddm
 	sudo systemctl enable NetworkManager
 	sudo systemctl enable bluetooth
 
-	arch_update_vsci
+	# this gets/updates the random stuff from AUR
+	archup
 }
 
 pixelup() {
 	aur -S linux-samus4 --noconfirm
 }
 
-archup_extra() {
+_archup_gui_extra() {
 	set -x
-	MAKEPKG="makepkg --skipinteg" aur -S \
+
+	# not totally sure if necessary. considerations:
+	# 1. does 'pacaur' always check the latest/git packages? seems no
+	# 2. need skipinteg for a number of the git/latest packages (shouldn't they SKIP since they're pulling from git anyway?)
+	# hmmm....
+
+	MAKEPKG="makepkg --skipinteg" aur -S --needed \
 		visual-studio-code-insiders \
 		firefox-nightly \
-		numix-circle-icon-theme-git
+		chrome-gnome-shell-git \
+		gtk-theme-arc-git \
+		numix-circle-icon-theme-git \
+		google-chrome-dev \
+		skypeforlinux-bin \
+		emojione-fonts \
+		ttf-ms-fonts
 }
