@@ -1,5 +1,7 @@
 source az.completion.sh &>/dev/null
 
+source /opt/google-cloud-sdk/completion.zsh.inc
+
 az_cleanup () {(
 	pattern="${1:-"colemick"}"
 	list="$(\
