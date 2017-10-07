@@ -6,7 +6,7 @@ reflector_run() {
 }
 
 aur() {
-	arch_bootstrap_pacaur
+	_arch_bootstrap_pacaur
 	pacaur --noconfirm --noedit $@
 }
 
@@ -15,7 +15,7 @@ archup() {
 	_archup_gui_extra
 }
 
-arch_bootstrap_pacaur() {
+_arch_bootstrap_pacaur() {
 	if ! which pacaur ; then
 		gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
 
@@ -50,12 +50,16 @@ arch_bootstrap() {
 		libu2f-host \
 		neovim
 
+	sudo pacman -S --needed --noconfirm \
+		libvirt ebtables dnsmasq
+
 	aur -S --needed kubectl-bin kubernetes-helm
+	aur -S --needed google-cloud-sdk
 
 	sudo systemctl enable docker libvirtd
 	sudo systemctl start docker libvirtd
 
-	sudo gpasswd -a ${USER} libvirtd
+	sudo gpasswd -a ${USER} libvirt
 	sudo gpasswd -a ${USER} kvm
 	sudo gpasswd -a ${USER} docker
 }
@@ -67,6 +71,7 @@ arch_bootstrap_gui() {
 	# All (except git/latest packages)
 	sudo pacman -S --needed --noconfirm \
 		networkmanager \
+		virt-manager virt-viewer \
 		vlc \
 		ttf-fira-mono
 
@@ -117,4 +122,9 @@ _archup_gui_extra() {
 		skypeforlinux-bin \
 		emojione-fonts \
 		ttf-ms-fonts
+
+	# visual-studio-code-insiders doesn't report git/latest properly?
+	# or for some other reason, pacaur doesn't treat it as one it needs to check for updates on...
+	MAKEPKG="makepkg --skipinteg" aur -S \
+		visual-studio-code-insiders
 }
