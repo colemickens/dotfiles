@@ -5,20 +5,19 @@ reflector_run() {
 		&& sudo cp /tmp/mirrorlist.new /etc/pacman.d/mirrorlist
 }
 
-aurhelper() {
+aur() {
 	pacaur --noconfirm --noedit $@
 }
 
 archup() {
-	#yaourt -Syua --noconfirm
-	aurhelper -Syua
+	aur -Syua
 }
 
 # TODO: replace with "bootstrap_pacaur"
-#arch_bootstrap_aurhelper() {
+#arch_bootstrap_aur() {
 #	gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
 #	
-#	packages=(package-query aurhelper)
+#	packages=(package-query aur)
 #	sudo pacman -S base-devel yajl --needed --noconfirm
 #	for pkg in "${packages[@]}"
 #	do
@@ -38,9 +37,9 @@ arch_bootstrap() {
 	set -x
 
 	# TODO: make the following bit idempotent
-	# arch_bootstrap_aurhelper
+	# arch_bootstrap_aur
 
-	aurhelper -S --needed --noconfirm \
+	aur -S --needed --noconfirm \
 		zsh tmux mosh openssh vim stow wget curl htop docker \
 		git subversion mercurial \
 		go python ruby perl rustup npm nodejs \
@@ -63,36 +62,38 @@ arch_bootstrap_gui() {
 	arch_bootstrap
 
 	# All
-	aurhelper -S --needed --noconfirm \
+	aur -S --needed --noconfirm \
 		networkmanager \
 		remmina cheese eog vlc \
 		\
-		firefox \
-		chromium \
+		firefox-nightly \
 		google-chrome-dev \
-		google-chrome-beta \
 		skypeforlinux-bin \
 		chrome-gnome-shell-git \
 		\
 		gtk-theme-arc-git \
 		numix-circle-icon-theme-git \
+		emojione-fonts \
 		ttf-ms-fonts \
 		ttf-fira-mono \
 		ttf-fira-code
 
 	# GNOME
-	aurhelper -S --needed --noconfirm \
+	aur -S --needed --noconfirm \
 		gdm gedit eog cheese \
 		gnome-{boxes,builder,control-center,screenshot,session,shell,tweak-tool} \
 		
 
 	# KDE
-	aurhelper -S --needed --noconfirm \
+	aur -S --needed --noconfirm \
+		plasma-meta \
 		plasma-desktop plasma-wayland-session \
 		plasma5-applets-redshift-control plasma-nm \
 		kdemultimedia-kmix kscreen powerdevil bluedevil kwalletmanager \
 		kate spectacle \
 		breeze-gtk kde-gtk-config
+
+	aur -R discover || true # does weird stuff in Arch
 
 	sudo systemctl enable sddm
 	sudo systemctl enable NetworkManager
@@ -102,10 +103,13 @@ arch_bootstrap_gui() {
 }
 
 pixelup() {
-	aurhelper -S linux-samus4 --noconfirm
+	aur -S linux-samus4 --noconfirm
 }
 
-arch_update_vsci() {
+archup_extra() {
 	set -x
-	MAKEPKG="makepkg --skipinteg" aurhelper -S visual-studio-code-insiders --noconfirm
+	MAKEPKG="makepkg --skipinteg" aur -S \
+		visual-studio-code-insiders \
+		firefox-nightly \
+		numix-circle-icon-theme-git
 }
