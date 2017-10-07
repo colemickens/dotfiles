@@ -45,7 +45,7 @@ arch_bootstrap() {
 		zsh tmux mosh openssh vim stow wget curl htop docker \
 		git subversion mercurial \
 		go python ruby perl rustup npm nodejs \
-		jq tig parallel jenkins weechat gist fzf python-pip rsync reflector \
+		jq tig parallel weechat gist fzf python-pip rsync reflector \
 		asciinema bind-tools weechat mitmproxy \
 		libu2f-host \
 		neovim
