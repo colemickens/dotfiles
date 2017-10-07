@@ -113,8 +113,6 @@ elif [[ "$(hostname)" == "cmmbp" ]]; then
 	export TMUX_HOSTNAME_COLOR=7
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 alias ll="LC_ALL=C ls -al --group-directories-first"
 
 source $HOME/.zsh/lib/azure.zsh
@@ -138,3 +136,6 @@ if [[ "$PLATFORM_DISTRO" == "arch" ]]; then
 fi
 
 KUBE_FASTBUILD=true
+
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
