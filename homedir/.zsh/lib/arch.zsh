@@ -12,7 +12,6 @@ aur() {
 
 archup() {
 	aur -Syua
-	_archup_gui_extra
 }
 
 _arch_bootstrap_pacaur() {
@@ -104,7 +103,7 @@ pixelup() {
 	aur -S linux-samus4 --noconfirm
 }
 
-_archup_gui_extra() {
+archup_gui_extra() {
 	set -x
 
 	# not totally sure if necessary. considerations:
