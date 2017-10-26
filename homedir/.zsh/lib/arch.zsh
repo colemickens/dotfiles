@@ -11,7 +11,7 @@ aur() {
 }
 
 archup() {
-	aur -Syua
+	aur -Syu
 }
 
 _arch_bootstrap_pacaur() {
@@ -53,7 +53,9 @@ arch_bootstrap() {
 		libvirt ebtables dnsmasq
 
 	aur -S --needed kubectl-bin kubernetes-helm
-	aur -S --needed google-cloud-sdk
+	aur -S --needed google-cloud-sdk aws-cli
+
+	pip install --user --upgrade azure-cli
 
 	sudo systemctl enable docker libvirtd
 	sudo systemctl start docker libvirtd
@@ -94,6 +96,8 @@ arch_bootstrap_gui() {
 	sudo systemctl enable sddm
 	sudo systemctl enable NetworkManager
 	sudo systemctl enable bluetooth
+
+	sudo gpasswd -a ${USER} input
 
 	# this gets/updates the random stuff from AUR
 	archup

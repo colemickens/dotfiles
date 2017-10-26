@@ -13,3 +13,8 @@ proxy_chimera_fwd() { assh cole@chimera.mickens.io -p 222 -N -T -L 2222:localhos
 proxy_connect() { assh cole@localhost -p 2222 }
 
 sshuttle_chimera() { sshuttle -r cole@chimera.mickens.io:222 '0.0.0.0/0' }
+
+sshfs_chimera() {
+	mkdir -p $HOME/chimera_sshfs
+	sshfs cole@chimera.mickens.io:/home/cole $HOME/chimera_sshfs -C -p222
+}

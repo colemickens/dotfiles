@@ -115,8 +115,10 @@ fi
 
 alias ll="LC_ALL=C ls -al --group-directories-first"
 
+source $HOME/.zsh/lib/aws.zsh
 source $HOME/.zsh/lib/azure.zsh
 source $HOME/.zsh/lib/docker.zsh
+source $HOME/.zsh/lib/gcp.zsh
 source $HOME/.zsh/lib/golang.zsh
 source $HOME/.zsh/lib/gotty.zsh
 source $HOME/.zsh/lib/kubernetes.zsh
