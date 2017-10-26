@@ -16,8 +16,8 @@ rdp_common() {
 
 	local -a rdpopts
 	case $(hostname) in
-		"pixel")   rdpopts=("/scale:140" "/size:2560x1600") ;;
-		"nucleus") rdpopts=("/scale:100" "/size:2560x1380") ;;
+		"pixel")   rdpopts=("/scale:180" "/size:2560x1600") ;;
+		"nucleus") rdpopts=("/scale:160" "/size:2560x1380") ;;
 		"cmz420")  rdpopts=("/size:1920x1160") ;;
 	esac
 
@@ -36,11 +36,11 @@ rdp_common() {
 		/v:$rdpserver
 }
 
-rdp_cmcrbn() {
-	source $HOME/code/colemickens/secrets/work/colemick_credentials
-	rdp_common cmcrbn.redmond.corp.microsoft.com $COLEMICK_DOMAIN $COLEMICK_USERNAME $COLEMICK_PASSWORD
-}
-
-rdp_windev_remote() {
-	rdp_common 10.158.73.68 REDMOND colemick "${COLEMICK_PASSWORD}" /g:redmondts.microsoft.com /gd:REDMOND /gu:colemick "/gp:$COLEMICK_PASSWORD"
+rdp_sly() {
+	USER="cole.mickens@gmail.com"
+	SLY="10.0.0.8"
+	stty -echo
+	printf "RDP Password for '${USER}': "
+	read PASSWORD
+	rdp_common "${SLY}" "" "cole.mickens@gmail.com" "${PASSWORD}"
 }
