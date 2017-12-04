@@ -40,7 +40,7 @@ pacaur -S --needed --noconfirm \
     libvirt ebtables dnsmasq
 
 pacaur -S --needed kubectl-bin kubernetes-helm
-pacaur aur -S --needed google-cloud-sdk aws-cli
+pacaur -S --needed google-cloud-sdk aws-cli
 
 #pip install --user --upgrade azure-cli
 

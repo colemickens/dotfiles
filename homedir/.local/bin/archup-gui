@@ -47,5 +47,5 @@ pacaur -S --needed --noconfirm --no-edit \
     numix-circle-icon-theme-git \
     google-chrome-dev \
     skypeforlinux-bin \
-    emojione-fonts \
+    ttf-emojione \
     ttf-ms-fonts
