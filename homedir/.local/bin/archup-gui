@@ -33,13 +33,13 @@ sudo systemctl enable bluetooth
 
 sudo gpasswd -a ${USER} input
 
-arch-update
+archup
 
 # TODO: remove this when the pacaur bug is fixed
 
-pacaur -R visual-studio-code-insiders
+pacaur -R visual-studio-code-insiders --noconfirm
 
-pacaur -S --needed \
+pacaur -S --needed --noconfirm --no-edit \
     visual-studio-code-insiders \
     firefox-nightly \
     chrome-gnome-shell-git \
