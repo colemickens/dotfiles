@@ -51,6 +51,6 @@ sudo gpasswd -a ${USER} libvirt
 sudo gpasswd -a ${USER} kvm
 sudo gpasswd -a ${USER} docker
 
-go get -u https://github.com/ahmetb/goclone
+go get -u github.com/ahmetb/goclone
 
 pacaur -Syu --noconfirm

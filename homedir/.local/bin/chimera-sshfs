@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-#stuff
+mkdir -p $HOME/chimera_sshfs
+sshfs cole@chimera.mickens.io:/home/cole $HOME/chimera_sshfs -C -p222

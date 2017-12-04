@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+set -x
 command kubectl proxy --port 9090

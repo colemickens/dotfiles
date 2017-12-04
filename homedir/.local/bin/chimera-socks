@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-#stuff
+set -x
+
+ssh -v -D 1080 -C -q -N cole@chimera.mickens.io -p 222

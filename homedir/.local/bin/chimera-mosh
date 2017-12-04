@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-#stuff
+mosh cole@chimera.mickens.io --ssh="ssh -p 222"
