@@ -39,7 +39,7 @@ archup
 
 pacaur -R visual-studio-code-insiders --noconfirm
 
-pacaur -S --needed --noconfirm --no-edit \
+pacaur -S --needed --noconfirm \
     visual-studio-code-insiders \
     firefox-nightly \
     chrome-gnome-shell-git \
