@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -x
+arch_bootstrap
+
+# All (except git/latest packages)
+sudo pacman -S --needed --noconfirm \
+    networkmanager \
+    virt-manager virt-viewer \
+    vlc \
+    ttf-fira-mono
+
+# GNOME
+sudo pacman -S --needed --noconfirm \
+    gdm gedit eog cheese remmina \
+    gnome-{boxes,builder,control-center,screenshot,session,shell,tweak-tool} \
+    
+
+# KDE
+sudo pacman -S --needed --noconfirm \
+    plasma \
+    plasma-desktop plasma-wayland-session \
+    plasma5-applets-redshift-control plasma-nm \
+    kdemultimedia-kmix kscreen powerdevil bluedevil kwalletmanager \
+    kate spectacle \
+    breeze-gtk kde-gtk-config
+
+sudo pacman -R --noconfirm discover || true # does weird stuff in Arch
+
+sudo systemctl enable sddm
+sudo systemctl enable NetworkManager
+sudo systemctl enable bluetooth
+
+sudo gpasswd -a ${USER} input
+
+arch-update
+
+# TODO: remove this when the pacaur bug is fixed
+
+pacaur -R visual-studio-code-insiders
+
+pacaur -S --needed \
+    visual-studio-code-insiders \
+    firefox-nightly \
+    chrome-gnome-shell-git \
+    gtk-theme-arc-git \
+    numix-circle-icon-theme-git \
+    google-chrome-dev \
+    skypeforlinux-bin \
+    emojione-fonts \
+    ttf-ms-fonts

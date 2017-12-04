@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+_arch_bootstrap_pacaur() {
+	if ! which pacaur ; then
+		gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
+
+		# pacaur dependencies
+		sudo pacman -S curl sudo git perl expac yajl --needed --noconfirm
+	
+		packages=(cower pacaur)
+		for pkg in "${packages[@]}"
+		do
+			mkdir /tmp/$pkg
+			chmod 0777 /tmp/$pkg
+			(
+				cd /tmp/$pkg
+				curl "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=${pkg}" > PKGBUILD
+				makepkg -s --noconfirm
+				sudo pacman -U ./$pkg*.pkg.tar --noconfirm
+			)
+			rm -rf /tmp/$pkg
+		done
+	fi
+}
+
+set -x
+
+_arch_bootstrap_pacaur
+
+sudo pacman -S --needed --noconfirm \
+    zsh tmux mosh openssh vim stow wget curl htop docker \
+    git subversion mercurial \
+    go python ruby perl rustup npm nodejs \
+    jq tig parallel weechat gist fzf python-pip rsync reflector \
+    asciinema bind-tools weechat mitmproxy \
+    libu2f-host \
+    neovim
+
+sudo pacaur -S --needed --noconfirm \
+    libvirt ebtables dnsmasq
+
+sudo pacaur -S --needed kubectl-bin kubernetes-helm
+sudo pacaur aur -S --needed google-cloud-sdk aws-cli
+
+pip install --user --upgrade azure-cli
+
+sudo systemctl enable docker libvirtd
+sudo systemctl start docker libvirtd
+
+sudo gpasswd -a ${USER} libvirt
+sudo gpasswd -a ${USER} kvm
+sudo gpasswd -a ${USER} docker
+
+pacaur -Syu

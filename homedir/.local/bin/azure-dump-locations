@@ -1,2 +1,14 @@
 #!/usr/bin/env bash
 
+_dumplocation() {
+    location=$1
+    az vm list-usage --location=$location \
+        | jq -r ".[] | [\"$location\", .name.localizedValue, \" \", .limit, .currentValue] | @tsv"
+}
+
+if [[ -z "${1}" ]]; then
+    az account list-locations --query "[].name" | jq -r '.[]' \
+        | while read x; do _dumplocation $x; done
+else
+    _dumplocation "${1}"
+fi
