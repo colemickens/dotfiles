@@ -27,7 +27,7 @@ set -x
 
 _arch_bootstrap_pacaur
 
-sudo pacaur -S --needed --noconfirm \
+pacaur -S --needed --noconfirm \
     zsh tmux mosh openssh vim stow wget curl htop docker \
     git subversion mercurial \
     go python ruby perl rustup npm nodejs \
@@ -36,11 +36,11 @@ sudo pacaur -S --needed --noconfirm \
     libu2f-host \
     neovim
 
-sudo pacaur -S --needed --noconfirm \
+pacaur -S --needed --noconfirm \
     libvirt ebtables dnsmasq
 
-sudo pacaur -S --needed kubectl-bin kubernetes-helm
-sudo pacaur aur -S --needed google-cloud-sdk aws-cli
+pacaur -S --needed kubectl-bin kubernetes-helm
+pacaur aur -S --needed google-cloud-sdk aws-cli
 
 pip install --user --upgrade azure-cli
 

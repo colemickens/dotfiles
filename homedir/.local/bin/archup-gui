@@ -4,20 +4,20 @@ set -x
 arch_bootstrap
 
 # All (except git/latest packages)
-sudo pacman -S --needed --noconfirm \
+pacaur -S --needed --noconfirm \
     networkmanager \
     virt-manager virt-viewer \
     vlc \
     ttf-fira-mono
 
 # GNOME
-sudo pacman -S --needed --noconfirm \
+pacaur -S --needed --noconfirm \
     gdm gedit eog cheese remmina \
     gnome-{boxes,builder,control-center,screenshot,session,shell,tweak-tool} \
     
 
 # KDE
-sudo pacman -S --needed --noconfirm \
+pacaur -S --needed --noconfirm \
     plasma \
     plasma-desktop plasma-wayland-session \
     plasma5-applets-redshift-control plasma-nm \
@@ -25,7 +25,7 @@ sudo pacman -S --needed --noconfirm \
     kate spectacle \
     breeze-gtk kde-gtk-config
 
-sudo pacman -R --noconfirm discover || true # does weird stuff in Arch
+pacaur -R --noconfirm discover || true # does weird stuff in Arch
 
 sudo systemctl enable sddm
 sudo systemctl enable NetworkManager
