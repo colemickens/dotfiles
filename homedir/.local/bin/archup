@@ -42,7 +42,7 @@ pacaur -S --needed --noconfirm \
 pacaur -S --needed kubectl-bin kubernetes-helm
 pacaur aur -S --needed google-cloud-sdk aws-cli
 
-pip install --user --upgrade azure-cli
+#pip install --user --upgrade azure-cli
 
 sudo systemctl enable docker libvirtd
 sudo systemctl start docker libvirtd
