@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -X
+set -x
 
 curl https://github.com/colemickens.keys > $HOME/.ssh/authorized_keys_backup
 mv $HOME/.ssh/authorized_keys_backup $HOME/.ssh/authorized_keys
