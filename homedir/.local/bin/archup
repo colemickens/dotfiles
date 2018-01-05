@@ -34,7 +34,7 @@ pacaur -S --needed --noconfirm \
     jq tig parallel weechat gist fzf python-pip rsync reflector \
     asciinema bind-tools weechat mitmproxy \
     libu2f-host \
-    neovim
+    neovim sshfs
 
 pacaur -S --needed --noconfirm \
     libvirt ebtables dnsmasq
@@ -51,6 +51,7 @@ sudo gpasswd -a ${USER} libvirt
 sudo gpasswd -a ${USER} kvm
 sudo gpasswd -a ${USER} docker
 
-go get -u github.com/ahmetb/goclone
+curl 'https://raw.githubusercontent.com/ahmetb/goclone/master/goclone' > $HOME/.local/bin/goclone
+chmod +x $HOME/.local/bin/goclone
 
 pacaur -Syu --noconfirm
