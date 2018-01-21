@@ -1,51 +1,42 @@
 #!/usr/bin/env bash
 
 set -x
-arch_bootstrap
+set -e
 
-# All (except git/latest packages)
-pacaur -S --needed --noconfirm \
-    networkmanager \
-    virt-manager virt-viewer \
-    vlc \
-    ttf-fira-mono
+archup
 
-# GNOME
-pacaur -S --needed --noconfirm \
-    gdm gedit eog cheese remmina \
+TOOL="yay"
+
+COMMON=(networkmanager virt-manager virt-viewer)
+GUIAPPS=(vlc firefox-nightly google-chrome-dev firefox-nightly skypeforlinux-bin)
+GUIPKGS=(gtk-them-arc-git numix-circle-icon-theme-git)
+FONTS=(ttf-ms-fonts ttf-emojione ttf-fira-mono)
+GNOMEPKGS=(gdm gedit eog cheese remmina \
     gnome-{boxes,builder,control-center,screenshot,session,shell,tweak-tool} \
-    
-
-# KDE
-pacaur -S --needed --noconfirm \
-    plasma \
-    plasma-desktop plasma-wayland-session \
+    chrome-gnome-shell)
+KDEPKGS=(plasma plasma-desktop plasma-wayland-session \
     plasma5-applets-redshift-control plasma-nm \
     kdemultimedia-kmix kscreen powerdevil bluedevil kwalletmanager \
     kate spectacle \
-    breeze-gtk kde-gtk-config
+    breeze-gtk kde-gtk-config)
 
-pacaur -R --noconfirm discover || true # does weird stuff in Arch
+EXCEPTIONAL=(visual-studio-code-insiders)
 
-sudo systemctl enable sddm
+"${TOOL}" -S --needed --noconfirm \
+   ${COMMON[@]} \
+   ${GUIAPPS[@]} \
+   ${GUIPKGS[@]} \
+   ${FONTS[@]} \
+   ${GNOMEPKGS[@]} \
+   #${KDEPKGS[@]}
+
+# yay doesn't respect MAKEPKG... and it doesn't actually fail when vs-code-insiders fails the check
+# ugh, there's no tool that really gets it all right :/
+# note the use of `yaourt` here. don't @ me.
+MAKEPKG="makepkg --skipinteg" yaourt -S --needed --noconfirm "${EXCEPTIONAL[@]}"
+
+sudo systemctl enable gdm
 sudo systemctl enable NetworkManager
 sudo systemctl enable bluetooth
 
 sudo gpasswd -a ${USER} input
-
-archup
-
-# TODO: remove this when the pacaur bug is fixed
-
-pacaur -S --needed --noconfirm \
-    firefox-nightly \
-    chrome-gnome-shell-git \
-    gtk-theme-arc-git \
-    numix-circle-icon-theme-git \
-    google-chrome-dev \
-    skypeforlinux-bin \
-    ttf-emojione \
-    ttf-ms-fonts
-
-yaourt -S --noconfirm visual-studio-code-insiders
-

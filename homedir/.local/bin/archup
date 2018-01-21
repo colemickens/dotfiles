@@ -1,14 +1,33 @@
 #!/usr/bin/env bash
 
-_arch_bootstrap_pacaur() {
-	if ! which pacaur ; then
+set -x
+set -e
+
+# See note below about changing this.
+TOOL="yay"
+
+PACKAGES=(zsh tmux mosh openssh vim stow wget curl htop docker \
+    git subversion mercurial \
+    go python ruby perl rustup npm nodejs \
+    jq tig parallel weechat gist fzf python-pip rsync reflector \
+    asciinema bind-tools weechat mitmproxy \
+    libu2f-host \
+    neovim sshfs \
+	yaourt)
+VIRT=(libvirt qemu ebtables dnsmasq)
+CLOUD=(kubectl-bin kubernetes-helm google-cloud-sdk aws-cli)
+
+_arch_bootstrap() {
+	chktool=$1
+	shift 1
+	if ! which $chktool ; then
 		gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
 
 		# pacaur dependencies
-		sudo pacman -S curl sudo git perl expac yajl --needed --noconfirm
-	
-		packages=(cower pacaur)
-		for pkg in "${packages[@]}"
+		#sudo pacman -S curl sudo git perl expac yajl --needed --noconfirm
+
+		# extra args are deps, so install those first, then the tool
+		for pkg in "${@}" "$chktool"
 		do
 			mkdir /tmp/$pkg
 			chmod 0777 /tmp/$pkg
@@ -16,7 +35,8 @@ _arch_bootstrap_pacaur() {
 				cd /tmp/$pkg
 				curl "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=${pkg}" > PKGBUILD
 				makepkg -s --noconfirm
-				sudo pacman -U ./$pkg*.pkg.tar --noconfirm
+				# wildcards for version, and for package suffix depending on if I turn off needless compression
+				sudo pacman -U ./$pkg*.pkg.tar* --noconfirm
 			)
 			rm -rf /tmp/$pkg
 		done
@@ -25,33 +45,27 @@ _arch_bootstrap_pacaur() {
 
 set -x
 
-_arch_bootstrap_pacaur
+# NOTE: about interchangeability here...
+# I think yaourt needs -Syua to get AUR packages as well. Trizen/yay/pacaur seem to work the opposite...
+# aka, commands may need to be changed when switching $TOOL
+[[ "${TOOL}" == "yaourt" ]] && _arch_bootstrap yaourt package-query
+[[ "${TOOL}" == "pacaur" ]] && _arch_bootstrap pacaur cower
+[[ "${TOOL}" == "trizen" ]] && _arch_bootstrap trizen
+[[ "${TOOL}" == "yay" ]]    && _arch_bootstrap yay
 
-pacaur -S --needed --noconfirm \
-    zsh tmux mosh openssh vim stow wget curl htop docker \
-    git subversion mercurial \
-    go python ruby perl rustup npm nodejs \
-    jq tig parallel weechat gist fzf python-pip rsync reflector \
-    asciinema bind-tools weechat mitmproxy \
-    libu2f-host \
-    neovim sshfs
-
-pacaur -S --needed --noconfirm \
-    libvirt ebtables dnsmasq
-
-pacaur -S --needed kubectl-bin kubernetes-helm
-pacaur -S --needed google-cloud-sdk aws-cli
+"${TOOL}" -Syu --noconfirm
+"${TOOL}" -S --needed --noconfirm ${PACKAGES[@]} ${VIRT[@]} ${CLOUD[@]}
 
 #pip install --user --upgrade azure-cli
 
 sudo systemctl enable docker libvirtd
 sudo systemctl start docker libvirtd
 
-sudo gpasswd -a ${USER} libvirt
-sudo gpasswd -a ${USER} kvm
-sudo gpasswd -a ${USER} docker
+sudo gpasswd -a "${USER}" libvirt
+sudo gpasswd -a "${USER}" kvm
+sudo gpasswd -a "${USER}" docker
 
 curl 'https://raw.githubusercontent.com/ahmetb/goclone/master/goclone' > $HOME/.local/bin/goclone
 chmod +x $HOME/.local/bin/goclone
 
-pacaur -Syu --noconfirm
+"${TOOL}" -Syu --noconfirm
