@@ -4,7 +4,7 @@ set -x
 set -e
 
 # See note below about changing this.
-TOOL="yay"
+TOOL="yaourt"
 
 PACKAGES=(zsh tmux mosh openssh vim stow wget curl htop docker \
     git subversion mercurial \
@@ -53,7 +53,9 @@ set -x
 [[ "${TOOL}" == "trizen" ]] && _arch_bootstrap trizen
 [[ "${TOOL}" == "yay" ]]    && _arch_bootstrap yay
 
+# actually this should be fine, should handle both yay/yaourt for example, even though they treat -a differently
 "${TOOL}" -Syu --noconfirm
+"${TOOL}" -Syua --noconfirm
 "${TOOL}" -S --needed --noconfirm ${PACKAGES[@]} ${VIRT[@]} ${CLOUD[@]}
 
 #pip install --user --upgrade azure-cli

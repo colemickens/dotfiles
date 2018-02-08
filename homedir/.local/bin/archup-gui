@@ -5,7 +5,7 @@ set -e
 
 archup
 
-TOOL="yay"
+TOOL="yaourt"
 
 COMMON=(networkmanager virt-manager virt-viewer)
 GUIAPPS=(vlc firefox-nightly google-chrome-dev firefox-nightly skypeforlinux-bin)
@@ -27,12 +27,13 @@ EXCEPTIONAL=(visual-studio-code-insiders)
    ${GUIAPPS[@]} \
    ${GUIPKGS[@]} \
    ${FONTS[@]} \
-   ${GNOMEPKGS[@]} \
+   ${GNOMEPKGS[@]}
+
    #${KDEPKGS[@]}
 
 # yay doesn't respect MAKEPKG... and it doesn't actually fail when vs-code-insiders fails the check
 # ugh, there's no tool that really gets it all right :/
-# note the use of `yaourt` here. don't @ me.
+# NOTE the use of `yaourt` here. don't @ me.
 MAKEPKG="makepkg --skipinteg" yaourt -S --needed --noconfirm "${EXCEPTIONAL[@]}"
 
 sudo systemctl enable gdm

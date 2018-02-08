@@ -4,6 +4,9 @@ export PATH="${HOME}/.local/bin:${PATH}"
 export PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
 export EDITOR="nvim"
 
+## Firefox
+export MOZ_USE_XINPUT2=1
+
 ### zsh
 export DEFAULT_USER="cole"
 export HISTSIZE=100000
@@ -101,16 +104,14 @@ fi
 
 ### Tmux info
 if [[ -z "$TMUX" ]]; then
-	tmux ls
+	tmux ls 2>/dev/null
 fi
 if [[ "$(hostname)" == "azdev" ]]; then
 	export TMUX_HOSTNAME_COLOR=4
-elif [[ "$(hostname)" == "pixel" ]]; then
+elif [[ "$(hostname)" == "pixel" || "$(hostname)" == "xeep" ]]; then
 	export TMUX_HOSTNAME_COLOR=5
 elif [[ "$(hostname)" == "chimera" ]]; then
 	export TMUX_HOSTNAME_COLOR=2
-elif [[ "$(hostname)" == "cmmbp" ]]; then
-	export TMUX_HOSTNAME_COLOR=7
 fi
 
 alias ll="LC_ALL=C ls -al --group-directories-first"

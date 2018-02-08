@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 
-mkdir -p $HOME/chimera_sshfs
-sshfs cole@chimera.mickens.io:/home/cole $HOME/chimera_sshfs -C -p222
+if [[ ! -z "${SSHFS_CODE_ONLY:-}" ]]; then
+	DIR="$HOME/workspace"
+	REMOTE="/home/cole/workspace"
+else
+	DIR="$HOME/chimera_sshfs"
+	REMOTE="/home/cole"
+fi
+
+mkdir -p ${DIR}
+sshfs cole@chimera.mickens.io:${REMOTE} ${DIR} -C -p222
+
