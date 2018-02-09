@@ -140,3 +140,7 @@ alias ll="LC_ALL=C ls -al --group-directories-first"
 
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+
+source <(kubectl completion zsh)
+alias k="kubectl"
+
