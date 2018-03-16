@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-
 set -x
-set -e
+set -eou pipefail
 
 archup
-
-TOOL="yaourt"
 
 COMMON=(networkmanager virt-manager virt-viewer)
 GUIAPPS=(vlc firefox-nightly google-chrome-dev firefox-nightly skypeforlinux-bin)
@@ -31,13 +28,11 @@ EXCEPTIONAL=(visual-studio-code-insiders)
 
    #${KDEPKGS[@]}
 
-# yay doesn't respect MAKEPKG... and it doesn't actually fail when vs-code-insiders fails the check
-# ugh, there's no tool that really gets it all right :/
-# NOTE the use of `yaourt` here. don't @ me.
-MAKEPKG="makepkg --skipinteg" yaourt -S --needed --noconfirm "${EXCEPTIONAL[@]}"
+MAKEPKG="makepkg --skipinteg" yaourt -S --noconfirm "${EXCEPTIONAL[@]}"
 
 sudo systemctl enable gdm
 sudo systemctl enable NetworkManager
 sudo systemctl enable bluetooth
 
-sudo gpasswd -a ${USER} input
+sudo gpasswd -a "${USER}" input
+

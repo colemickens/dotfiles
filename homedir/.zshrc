@@ -143,4 +143,10 @@ alias ll="LC_ALL=C ls -al --group-directories-first"
 
 source <(kubectl completion zsh)
 alias k="kubectl"
+alias ksys="kubectl --namespace=kube-system"
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/cole/google-cloud-sdk/path.zsh.inc' ]; then source '/home/cole/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/cole/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/cole/google-cloud-sdk/completion.zsh.inc'; fi

@@ -3,9 +3,6 @@
 set -x
 set -e
 
-# See note below about changing this.
-TOOL="yaourt"
-
 PACKAGES=(zsh tmux mosh openssh vim stow wget curl htop docker \
     git subversion mercurial \
     go python ruby perl rustup npm nodejs \
@@ -15,7 +12,8 @@ PACKAGES=(zsh tmux mosh openssh vim stow wget curl htop docker \
     neovim sshfs \
 	yaourt)
 VIRT=(libvirt qemu ebtables dnsmasq)
-CLOUD=(kubectl-bin kubernetes-helm google-cloud-sdk aws-cli)
+CLOUD=(kubectl-bin kubernetes-helm aws-cli)
+PIP_PACKAGES=(azure-cli shreddit)
 
 _arch_bootstrap() {
 	chktool=$1
@@ -44,21 +42,12 @@ _arch_bootstrap() {
 }
 
 set -x
+_arch_bootstrap yaourt package-query
 
-# NOTE: about interchangeability here...
-# I think yaourt needs -Syua to get AUR packages as well. Trizen/yay/pacaur seem to work the opposite...
-# aka, commands may need to be changed when switching $TOOL
-[[ "${TOOL}" == "yaourt" ]] && _arch_bootstrap yaourt package-query
-[[ "${TOOL}" == "pacaur" ]] && _arch_bootstrap pacaur cower
-[[ "${TOOL}" == "trizen" ]] && _arch_bootstrap trizen
-[[ "${TOOL}" == "yay" ]]    && _arch_bootstrap yay
+yaourt -S --needed --noconfirm ${PACKAGES[@]} ${VIRT[@]} ${CLOUD[@]}
+yaourt -Syua --noconfirm
 
-# actually this should be fine, should handle both yay/yaourt for example, even though they treat -a differently
-"${TOOL}" -Syu --noconfirm
-"${TOOL}" -Syua --noconfirm
-"${TOOL}" -S --needed --noconfirm ${PACKAGES[@]} ${VIRT[@]} ${CLOUD[@]}
-
-#pip install --user --upgrade azure-cli
+pip install --user --upgrade ${PIP_PACKAGES[@]}
 
 sudo systemctl enable docker libvirtd
 sudo systemctl start docker libvirtd
@@ -70,4 +59,3 @@ sudo gpasswd -a "${USER}" docker
 curl 'https://raw.githubusercontent.com/ahmetb/goclone/master/goclone' > $HOME/.local/bin/goclone
 chmod +x $HOME/.local/bin/goclone
 
-"${TOOL}" -Syu --noconfirm
