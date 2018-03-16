@@ -5,8 +5,8 @@ set -eou pipefail
 archup
 
 COMMON=(networkmanager virt-manager virt-viewer)
-GUIAPPS=(vlc firefox-nightly google-chrome-dev firefox-nightly skypeforlinux-bin)
-GUIPKGS=(gtk-them-arc-git numix-circle-icon-theme-git)
+GUIAPPS=(vlc firefox-nightly google-chrome-dev firefox-nightly skypeforlinux-preview-bin)
+GUIPKGS=(gtk-theme-arc-git numix-circle-icon-theme-git)
 FONTS=(ttf-ms-fonts ttf-emojione ttf-fira-mono)
 GNOMEPKGS=(gdm gedit eog cheese remmina \
     gnome-{boxes,builder,control-center,screenshot,session,shell,tweak-tool} \

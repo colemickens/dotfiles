@@ -10,6 +10,7 @@ set runtimepath^=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 call dein#begin(expand('~/.config/nvim/dein/repos/github.com/Shougo/dein.vim'))
 
 call dein#add('Shougo/dein.vim')
+call dein#add('tpope/vim-sleuth')
 
 " Statusbar bling
 call dein#add('bling/vim-airline')

@@ -1,8 +1,18 @@
 export PATH="${HOME}/.local/share/nodejs/bin:${PATH}"
 export PATH="${HOME}/.cargo/bin:${PATH}"
 export PATH="${HOME}/.local/bin:${PATH}"
+# TODO: does this belong somewhere else?
+export PATH="${HOME}/.local/bin:${PATH}"
+export PATH="${HOME}/go/bin:${PATH}"
 export PATH="${HOME}/Library/Python/2.7/bin:${PATH}"
 export EDITOR="nvim"
+
+## Go
+export GOROOT="${HOME}/.go"
+export PATH="/home/cole/.go/bin:$PATH"
+export GOPATH="${HOME}/code/gopath"
+export WORKSPACE="${HOME}/code/goworkspaces"
+# todo: auto/checkout/build of Go 1.10 or w/e
 
 ## Firefox
 export MOZ_USE_XINPUT2=1

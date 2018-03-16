@@ -14,17 +14,13 @@ PACKAGES=(zsh tmux mosh openssh vim stow wget curl htop docker \
 VIRT=(libvirt qemu ebtables dnsmasq)
 CLOUD=(kubectl-bin kubernetes-helm aws-cli)
 PIP_PACKAGES=(azure-cli shreddit)
+EXTRA=(bc etcd)
 
 _arch_bootstrap() {
 	chktool=$1
 	shift 1
 	if ! which $chktool ; then
 		gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53
-
-		# pacaur dependencies
-		#sudo pacman -S curl sudo git perl expac yajl --needed --noconfirm
-
-		# extra args are deps, so install those first, then the tool
 		for pkg in "${@}" "$chktool"
 		do
 			mkdir /tmp/$pkg
@@ -56,6 +52,6 @@ sudo gpasswd -a "${USER}" libvirt
 sudo gpasswd -a "${USER}" kvm
 sudo gpasswd -a "${USER}" docker
 
+rm -f $HOME/.local/bin/goclone
 curl 'https://raw.githubusercontent.com/ahmetb/goclone/master/goclone' > $HOME/.local/bin/goclone
-chmod +x $HOME/.local/bin/goclone
-
+chmod +x "$HOME/.local/bin/goclone"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+DIR="$HOME/chimera-home-cole"
+REMOTE="/home/cole"
+
+fusermount -u "${DIR}"
+rmdir "${DIR}"
+
