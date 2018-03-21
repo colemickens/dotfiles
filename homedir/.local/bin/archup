@@ -8,9 +8,9 @@ PACKAGES=(zsh tmux mosh openssh vim stow wget curl htop docker \
     go python ruby perl rustup npm nodejs \
     jq tig parallel weechat gist fzf python-pip rsync reflector \
     asciinema bind-tools weechat mitmproxy \
-    libu2f-host \
+    libu2f-host keybase kbfs \
     neovim sshfs \
-	yaourt)
+    yaourt)
 VIRT=(libvirt qemu ebtables dnsmasq)
 CLOUD=(kubectl-beta-bin kubernetes-helm aws-cli)
 PIP_PACKAGES=(azure-cli shreddit)
