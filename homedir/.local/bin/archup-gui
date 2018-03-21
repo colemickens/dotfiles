@@ -19,7 +19,7 @@ KDEPKGS=(plasma plasma-desktop plasma-wayland-session \
 
 EXCEPTIONAL=(visual-studio-code-insiders)
 
-"${TOOL}" -S --needed --noconfirm \
+"yaourt" -S --needed --noconfirm \
    ${COMMON[@]} \
    ${GUIAPPS[@]} \
    ${GUIPKGS[@]} \
