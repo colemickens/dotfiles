@@ -13,20 +13,25 @@
 ##############################################################################
 set -e
 set -o pipefail
+set -x
 
+MASTER_LENGTH=${MASTER_LENGTH:=4096}
 SUBKEY_LENGTH=${SUBKEY_LENGTH:=4096}
 SUBKEY_EXPIRE=${SUBKEY_EXPIRE:=0}
-SURNAME=${SURNAME:="Frazelle"}
-GIVENNAME=${GIVENNAME:="Jessie"}
-EMAIL=${EMAIL:=$GMAIL}
-PUBLIC_KEY_URL=${PUBLIC_KEY_URL:="https://keybase.io/jessie/key.asc"}
+SURNAME=${SURNAME:="Mickens"}
+GIVENNAME=${GIVENNAME:="Cole"}
+EMAIL=${EMAIL:="cole.mickens@gmail.com"}
+PUBLIC_KEY_URL=${PUBLIC_KEY_URL:="https://keybase.io/colemickens/key.asc"}
 KEYID=${KEYID:=$GPGKEY}
-SEX=${SEX:=F}
+SEX=${SEX:=M}
+STORAGE="gs://misc.j3ss.co/dotfiles"
+STORAGE="gs://colemickens/GPG_HOME/.gnupg/"
+NAME="${GIVENNAME} ${SURNAME}"
 
-if [[ -z "$KEYID" ]]; then
-	echo "Set the KEYID env variable."
-	exit 1
-fi
+#if [[ -z "$KEYID" ]]; then
+#	echo "Set the KEYID env variable."
+#	exit 1
+#fi
 
 if [[ -z "$EMAIL" ]]; then
 	echo "Set the EMAIL env variable."
@@ -36,16 +41,16 @@ fi
 restart_agent(){
 	# Restart the gpg agent.
 	# shellcheck disable=SC2046
-	kill -9 $(pidof scdaemon) >/dev/null 2>&1
+	kill -9 $(pidof scdaemon) >/dev/null 2>&1 || true
 	# shellcheck disable=SC2046
-	kill -9 $(pidof gpg-agent) >/dev/null 2>&1
-	gpg-connect-agent /bye >/dev/null 2>&1
-	gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+	kill -9 $(pidof gpg-agent) >/dev/null 2>&1 || true
+	gpg-connect-agent /bye >/dev/null 2>&1 || true
+	gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1 || true
 }
 
 setup_gnupghome(){
 	# Create a temporary directory for GNUPGHOME.
-	GNUPGHOME=$(mktemp -d)
+	GNUPGHOME="${GNUPGHOME:-"$(mktemp -d)"}"
 	export GNUPGHOME
 	echo "Temporary GNUPGHOME is $GNUPGHOME"
 	echo "KeyID is ${KEYID}"
@@ -84,12 +89,28 @@ setup_gnupghome(){
 	# because it will exit here.
 	# Modify this line to copy from a USB stick or your $HOME directory.
 	echo "Copying master key from Google Cloud Storage..."
-	gsutil -m cp gs://misc.j3ss.co/dotfiles/.gnupg/* "${GNUPGHOME}/"
+	gsutil rsync -d -r "${STORAGE}" "${GNUPGHOME}"
+
+	if [[ ! -d "${GNUPGHOME}/private-keys-v1.d" ]]; then
+		# generate the master key now
+		# export the KEY_ID
+		# TODO: MAKE SURE WE SYNC BACK TO GS
+		# TODO: is there another script to import to yubikey?
+		#echo 11$'\n's$'\n'e$'\n'q$'\n'1$'\n'0$'\n'y$'\n'${NAME}$'\n'${EMAIL}$'\n\n'o$'\n' | \
+		echo 8$'\n's$'\n'e$'\n'q$'\n'${MASTER_LENGTH}$'\n'0$'\n'y$'\n'${NAME}$'\n'${EMAIL}$'\n\n'o$'\n' | \
+			gpg2 --expert --display-charset utf-8 \
+				--command-fd 0 --full-gen-key
+		
+		gsutil rsync -d -r "${GNUPGHOME}" "${STORAGE}"
+	fi
 
 	# Re-import the secret keys.
-	gpg --import "${GNUPGHOME}/secring.gpg"
+	# appears to not be used with gnupg2.1
+	# https://www.gnupg.org/faq/whats-new-in-2.1.html (ctrl-f: "used to keep")
+	#gpg --import "${GNUPGHOME}/secring.gpg"
 
 	# Update the default key in the gpg config file.
+	export KEYID="$(gpg2 --list-keys --with-colons | awk -F: '/^pub:/ { print $5 }')"
 	echo "default-key ${KEYID}" >> "${GNUPGHOME}/gpg.conf"
 
 	restart_agent
@@ -129,15 +150,15 @@ generate_subkeys(){
 
 move_keys_to_card(){
 	echo "Moving signing subkey to card..."
-	echo "key 2"$'\n'keytocard$'\n'1$'\n'y$'\n'save$'\n' | \
+	echo "key 1"$'\n'keytocard$'\n'1$'\n'y$'\n'save$'\n' | \
 		gpg2 --expert --batch --display-charset utf-8 \
 		--command-fd 0 --edit-key "$KEYID"
 
-	echo "key 3"$'\n'keytocard$'\n'2$'\n'y$'\n'save$'\n' | \
+	echo "key 2"$'\n'keytocard$'\n'2$'\n'y$'\n'save$'\n' | \
 		gpg2 --expert --batch --display-charset utf-8 \
 		--command-fd 0 --edit-key "$KEYID"
 
-	echo "key 4"$'\n'keytocard$'\n'3$'\n'y$'\n'save$'\n' | \
+	echo "key 3"$'\n'keytocard$'\n'3$'\n'y$'\n'save$'\n' | \
 		gpg2 --expert --batch --display-charset utf-8 \
 		--command-fd 0 --edit-key "$KEYID"
 
@@ -184,7 +205,7 @@ finalize(){
 	echo
 	echo "Temporary GNUPGHOME is $GNUPGHOME"
 
-	gpg --armor --export "$KEYID" > "${HOME}/pubkey.txt"
+	gpg2 --armor --export "$KEYID" > "${HOME}/pubkey.txt"
 
 	echo
 	echo "Public key is ${HOME}/pubkey.txt"
