@@ -156,8 +156,13 @@ alias k="kubectl"
 alias ksys="kubectl --namespace=kube-system"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/cole/google-cloud-sdk/path.zsh.inc' ]; then source '/home/cole/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/home/cole/.gcloudsdk/google-cloud-sdk/path.zsh.inc' ]; then source '/home/cole/.gcloudsdk/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/cole/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/cole/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/home/cole/.gcloudsdk/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/cole/.gcloudsdk/google-cloud-sdk/completion.zsh.inc'; fi
+
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
 
