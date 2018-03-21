@@ -17,6 +17,9 @@ KDEPKGS=(plasma plasma-desktop plasma-wayland-session \
     kate spectacle \
     breeze-gtk kde-gtk-config)
 
+# see: https://wiki.archlinux.org/index.php/Talk:Bluetooth_headset#GDMs_pulseaudio_instance_captures_bluetooth_headset
+EXTRA=(pulseaudio-bluetooth-a2dp-gdm-fix)
+
 EXCEPTIONAL=(visual-studio-code-insiders)
 
 "yaourt" -S --needed --noconfirm \
