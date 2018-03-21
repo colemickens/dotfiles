@@ -55,3 +55,4 @@ sudo gpasswd -a "${USER}" docker
 rm -f $HOME/.local/bin/goclone
 curl 'https://raw.githubusercontent.com/ahmetb/goclone/master/goclone' > $HOME/.local/bin/goclone
 chmod +x "$HOME/.local/bin/goclone"
+

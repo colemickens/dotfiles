@@ -160,3 +160,4 @@ if [ -f '/home/cole/google-cloud-sdk/path.zsh.inc' ]; then source '/home/cole/go
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/cole/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/cole/google-cloud-sdk/completion.zsh.inc'; fi
+

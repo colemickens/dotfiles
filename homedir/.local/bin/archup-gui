@@ -9,7 +9,7 @@ GUIAPPS=(vlc firefox-nightly google-chrome-dev firefox-nightly skypeforlinux-pre
 GUIPKGS=(gtk-theme-arc-git numix-circle-icon-theme-git)
 FONTS=(ttf-ms-fonts ttf-emojione ttf-fira-mono)
 GNOMEPKGS=(gdm gedit eog cheese remmina \
-    gnome-{boxes,builder,control-center,screenshot,session,shell,tweak-tool} \
+    gnome-{boxes,builder,control-center,screenshot,session,shell,tweaks} \
     chrome-gnome-shell)
 KDEPKGS=(plasma plasma-desktop plasma-wayland-session \
     plasma5-applets-redshift-control plasma-nm \
