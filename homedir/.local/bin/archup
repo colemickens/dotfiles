@@ -12,7 +12,7 @@ PACKAGES=(zsh tmux mosh openssh vim stow wget curl htop docker \
     neovim sshfs \
 	yaourt)
 VIRT=(libvirt qemu ebtables dnsmasq)
-CLOUD=(kubectl-bin kubernetes-helm aws-cli)
+CLOUD=(kubectl-beta-bin kubernetes-helm aws-cli)
 PIP_PACKAGES=(azure-cli shreddit)
 EXTRA=(bc etcd)
 
