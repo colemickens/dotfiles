@@ -9,8 +9,8 @@ export EDITOR="nvim"
 
 ## Go
 export GOROOT="${HOME}/.go"
-export PATH="/home/cole/.go/bin:$PATH"
 export GOPATH="${HOME}/code/gopath"
+export PATH="${PATH}:${GOROOT}/bin:${GOPATH}/bin"
 export WORKSPACE="${HOME}/code/goworkspaces"
 # todo: auto/checkout/build of Go 1.10 or w/e
 
