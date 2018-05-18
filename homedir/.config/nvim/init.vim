@@ -9,6 +9,7 @@ set runtimepath^=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 if dein#load_state('~/.cache/dein')
   call dein#begin('~/.cache/dein')
   call dein#add('~/.cache/dein')
+  "call dein#add('')
 
   " helpful
   call dein#add('tpope/vim-sleuth') " auto-detect idention settings
@@ -16,6 +17,13 @@ if dein#load_state('~/.cache/dein')
 
   " Colorschemes
   call dein#add('nanotech/jellybeans.vim')
+  call dein#add('ajmwagar/vim-deus')
+  call dein#add('tyrannicaltoucan/vim-deep-space')
+  call dein#add('mhartington/oceanic-next')
+  call dein#add('rakr/vim-one')
+  call dein#add('kristijanhusak/vim-hybrid-material')
+  call dein#add('joshdick/onedark.vim')
+  call dein#add('icymind/NeoSolarized')
 
   " pretty x2
   call dein#add('nathanaelkane/vim-indent-guides')
@@ -64,12 +72,25 @@ set mouse=a
 set list " show tabs
 
 " pretty
-colorscheme jellybeans
 set background=dark
 set termguicolors
+"colorscheme deep-space
+"colorscheme deus
+"colorscheme hybrid_material
+"colorscheme hybrid_reverse " (pretty good)
+"colorscheme jellybeans
+"colorscheme NeoSolarized
+"colorscheme OceanicNext
+colorscheme one " (pretty good)
+"colorscheme onedark
 
-" gruvbox options
+" gruvbox ("gruvbox")
 let g:gruvbox_italic=1
+" vim-one ("one")
+let g:one_allow_italics = 1 " I love italic for comments
+" vim-hybrid-material ("hybrid_material")
+let g:enable_italic_font = 1
+"let g:enable_bold_font = 1
 
 "" vim-picker config (fzy)
 nmap <unique> <leader>pe <Plug>PickerEdit
