@@ -5,10 +5,10 @@ endif
 """""""""""""""""""
 " dein
 """""""""""""""""""
-set runtimepath^=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
-if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
-  call dein#add('~/.cache/dein')
+set runtimepath^=~/.local/share/nvim/dein/repos/github.com/Shougo/dein.vim
+if dein#load_state('~/.local/share/nvim/dein')
+  call dein#begin('~/.local/share/nvim/dein')
+  call dein#add('~/.local/share/nvim/dein')
   "call dein#add('')
 
   " helpful
@@ -18,7 +18,6 @@ if dein#load_state('~/.cache/dein')
   " Colorschemes
   call dein#add('nanotech/jellybeans.vim')
   call dein#add('ajmwagar/vim-deus')
-  call dein#add('tyrannicaltoucan/vim-deep-space')
   call dein#add('mhartington/oceanic-next')
   call dein#add('rakr/vim-one')
   call dein#add('kristijanhusak/vim-hybrid-material')
@@ -116,3 +115,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 au BufReadPost Jenkinsfile* set syntax=groovy
 au BufReadPost Jenkinsfile.* set syntax=groovy
 
+if $VIMINSTALL == "y"
+  call dein#install()
+  quit
+endif

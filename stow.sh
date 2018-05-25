@@ -2,3 +2,4 @@
 
 set -x
 stow --no-folding -t $HOME/ homedir
+
