@@ -15,6 +15,12 @@ if dein#load_state('~/.local/share/nvim/dein')
   call dein#add('tpope/vim-sleuth') " auto-detect idention settings
   "call dein#add('bling/vim-airline') " status bar bling
 
+  " poweruser
+  call dein#add('easymotion/vim-easymotion')
+  call dein#add('haya14busa/incsearch.vim')
+  call dein#add('haya14busa/incsearch-fuzzy.vim')
+  call dein#add('haya14busa/incsearch-easymotion.vim')
+
   " Colorschemes
   call dein#add('nanotech/jellybeans.vim')
   call dein#add('ajmwagar/vim-deus')
@@ -48,6 +54,7 @@ if dein#load_state('~/.local/share/nvim/dein')
   call dein#add('LnL7/vim-nix')
   call dein#add('leafgarland/typescript-vim')
   call dein#add('cespare/vim-toml')
+
 
  call dein#end()
  call dein#save_state()
@@ -101,6 +108,35 @@ nmap <unique> <leader>p] <Plug>PickerTag
 nmap <unique> <leader>pw <Plug>PickerStag
 nmap <unique> <leader>po <Plug>PickerBufferTag
 nmap <unique> <leader>ph <Plug>PickerHelp
+
+"
+map z/ <Plug>(incsearch-easymotion-/)
+map z? <Plug>(incsearch-easymotion-?)
+map zg/ <Plug>(incsearch-easymotion-stay)
+
+" incsearch.vim x fuzzy x vim-easymotion
+
+function! s:config_easyfuzzymotion(...) abort
+  return extend(copy({
+  \   'converters': [incsearch#config#fuzzyword#converter()],
+  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+  \   'is_expr': 0,
+  \   'is_stay': 1
+  \ }), get(a:, 1, {}))
+endfunction
+noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
+
+"function! s:config_easyfuzzymotion(...) abort
+"  return extend(copy({
+"  \   'converters': [incsearch#config#fuzzy#converter()],
+"  \   'modules': [incsearch#config#easymotion#module()],
+"  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+"  \   'is_expr': 0,
+"  \   'is_stay': 1
+"  \ }), get(a:, 1, {}))
+"endfunction
+"noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 
 " Shougo/deoplete.nvim options
 let g:deoplete#enable_at_startup = 1
