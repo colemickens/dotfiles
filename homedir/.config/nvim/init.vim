@@ -20,6 +20,7 @@ if dein#load_state('~/.local/share/nvim/dein')
   call dein#add('haya14busa/incsearch.vim')
   call dein#add('haya14busa/incsearch-fuzzy.vim')
   call dein#add('haya14busa/incsearch-easymotion.vim')
+  call dein#add('will133/vim-dirdiff')
 
   " Colorschemes
   call dein#add('nanotech/jellybeans.vim')
