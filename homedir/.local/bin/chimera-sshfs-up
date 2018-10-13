@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-DIR="$HOME/chimera-home-cole"
-REMOTE="/home/cole"
-
-mkdir -p ${DIR}
-sshfs cole@192.168.1.16:${REMOTE} ${DIR} -C -p222 -o Compression=no,auto_cache
-

@@ -1,0 +1,290 @@
+# VARIABLES
+set $mod Mod4
+set $purple #551E69
+set $purple1 551E69
+set $bgcolor #000000
+set $bgcolor1 000000
+
+# REPEATED COMMANDS
+set $swaylock swaylock -c 000000 --indicator-radius 300 --indicator-thickness 20
+
+set $redshift workspace 9; exec termite -e "bash -lic '_redshift'"; workspace back_and_forth
+set $colorbg workspace 9; exec termite -e "bash -lic '_colorbg'"; workspace back_and_forth
+
+# and on demand
+bindsym $mod+Shift+r $redshift
+bindsym $mod+Shift+t $colorbg
+#bindsym $mod+Shift+i $inhibit # TODO
+bindsym $mod+Alt+0 border toggle
+bindsym $mod+Alt+plus gaps inner current plus 1
+bindsym $mod+Alt+minus gaps inner current minus 1
+
+# APPEARANCE
+gaps inner 1
+gaps outer 1
+default_border normal 8
+# default:
+# client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
+client.focused          $purple $purple #ffffff #2e9ef4   $purple
+# Logo key. Use Mod1 for Alt.
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+#set $term termite
+set $term /home/cole/way.sh termite
+# Your preferred application launcher
+# Note: it's recommended that you pass the final command to sway
+set $menu dmenu_path | dmenu | xargs swaymsg exec
+
+### Output configurations
+ # DELETE: # Normal Laptop Config
+ # DELETE: #output "eDP-1" pos 0,0 bg $bgcolor solid_color scale 2
+ # DELETE: #output "DP-1" disable
+
+ # DELETE: # Home Desk w/ External Monitor
+ # DELETE: #output "eDP-1" disable
+ # DELETE: #output "DP-1" pos 0,0 bg $bgcolor solid_color scale 1
+
+ # DELETE: # Both
+ # DELETE: #output "eDP-1" pos 0 1440 bg $bgcolor solid_color scale 2
+ # DELETE: #output "DP-1" pos 0 0 bg $bgcolor solid_color scale 1
+
+  # TODO(BUG): the bg isn't set correctly when issuing these commands
+
+  # laptop only
+  bindsym $mod+Shift+F10 output "eDP-1" enable pos 0 0 bg $bgcolor solid_color scale 2; output "DP-1" disable
+  # both
+  bindsym $mod+Shift+F11 output "eDP-1" enable pos 0 1440 bg $bgcolor solid_color scale 2; output "DP-1" enable pos 0 0 bg $bgcolor solid_color scale 1
+  # home desk only
+  bindsym $mod+Shift+F12 output "eDP-1" disable; output "DP-1" enable pos 0 0 bg $bgcolor solid_color scale 1
+
+## Volume keys
+# TODO: figure out a better method for this, esp w/ bt headphones, etc
+#bindsym $mod+Alt+Left exec pamixer --sink 0 -d 1
+#bindsym $mod+Alt+Right exec pamixer --sink 0 -i 1
+
+## Display Brightness keys
+bindsym $mod+Alt+Up exec light -A 1
+bindsym $mod+Alt+Down exec light -U 1
+# TODO: what do we do for keyboard bl?
+
+### Input configuration
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
+  click_method clickfinger
+  dwt enabled
+  tap enabled
+  scroll_method two_finger
+  natural_scroll enabled
+  accel_profile adaptive
+  #flat
+}
+
+# usb
+input "1452:613:Apple_Inc._Magic_Trackpad_2" {
+  click_method clickfinger
+  dwt enabled
+  tap enabled
+  scroll_method two_finger
+  natural_scroll enabled
+  accel_profile adaptive
+  pointer_accel 1
+}
+
+# bluetooth
+input "76:613:Apple_Inc._Magic_Trackpad_2" {
+  click_method clickfinger
+  dwt enabled
+  tap enabled
+  scroll_method two_finger
+  natural_scroll enabled
+  accel_profile adaptive
+  pointer_accel .8
+}
+
+### Redshift
+
+### Idle configuration
+exec swayidle \
+  timeout 60 "$swaylock" \
+  before-sleep "$swaylock" \
+  timeout 600 'swaymsg "output * dpms off"' \
+  resume 'swaymsg "output * dpms on"' \
+
+### Auto lock the screen when sway starts, since sway starts up with the tty.
+  exec $swaylock
+
+### Key bindings
+    # lock the screen
+    bindsym $mod+Delete exec "$swaylock"
+    # start a terminal
+    bindsym $mod+Return exec $term
+
+    # start a browser
+    bindsym $mod+Shift+Return exec firefox
+
+    # kill focused window
+    bindsym $mod+Shift+q kill
+
+    # start your launcher
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'exit sway?' -b 'exit sway' 'swaymsg exit'
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # _move_ the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    # switch to workspace
+    bindsym $mod+1 workspace 1
+    bindsym $mod+2 workspace 2
+    bindsym $mod+3 workspace 3
+    bindsym $mod+4 workspace 4
+    bindsym $mod+5 workspace 5
+    bindsym $mod+6 workspace 6
+    bindsym $mod+7 workspace 7
+    bindsym $mod+8 workspace 8
+    bindsym $mod+9 workspace 9
+    bindsym $mod+0 workspace 10
+    # move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace 1
+    bindsym $mod+Shift+2 move container to workspace 2
+    bindsym $mod+Shift+3 move container to workspace 3
+    bindsym $mod+Shift+4 move container to workspace 4
+    bindsym $mod+Shift+5 move container to workspace 5
+    bindsym $mod+Shift+6 move container to workspace 6
+    bindsym $mod+Shift+7 move container to workspace 7
+    bindsym $mod+Shift+8 move container to workspace 8
+    bindsym $mod+Shift+9 move container to workspace 9
+    bindsym $mod+Shift+0 move container to workspace 10
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    bindsym $mod+Shift+Up sticky toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+#bar {
+#    position top
+#
+#}
+bar {
+  font Inconsolata 12
+  position top
+  status_command /run/current-system/sw/bin/i3status-rs ~/.config/i3/status.toml
+  colors {
+    separator #AAAAAA
+    background #222133
+    statusline #FFFFFF
+    focused_workspace #664477 #664477 #cccccc
+    active_workspace #DCCD69 #DCCD69 #181715
+    inactive_workspace #222133 #222133 #AAAAAA
+    urgent_workspace #CE4045 #CE4045 #FFFFFF
+  }
+}
+
+include @sysconfdir@/sway/config.d/*
+
+#client.focused #664477 #664477 #cccccc #e7d8b1
+#client.focused_inactive #e7d8b1 #e7d8b1 #181715 #A074C4
+#client.unfocused #222133 #222133 #AAAAAA #A074C4
+#client.urgent #CE4045 #CE4045 #e7d8b1 #DCCD69
+

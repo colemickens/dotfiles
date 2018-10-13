@@ -1,0 +1,29 @@
+#theme = "modern"
+#theme = "plain"
+#theme = "bad-wolf"
+#theme = "solarized-dark"
+#theme = "gruvbox-dark"
+theme = "slick"
+icons = "none"
+
+[[block]]
+block = "custom"
+command = "/home/cole/code/packet-utils/q-termtime.sh"
+interval = 60
+
+[[block]]
+block = "backlight"
+
+[[block]]
+block = "sound"
+
+[[block]]
+block = "time"
+interval = 60
+format = "%a-%_d %R"
+
+[[block]]
+block = "battery"
+interval = 60
+format = "{percentage}% {time} ({power})"
+

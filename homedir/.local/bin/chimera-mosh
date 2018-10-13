@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-dig +short chimera | grep -v -e '^$' > /dev/null && export REMOTE="chimera" || export REMOTE="chimera.mickens.io"
-
-mosh "cole@${REMOTE}" --ssh="ssh -p 222"
