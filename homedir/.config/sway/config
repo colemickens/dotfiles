@@ -1,31 +1,59 @@
 # VARIABLES
 set $mod Mod4
-set $purple #551E69
-set $purple1 551E69
-set $bgcolor #000000
-set $bgcolor1 000000
 
-# REPEATED COMMANDS
+set $term /home/cole/code/way.sh termite
+set $rofi rofi -show run
+set $menu $rofi
+
+#set $purple #551E69
+set $purple #450E59
+set $blue #164F71
+set $bgcolor #222222
+set $bgcolor $purple
+#set $bg bg "/home/cole/downloads/retro_stripe_pattern-1079.jpg" tile
+#set $bg bg "/home/cole/.wallpaper/purple-striped-fabric-texture.jpg" tile
+#set $bg bg "/home/cole/.wallpaper/Tux_Mono.svg.png" tile
+set $bg bg "/home/cole/downloads/Transparent_Blue_Bird_PNG_Cartoon_Picture.png" tile
+set $bg bg "/home/cole/Untitled.png" tile
+set $bg bg "/home/cole/Untitled.png" tile
+#set $bg bg $bgcolor solid_color
+
 set $swaylock swaylock -c 000000 --indicator-radius 300 --indicator-thickness 20
-
+set $swaylockclear swaylock -c 00000000 --indicator-radius 300 --indicator-thickness 20
 set $redshift workspace 9; exec termite -e "bash -lic '_redshift'"; workspace back_and_forth
 set $colorbg workspace 9; exec termite -e "bash -lic '_colorbg'"; workspace back_and_forth
+
+# APPEARANCE
+gaps inner 5
+gaps outer 5
+default_border pixel 10
+
+# defaults:
+#                          border    bg        text      indicator child_border
+#  client.background       n/a       #ffffff   n/a       n/a       n/a
+#  client.focused          #4c7899   #285577   #ffffff   #2e9ef4   #285577
+#  client.focused_inactive #333333   #5f676a   #ffffff   #484e50   #5f676a
+#  client.unfocused        #333333   #222222   #888888   #292d2e   #222222
+#  client.urgent           #2f343a   #900000   #ffffff   #900000   #900000
+#  client.placeholder      #000000   #0c0c0c   #ffffff   #000000   #0c0c0c
+set $active   #ffffff88
+set $activebr #ffffffbb
+set $inactive #00000055
+set $inactibr #000000bb
+client.focused             $active   $active   #000000   $activebr $active
+client.focused_inactive    $inactive $inactive #88888844 $inactibr $inactive
+client.unfocused           $inactive $inactive #88888844 $inactibr $inactive
 
 # and on demand
 bindsym $mod+Shift+r $redshift
 bindsym $mod+Shift+t $colorbg
 #bindsym $mod+Shift+i $inhibit # TODO
+
 bindsym $mod+Alt+0 border toggle
 bindsym $mod+Alt+plus gaps inner current plus 1
 bindsym $mod+Alt+minus gaps inner current minus 1
 
-# APPEARANCE
-gaps inner 1
-gaps outer 1
-default_border normal 8
-# default:
-# client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
-client.focused          $purple $purple #ffffff #2e9ef4   $purple
+
 # Logo key. Use Mod1 for Alt.
 # Home row direction keys, like vim
 set $left h
@@ -34,10 +62,10 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 #set $term termite
-set $term /home/cole/way.sh termite
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
-set $menu dmenu_path | dmenu | xargs swaymsg exec
+
+bindsym $mod+escape dmenu_path | dmenu | xargs swaymsg exec
 
 ### Output configurations
  # DELETE: # Normal Laptop Config
@@ -52,14 +80,27 @@ set $menu dmenu_path | dmenu | xargs swaymsg exec
  # DELETE: #output "eDP-1" pos 0 1440 bg $bgcolor solid_color scale 2
  # DELETE: #output "DP-1" pos 0 0 bg $bgcolor solid_color scale 1
 
-  # TODO(BUG): the bg isn't set correctly when issuing these commands
+  set $monitor_laptop_only \
+    output "eDP-1" enable pos 0 0 $bg scale 2; \
+    output "DP-1" disable
+  bindsym $mod+Shift+F10 $monitor_laptop_only
 
-  # laptop only
-  bindsym $mod+Shift+F10 output "eDP-1" enable pos 0 0 bg $bgcolor solid_color scale 2; output "DP-1" disable
-  # both
-  bindsym $mod+Shift+F11 output "eDP-1" enable pos 0 1440 bg $bgcolor solid_color scale 2; output "DP-1" enable pos 0 0 bg $bgcolor solid_color scale 1
-  # home desk only
-  bindsym $mod+Shift+F12 output "eDP-1" disable; output "DP-1" enable pos 0 0 bg $bgcolor solid_color scale 1
+  set $monitor_laptop_and_homedesk \
+    output "eDP-1" enable pos 0 1440 $bg scale 2; \
+    output "DP-1" enable pos 0 0 $bg scale 1
+  bindsym $mod+Shift+F11 $monitor_laptop_and_homedesk
+
+  set $monitor_homedesk_only \
+    output "eDP-1" disable; \
+    output "DP-1" enable pos 0 0 $bg scale 1
+  bindsym $mod+Shift+F12 $monitor_homedesk_only
+
+#output * $bg
+
+    output "eDP-1" disable
+    output "DP-1" enable pos 0 0 bg "/home/cole/Untitled.png" tile scale 1
+
+bindsym $mod+F5 exec bash -c "pkill wlroots-layer-s; wlroots-layer-shell -a top -a left -w 0 -h 0"
 
 ## Volume keys
 # TODO: figure out a better method for this, esp w/ bt headphones, etc
@@ -104,8 +145,6 @@ input "76:613:Apple_Inc._Magic_Trackpad_2" {
   pointer_accel .8
 }
 
-### Redshift
-
 ### Idle configuration
 exec swayidle \
   timeout 60 "$swaylock" \
@@ -113,12 +152,10 @@ exec swayidle \
   timeout 600 'swaymsg "output * dpms off"' \
   resume 'swaymsg "output * dpms on"' \
 
-### Auto lock the screen when sway starts, since sway starts up with the tty.
-  exec $swaylock
-
 ### Key bindings
     # lock the screen
     bindsym $mod+Delete exec "$swaylock"
+    bindsym $mod+Shift+Delete exec "$swaylockclear"
     # start a terminal
     bindsym $mod+Return exec $term
 
@@ -129,7 +166,7 @@ exec swayidle \
     bindsym $mod+Shift+q kill
 
     # start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+escape exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -282,9 +319,4 @@ bar {
 }
 
 include @sysconfdir@/sway/config.d/*
-
-#client.focused #664477 #664477 #cccccc #e7d8b1
-#client.focused_inactive #e7d8b1 #e7d8b1 #181715 #A074C4
-#client.unfocused #222133 #222133 #AAAAAA #A074C4
-#client.urgent #CE4045 #CE4045 #e7d8b1 #DCCD69
 
