@@ -8,7 +8,17 @@ icons = "none"
 
 [[block]]
 block = "custom"
-command = "/home/cole/code/packet-utils/q-termtime.sh"
+command = "/home/cole/.config/i3/scripts/status-swaylock.sh"
+interval = 60
+
+[[block]]
+block = "custom"
+command = "/home/cole/.config/i3/scripts/status-packet.sh"
+interval = 60
+
+[[block]]
+block = "custom"
+command = "/home/cole/.config/i3/scripts/status-idle.sh"
 interval = 60
 
 [[block]]
