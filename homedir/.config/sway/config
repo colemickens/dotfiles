@@ -3,20 +3,15 @@ set $scripts $HOME/.config/sway/scripts
 set $mod Mod4
 
 set $swaylock $scripts/lock.sh
-set $term /home/cole/code/way.sh termite
+set $term way.sh termite
 set $menu rofi -show run
 
-set $colorbg $scripts/colorbg.sh
-set $redshift $scripts/redshift.sh
+set $menu termite --config=$HOME/.config/termite/config-launcher --name=launcher -e "bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'"
+for_window [app_id="^launcher$"] floating enable, border none
+
 set $screenshot $scripts/ss.sh
 set $ssregion $scripts/ss.sh --region
 set $mixin $scripts/mixin.sh
-
-set $purple #450E59
-set $blue #164F71
-set $bgcolor #222222
-set $bgcolor $purple
-set $bg bg $bgcolor solid_color
 
 # Core Keybindings
 bindsym $mod+escape exec $menu
@@ -29,86 +24,32 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Ctrl+Alt+Delete exit
 
 # Outputs
-bindsym $mod+F10 exec $mixin output output-laptop; reload
-bindsym $mod+F11 exec $mixin output output-dualdesk; reload
-bindsym $mod+F12 exec $mixin output output-alien; reload
+bindsym --locked $mod+F10 exec $mixin output output-laptop; reload
+bindsym --locked $mod+F11 exec $mixin output output-dualdesk; reload
+bindsym --locked $mod+F12 exec $mixin output output-alien; reload
 
-# Extras (Redshift, Colorbg)
-bindsym $mod+F1 exec $redshift
-bindsym $mod+F2 exec $colorbg
+# Miscellaneous
+bindsym $mod+F1 exec redshift
 
 # Screenshots
 bindsym $mod+Print exec $screenshot
 bindsym $mod+Shift+Print exec $ssregion
 
 # Brightness
-bindsym $mod+Alt+Up exec light -A 1
-bindsym $mod+Alt+Down exec light -U 1
+bindsym --locked $mod+Alt+Up exec light -A 1
+bindsym --locked $mod+Alt+Down exec light -U 1
 
 # misfit setting, where do you go?
 floating_modifier $mod normal
 
-# APPEARANCE
-gaps inner 0
-gaps outer 0
-default_border pixel 10
-
-# defaults:                border    bg        text      indicator child_border
-#  client.background       n/a       #ffffff   n/a       n/a       n/a
-#  client.focused          #4c7899   #285577   #ffffff   #2e9ef4   #285577
-#  client.focused_inactive #333333   #5f676a   #ffffff   #484e50   #5f676a
-#  client.unfocused        #333333   #222222   #888888   #292d2e   #222222
-#  client.urgent           #2f343a   #900000   #ffffff   #900000   #900000
-#  client.placeholder      #000000   #0c0c0c   #ffffff   #000000   #0c0c0c
-set $active   #ffffff99
-#set $active   #00000055
-set $activebr #ffffffbb
-#set $inactive #00000055
-set $inactive #000000aa
-set $inactibr #000000ff
-client.focused             $active   $active   #000000   $activebr $active
-client.focused_inactive    $inactive $inactive #88888844 $inactibr $inactive
-client.unfocused           $inactive $inactive #88888844 $inactibr $inactive
-
-
-### Input configuration
-input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
-  click_method clickfinger
-  dwt enabled
-  tap enabled
-  scroll_method two_finger
-  natural_scroll enabled
-  accel_profile adaptive
-  #flat
-}
-
-# usb
-input "1452:613:Apple_Inc._Magic_Trackpad_2" {
-  click_method clickfinger
-  dwt enabled
-  tap enabled
-  scroll_method two_finger
-  natural_scroll enabled
-  accel_profile adaptive
-  pointer_accel .8
-}
-
-# bluetooth
-input "76:613:Apple_Inc._Magic_Trackpad_2" {
-  click_method clickfinger
-  dwt enabled
-  tap enabled
-  scroll_method two_finger
-  natural_scroll enabled
-  accel_profile adaptive
-  pointer_accel .8
-}
+include $HOME/.config/sway/config-appearance
+include $HOME/.config/sway/config-input
 
 ### Idle configuration
 exec swayidle \
   before-sleep "$swaylock" \
-  timeout 60  "[ -f ~/.idle-inhibit ] || $swaylock" \
-  timeout 600 '[ -f ~/.idle-inhibit] || swaymsg "output * dpms off"' \
+  timeout 120 "[ -f ~/.idle-inhibit ] || $swaylock" \
+  timeout 600 '[ -f ~/.idle-inhibit ] || swaymsg "output * dpms off"' \
        resume '[ -f ~/.idle-inhibit ] || swaymsg "output * dpms on"'
 bindsym $mod+Backspace exec [ ! -e ~/.idle-inhibit ] && touch ~/.idle-inhibit || rm ~/.idle-inhibit
 
@@ -179,7 +120,7 @@ set $right l
   bindsym $mod+e layout toggle split
 
   bindsym $mod+f fullscreen
-  bindsym $mod+Shift+space floating toggle
+  bindsym $mod+Shift+space floating toggle; border normal
   bindsym $mod+Shift+Up sticky toggle
   bindsym $mod+space focus mode_toggle
   bindsym $mod+a focus parent
@@ -208,21 +149,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Status Bar:
-bar {
-  font Inconsolata 12
-  position top
-  status_command /run/current-system/sw/bin/i3status-rs ~/.config/i3/status.toml
-  colors {
-    separator #AAAAAA
-    background #222133
-    statusline #FFFFFF
-    focused_workspace #664477 #664477 #cccccc
-    active_workspace #DCCD69 #DCCD69 #181715
-    inactive_workspace #222133 #222133 #AAAAAA
-    urgent_workspace #CE4045 #CE4045 #FFFFFF
-  }
-}
+include $HOME/.config/sway/config-bar
 
 # see: swaywm/sway#2850
 workspace 1
@@ -230,4 +157,7 @@ workspace 1
 include @sysconfdir@/sway/config.d/*
 include @sysconfdir@/sway/config.output.d/*
 include $HOME/.config/sway/config.output.d/*
+
+exec mako
+exec redshift
 

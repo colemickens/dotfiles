@@ -1,0 +1,28 @@
+set $purple #450E59
+set $blue #164F71
+set $bgcolor #222222
+set $bgcolor $blue
+set $bgcolor $purple
+set $bg bg $bgcolor solid_color
+
+gaps inner 4
+gaps outer 0
+default_border normal 4
+
+# defaults:                border    bg        text      indicator child_border
+#  client.background       n/a       #ffffff   n/a       n/a       n/a
+#  client.focused          #4c7899   #285577   #ffffff   #2e9ef4   #285577
+#  client.focused_inactive #333333   #5f676a   #ffffff   #484e50   #5f676a
+#  client.unfocused        #333333   #222222   #888888   #292d2e   #222222
+#  client.urgent           #2f343a   #900000   #ffffff   #900000   #900000
+#  client.placeholder      #000000   #0c0c0c   #ffffff   #000000   #0c0c0c
+set $active   #ffffff99
+#set $active   #00000055
+set $activebr #ffffffbb
+#set $inactive #00000055
+set $inactive #000000aa
+set $inactibr #000000ff
+client.focused             $active   $active   #000000ff $activebr $active
+client.focused_inactive    $inactive $inactive #ffffffcc $inactibr $inactive
+client.unfocused           $inactive $inactive #ffffffcc $inactibr $inactive
+
