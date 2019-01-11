@@ -1,27 +1,30 @@
+# RECENT
+focus_follows_mouse always
+
 # VARIABLES
 set $scripts $HOME/.config/sway/scripts
 set $mod Mod4
 
-set $swaylock $scripts/lock.sh
-set $term way.sh termite
-set $menu rofi -show run
+set $swaylock swaylock -c 000000
+set $term termite
+set $menu termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf --no-extended --print-query | tail -n1 | xargs -r swaymsg -t command exec'"
+for_window [app_id="^launcher$"] floating enable, border pixel 10
 
-set $menu termite --config=$HOME/.config/termite/config-launcher --name=launcher -e "bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'"
-for_window [app_id="^launcher$"] floating enable, border none
-
-set $screenshot $scripts/ss.sh
-set $ssregion $scripts/ss.sh --region
+set $screenshot grim "${HOME}/screenshot-$(date '+%s').png"
+set $ssregion grim -g "$(slurp)" "${HOME}/screenshot-$(date '+%s').png"
 set $mixin $scripts/mixin.sh
 
 # Core Keybindings
 bindsym $mod+escape exec $menu
 bindsym $mod+Delete exec "$swaylock"
 bindsym $mod+Return exec $term
-bindsym $mod+Shift+Return exec firefox
+bindsym $mod+Shift+Return     exec GDK_BACKEND=wayland firefox
+bindsym $mod+Shift+Alt+Return exec GDK_BACKEND=x11 firefox
 
 bindsym $mod+Shift+q kill
 bindsym $mod+Shift+c reload
 bindsym $mod+Ctrl+Alt+Delete exit
+bindsym Ctrl+q echo "fuck mozilla"
 
 # Outputs
 bindsym --locked $mod+F10 exec $mixin output output-laptop; reload
@@ -120,8 +123,8 @@ set $right l
   bindsym $mod+e layout toggle split
 
   bindsym $mod+f fullscreen
-  bindsym $mod+Shift+space floating toggle; border normal
-  bindsym $mod+Shift+Up sticky toggle
+  bindsym $mod+Shift+space floating toggle; border pixel
+  bindsym $mod+Shift+Alt+space sticky toggle
   bindsym $mod+space focus mode_toggle
   bindsym $mod+a focus parent
 
@@ -161,3 +164,4 @@ include $HOME/.config/sway/config.output.d/*
 exec mako
 exec redshift
 
+bindsym $mod+Tab exec ~/toggle-edp1.sh

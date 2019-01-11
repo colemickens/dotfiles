@@ -5,9 +5,9 @@ set $bgcolor $blue
 set $bgcolor $purple
 set $bg bg $bgcolor solid_color
 
-gaps inner 4
+gaps inner 5
 gaps outer 0
-default_border normal 4
+default_border pixel 4
 
 # defaults:                border    bg        text      indicator child_border
 #  client.background       n/a       #ffffff   n/a       n/a       n/a

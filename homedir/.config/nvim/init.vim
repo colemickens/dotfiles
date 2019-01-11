@@ -45,6 +45,7 @@ if dein#load_state('~/.local/share/nvim/dein')
 
   " Syntax completion/checking
   call dein#add('Shougo/deoplete.nvim')
+  call dein#add('Shougo/deoplete-lsp')
   call dein#add('majutsushi/tagbar')
   call dein#add('ekalinin/Dockerfile.vim')
 
@@ -60,6 +61,15 @@ if dein#load_state('~/.local/share/nvim/dein')
  call dein#end()
  call dein#save_state()
 endif
+
+""" lsp
+call lsp#server#add('rust', ['rustup', 'run', 'stable', 'rls'])
+"call lsp#server#add('go', [expand('$GOPATH/bin/go-langserver'),
+"      \ '-format-tool', 'gofmt', '-lint-tool', 'golint', '-gocodecompletion'])
+
+" <TAB>: completion.
+"inoremap <silent><expr> <Tab>
+"    \ pumvisible() ? "\<C-n>" : deoplete#manual_complete()
 
 """ config
 
@@ -84,11 +94,11 @@ set termguicolors
 "colorscheme deep-space
 "colorscheme deus
 "colorscheme hybrid_material
-"colorscheme hybrid_reverse " (pretty good)
+colorscheme hybrid_reverse " (pretty good)
 "colorscheme jellybeans
 "colorscheme NeoSolarized
 "colorscheme OceanicNext
-colorscheme one " (pretty good)
+"colorscheme one " (pretty good)
 "colorscheme onedark
 
 " gruvbox ("gruvbox")
@@ -140,7 +150,11 @@ noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 "noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 
 " Shougo/deoplete.nvim options
+"
+" Use deoplete.
 let g:deoplete#enable_at_startup = 1
+" Use smartcase.
+call deoplete#custom#option('smart_case', v:true)
 
 " indent guides
 let g:indent_guides_enable_on_vim_startup = 1

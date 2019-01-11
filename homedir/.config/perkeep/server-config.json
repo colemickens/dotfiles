@@ -1,0 +1,10 @@
+{
+    "auth": "localhost",
+    "listen": "0.0.0.0:3179",
+    "camliNetIP": "",
+    "identity": "815A9433E26285DB",
+    "identitySecretRing": "/home/cole/.config/perkeep/identity-secring.gpg",
+    "blobPath": "/home/cole/var/perkeep/blobs",
+    "packRelated": true,
+    "levelDB": "/home/cole/var/perkeep/index.leveldb"
+}

@@ -1,5 +1,5 @@
 bar {
-  font Inconsolata 12
+  font Noto Sans Mono 10
   position top
   status_command /run/current-system/sw/bin/i3status-rs $HOME/.config/i3/status.toml
   #status_command /run/current-system/sw/bin/waybar

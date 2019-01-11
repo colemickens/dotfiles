@@ -1,25 +1,15 @@
-#theme = "modern"
-#theme = "plain"
-#theme = "bad-wolf"
-#theme = "solarized-dark"
-#theme = "gruvbox-dark"
 theme = "slick"
 icons = "none"
 
 [[block]]
 block = "custom"
-command = "/home/cole/.config/i3/scripts/status-swaylock.sh"
-interval = 60
-
-[[block]]
-block = "custom"
-command = "/home/cole/.config/i3/scripts/status-packet.sh"
-interval = 60
+command = "/home/cole/code/packet-utils/status-termtime.sh"
+#interval = 60
 
 [[block]]
 block = "custom"
 command = "/home/cole/.config/i3/scripts/status-idle.sh"
-interval = 60
+#interval = 60
 
 [[block]]
 block = "backlight"
@@ -28,12 +18,26 @@ block = "backlight"
 block = "sound"
 
 [[block]]
-block = "time"
-interval = 60
-format = "%a-%_d %R"
+block = "temperature"
+collapsed = false
+interval = 10
+format = "{min}° min, {max}° max, {average}° avg"
+
+[[block]]
+block = "cpu"
+frequency = true
+
+[[block]]
+block = "memory"
+format_mem = "{Mup}%"
 
 [[block]]
 block = "battery"
-interval = 60
+#interval = 60
 format = "{percentage}% {time} ({power})"
+
+[[block]]
+block = "time"
+interval = 30
+format = "%a-%_d %I:%M "
 

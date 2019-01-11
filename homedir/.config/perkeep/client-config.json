@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "localhost": {
+      "server": "http://localhost:3179",
+      "auth": "localhost",
+      "default": true
+    }
+  },
+  "identity": "815A9433E26285DB",
+  "ignoredFiles": [
+    ".DS_Store"
+  ]
+}

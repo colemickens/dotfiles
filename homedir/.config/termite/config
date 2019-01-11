@@ -1,5 +1,5 @@
 [options]
-font = Noto Mono 11
+font = Noto Sans Mono 11
 scrollback_lines = -1
 clickable_url = false
 
