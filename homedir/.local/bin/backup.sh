@@ -11,6 +11,8 @@ rsync \
   -avh \
   --delete \
   --exclude=".cache" \
+  --exclude="target/release" \
+  --exclude="target/debug" \
   --delete-excluded \
   "${src}" "${dst}"
 
