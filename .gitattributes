@@ -1,2 +1,2 @@
-homedir-enc/ filter=git-crypt diff=git-crypt
+homedir-enc/** filter=git-crypt diff=git-crypt
 
