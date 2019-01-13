@@ -1,0 +1,4 @@
+path:
+- add c:\Tools
+
+how to disable windows hello + your phone?
