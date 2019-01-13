@@ -5,7 +5,8 @@ focus_follows_mouse always
 set $scripts $HOME/.config/sway/scripts
 set $mod Mod4
 
-set $swaylock swaylock -c 000000
+#set $swaylock swaylock -c 000000
+set $swaylock swaylock -c 450E59
 set $term termite
 set $menu termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf --no-extended --print-query | tail -n1 | xargs -r swaymsg -t command exec'"
 for_window [app_id="^launcher$"] floating enable, border pixel 10
