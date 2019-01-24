@@ -10,7 +10,8 @@
 ## TODO: how much can we do with choco?
 ## install: Git, gpg4win, WinSCP 
 ## install: Chrome, Firefox, VLC, AltDrag, Gpg4Win, Git
-## install: 7zip, Spotify, Uplay, Steam
+## install: 7zip, Spotify
+## install: Uplay, Steam, Battle.net launcher, Origin?
 
 ###############################################################################
 ## MANUAL STEPS AFTERWARD

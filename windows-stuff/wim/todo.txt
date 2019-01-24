@@ -1,0 +1,12 @@
+remove ".NET Framework 4.7 Advanced Services" recursively
+remove "Internet Explorer 11"
+remove "Microsoft Print to PDF"
+remove "Microsoft XPS Document Writer"
+remove "Print and Document Services"
+remove "Remote Differential Compression API Support"
+remove "SMB Direct"
+remove "Windows PowerShell 2.0" (sub "Windows PowerShell 2.0 Engine")
+remove "Work Folders Client"
+
+
+notes: document diff b/w unattend.xml and autounattend.xml

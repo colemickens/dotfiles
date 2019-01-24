@@ -1,0 +1,15 @@
+Why I'm not buying a new XPS 13 this year
+-----------------------------------------
+
+tl;dr: Dell outsources the BIOS and they've been
+a constant source of frustration
+
+https://www.reddit.com/r/Dell/comments/91ha3c/xps_9370_new_bios_133/
+
+
+1.0.2
+1.2.0
+1.2.1
+1.4.0
+1.5.1
+1.6.3
