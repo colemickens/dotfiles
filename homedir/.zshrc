@@ -15,7 +15,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # try to force load the gitstatus zsh plugin
 # that matches the system's gitstatus binary:
-source /run/current-system/sw/share/zsh-plugins/gitstatus.plugin.zsh
+source /run/current-system/sw/lib/gitstatus/gitstatus.plugin.zsh
 export GITSTATUS_DAEMON="$(which gitstatusd)"
 
 # antibody for the rest of zsh plugins:
