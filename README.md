@@ -1,4 +1,8 @@
-# dotfiles
+# config
+
+Contents:
+ * my `dotfiles`
+ * my `nixcfg` containing my user/machine configurations
 
 Uses:
 

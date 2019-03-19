@@ -1,67 +1,22 @@
-# RECENT
-focus_follows_mouse always
+# Non-Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
 
-# VARIABLES
-set $scripts $HOME/.config/sway/scripts
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
 set $mod Mod4
-
-#set $swaylock swaylock -c 000000
-set $swaylock swaylock -c 450E59
-set $term termite
-set $menu termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf --no-extended --print-query | tail -n1 | xargs -r swaymsg -t command exec'"
-for_window [app_id="^launcher$"] floating enable, border pixel 10
-
-set $screenshot grim "${HOME}/screenshot-$(date '+%s').png"
-set $ssregion grim -g "$(slurp)" "${HOME}/screenshot-$(date '+%s').png"
-set $mixin $scripts/mixin.sh
-
-# Core Keybindings
-bindsym $mod+escape exec $menu
-bindsym $mod+Delete exec "$swaylock"
-bindsym $mod+Return exec $term
-bindsym $mod+Shift+Return     exec GDK_BACKEND=wayland firefox
-bindsym $mod+Shift+Alt+Return exec GDK_BACKEND=x11 firefox
-
-bindsym $mod+Shift+q kill
-bindsym $mod+Shift+c reload
-bindsym $mod+Ctrl+Alt+Delete exit
-bindsym Ctrl+q echo "fuck mozilla"
-
-# Outputs
-bindsym --locked $mod+F10 exec $mixin output output-laptop; reload
-bindsym --locked $mod+F11 exec $mixin output output-dualdesk; reload
-bindsym --locked $mod+F12 exec $mixin output output-alien; reload
-
-# Miscellaneous
-bindsym $mod+F1 exec redshift
-
-# Screenshots
-bindsym $mod+Print exec $screenshot
-bindsym $mod+Shift+Print exec $ssregion
-
-# Brightness
-bindsym --locked $mod+Alt+Up exec light -A 1
-bindsym --locked $mod+Alt+Down exec light -U 1
-
-# misfit setting, where do you go?
-floating_modifier $mod normal
-
-include $HOME/.config/sway/config-appearance
-include $HOME/.config/sway/config-input
-
-### Idle configuration
-exec swayidle \
-  before-sleep "$swaylock" \
-  timeout 120 "[ -f ~/.idle-inhibit ] || $swaylock" \
-  timeout 600 '[ -f ~/.idle-inhibit ] || swaymsg "output * dpms off"' \
-       resume '[ -f ~/.idle-inhibit ] || swaymsg "output * dpms on"'
-bindsym $mod+Backspace exec [ ! -e ~/.idle-inhibit ] && touch ~/.idle-inhibit || rm ~/.idle-inhibit
-
-# Moving around:
+# Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
+
+#
+# Moving around:
+#
   # Move your focus around
   bindsym $mod+$left focus left
   bindsym $mod+$down focus down
@@ -83,8 +38,9 @@ set $right l
   bindsym $mod+Shift+Down move down
   bindsym $mod+Shift+Up move up
   bindsym $mod+Shift+Right move right
-
+#
 # Workspaces:
+#
   # switch to workspace
   bindsym $mod+1 workspace 1
   bindsym $mod+2 workspace 2
@@ -122,47 +78,182 @@ set $right l
   bindsym $mod+s layout stacking
   bindsym $mod+w layout tabbed
   bindsym $mod+e layout toggle split
+  
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
 
-  bindsym $mod+f fullscreen
-  bindsym $mod+Shift+space floating toggle; border pixel
-  bindsym $mod+Shift+Alt+space sticky toggle
-  bindsym $mod+space focus mode_toggle
-  bindsym $mod+a focus parent
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
 
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
 
+    # move focus to the parent container
+    bindsym $mod+a focus parent
+#
 # Scratchpad:
-  bindsym $mod+Shift+minus move scratchpad
-  bindsym $mod+minus scratchpad show
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
 
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
 
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
 # Resizing containers:
+#
 mode "resize" {
-  bindsym $left resize shrink width 10px
-  bindsym $down resize grow height 10px
-  bindsym $up resize shrink height 10px
-  bindsym $right resize grow width 10px
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
 
-  bindsym Left resize shrink width 10px
-  bindsym Down resize grow height 10px
-  bindsym Up resize shrink height 10px
-  bindsym Right resize grow width 10px
+    # ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
 
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
-
 bindsym $mod+r mode "resize"
 
-include $HOME/.config/sway/config-bar
 
-# see: swaywm/sway#2850
-workspace 1
+## INCLUDES
+#include @sysconfdir@/sway/config.d/*
+#include @sysconfdir@/sway/config.output.d/*
 
-include @sysconfdir@/sway/config.d/*
-include @sysconfdir@/sway/config.output.d/*
-include $HOME/.config/sway/config.output.d/*
+###############################################################################
 
+## APPEARANCE
+set $purple '#3d326e'
+set $purpledark '#04000a'
+client.focused #3d1255 #764b83 #ffffff #9775aa #764b83
+output * bg $purple solid_color
+
+## OPTIONS
+xwayland enable
+focus_follows_mouse always
+floating_modifier $mod normal
+
+set $swaylock swaylock -c $purpledark
+
+## FLOATING
+bindsym $mod+Shift+Alt+space sticky toggle
+
+
+## SCREEN LAYOUT
+output "Sharp Corporation 0x148B 0x00000000" enable scale 2
+#output "Sharp Corporation 0x148B 0x00000000" disable
+
+#output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L" disable
+output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L"  enable scale 1
+
+
+## BAR
+bar {
+  font Noto Sans Mono 9
+  position top
+  status_command /run/current-system/sw/bin/i3status-rs $HOME/.config/i3/status.toml
+}
+
+
+## Core Keybindings
+# alt-tab
+bindsym $mod+tab workspace next
+bindsym $mod+shift+tab workspace prev
+# menu
+bindsym $mod+escape exec termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf --no-extended --print-query | tail -n1 | xargs -r swaymsg -t command exec'"
+for_window [app_id="^launcher$"] floating enable, border pixel 10
+# manual lock
+bindsym $mod+Delete exec "$swaylock"
+# disable laptop screen
+bindsym --locked $mod+End output eDP-1 disable
+# terminal
+bindsym $mod+Return exec termite
+# browser
+bindsym $mod+Shift+Return exec GDK_BACKEND=wayland firefox -P personal
+# browser
+bindsym $mod+Shift+Alt+Return exec GDK_BACKEND=x11 google-chrome-unstable
+# vscode
+bindsym $mod+Shift+Backspace exec GDK_BACKEND=x11 code
+# force kill
+bindsym $mod+Shift+q kill
+# reload config
+bindsym $mod+Shift+c reload
+# quit sway
+bindsym $mod+Ctrl+Alt+Delete exit
+# can't wait til this Firefox bug turns a decade old, FFS
+bindsym Ctrl+q echo "ugh, mozilla"
+
+
+## Miscellaneous
+# Screenshots
+bindsym $mod+Print exec grim "${HOME}/screenshot-$(date '+%s').png"
+bindsym $mod+Shift+Print exec grim -g "$(slurp)" "${HOME}/screenshot-$(date '+%s').png"
+# Brightness
+bindsym --locked $mod+Alt+Up exec light -A 1
+bindsym --locked $mod+Alt+Down exec light -U 1
+
+
+## INPUT CONFIG
+input "9610:4103:SINOWEALTH_Game_Mouse" {
+  accel_profile adaptive
+  pointer_accel .4
+}
+
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
+  click_method clickfinger
+  dwt enabled
+  tap enabled
+  scroll_method two_finger
+  natural_scroll enabled
+  accel_profile adaptive
+  pointer_accel .4
+  #flat
+}
+
+# usb
+input "1452:613:Apple_Inc._Magic_Trackpad_2" {
+  click_method clickfinger
+  dwt enabled
+  tap enabled
+  scroll_method two_finger
+  natural_scroll enabled
+  accel_profile adaptive
+  pointer_accel .8
+}
+
+# bluetooth
+input "76:613:Apple_Inc._Magic_Trackpad_2" {
+  click_method clickfinger
+  dwt enabled
+  tap enabled
+  scroll_method two_finger
+  natural_scroll enabled
+  accel_profile adaptive
+  pointer_accel .8
+}
+
+## EXEC
 exec mako
-exec redshift
+#exec redshift
+exec udiskie
+exec kanshi
 
-bindsym $mod+Tab exec ~/toggle-edp1.sh
+exec swayidle \
+  before-sleep "$swaylock" \
+  timeout 120 "$swaylock" \
+  timeout 600 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"'
+
+

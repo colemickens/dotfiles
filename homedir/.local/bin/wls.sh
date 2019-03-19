@@ -15,10 +15,10 @@ shift
 
 if [[ "${1:-}" == "youtube" ]]; then
   format="flv"
-  url="rtmp://a.rtmp.youtube.com/live2/$(cat /etc/nixos/secrets/youtube-streamkey)"
+  url="rtmp://a.rtmp.youtube.com/live2/$(cat $HOME/.secrets/youtube-streamkey)"
 elif [[ "${1:-}" == "twitch" ]]; then
   format="flv"
-  url="rtmp://live-sea.twitch.tv/app/$(cat /etc/nixos/secrets/twitch-streamkey)"
+  url="rtmp://live-sea.twitch.tv/app/$(cat $HOME/.secrets/twitch-streamkey)"
 elif [[ "${1:-}" == "" ]]; then
   echo "must provide a filename or stream target" >&2
   exit -1

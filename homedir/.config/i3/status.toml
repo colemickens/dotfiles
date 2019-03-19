@@ -1,15 +1,20 @@
-theme = "slick"
+#theme = "plain"
+#theme = "solarized-dark"
+#theme = "solarized-light"
+#theme = "slick"
+#theme = "modern"
+#theme = "bad-wolf"
+#theme = "gruvbox-light"
+#theme = "gruvbox-dark"
+
+theme = "plain"
 icons = "none"
 
 [[block]]
-block = "custom"
-command = "/home/cole/code/packet-utils/status-termtime.sh"
-#interval = 60
-
-[[block]]
-block = "custom"
-command = "/home/cole/.config/i3/scripts/status-idle.sh"
-#interval = 60
+block = "music"
+player = "spotify"
+max_width = 36
+buttons = ["play", "next"]
 
 [[block]]
 block = "backlight"
@@ -38,6 +43,6 @@ format = "{percentage}% {time} ({power})"
 
 [[block]]
 block = "time"
-interval = 30
-format = "%a-%_d %I:%M "
+interval = 3
+format = "%a-%_d %I:%M:%S "
 

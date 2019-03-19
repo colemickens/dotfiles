@@ -19,7 +19,6 @@ function gpgssh() {
   set -x
   TERM=xterm \
   ssh \
-    -v \
     -o "RemoteForward /run/user/1000/gnupg/S.gpg-agent:/run/user/1000/gnupg/S.gpg-agent.extra" \
     -o StreamLocalBindUnlink=yes \
     -A \

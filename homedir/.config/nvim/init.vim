@@ -63,7 +63,7 @@ if dein#load_state('~/.local/share/nvim/dein')
 endif
 
 """ lsp
-call lsp#server#add('rust', ['rustup', 'run', 'stable', 'rls'])
+"call lsp#server#add('rust', ['rustup', 'run', 'stable', 'rls'])
 "call lsp#server#add('go', [expand('$GOPATH/bin/go-langserver'),
 "      \ '-format-tool', 'gofmt', '-lint-tool', 'golint', '-gocodecompletion'])
 
@@ -148,6 +148,7 @@ noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 "  \ }), get(a:, 1, {}))
 "endfunction
 "noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
+map <C-n> :NERDTreeToggle<CR>
 
 " Shougo/deoplete.nvim options
 "
