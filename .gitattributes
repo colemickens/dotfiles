@@ -1,3 +1,4 @@
 homedir/.config/hub         filter=git-crypt diff=git-crypt
 homedir/.config/cachix/**   filter=git-crypt diff=git-crypt
 homedir/.secrets/**         filter=git-crypt diff=git-crypt
+homedir/.megarc             filter=git-crypt diff=git-crypt

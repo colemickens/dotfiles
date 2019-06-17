@@ -1,4 +1,5 @@
 # Non-Default config for sway
+exec xrdb -load ~/.Xresources
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
 #
@@ -136,32 +137,44 @@ bindsym $mod+r mode "resize"
 
 ## APPEARANCE
 set $purple '#3d326e'
-set $purpledark '#04000a'
+set $purpledark '#1b104d'
 client.focused #3d1255 #764b83 #ffffff #9775aa #764b83
-output * bg $purple solid_color
+output * background '$purple' solid_color
 
 ## OPTIONS
 xwayland enable
 focus_follows_mouse always
 floating_modifier $mod normal
 
-set $swaylock swaylock -c $purpledark
+# has watermark, yuck:
+#set $swaylock swaylock -c '$purpledark' -i "${HOME}/.config/sway/lock.jpg"
+set $swaylock swaylock -c '#000000' -i "${HOME}/.config/sway/lock.png" -t
 
 ## FLOATING
 bindsym $mod+Shift+Alt+space sticky toggle
 
 
 ## SCREEN LAYOUT
-output "Sharp Corporation 0x148B 0x00000000" enable scale 2
+#output "Sharp Corporation 0x148B 0x00000000" scale 2
+output eDP-1 scale 1.7
 #output "Sharp Corporation 0x148B 0x00000000" disable
 
 #output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L" disable
-output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L"  enable scale 1
+#output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L" scale 1
+
+# TODO: not sure Sway does fontconfig?
+#set $font "monospace 10"
+set $font "Liberation Mono Bold 10"
+
+font $font
+default_border normal 5
+gaps inner 3
 
 
 ## BAR
 bar {
-  font Noto Sans Mono 9
+  font $font
+  #font Overpass Mono 9
   position top
   status_command /run/current-system/sw/bin/i3status-rs $HOME/.config/i3/status.toml
 }
@@ -171,21 +184,43 @@ bar {
 # alt-tab
 bindsym $mod+tab workspace next
 bindsym $mod+shift+tab workspace prev
+
 # menu
-bindsym $mod+escape exec termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf --no-extended --print-query | tail -n1 | xargs -r swaymsg -t command exec'"
+bindsym $mod+escape exec /home/cole/.config/sway/menu-termite.sh
+bindsym $mod+Shift+escape exec /home/cole/.config/sway/menu-termite.sh x11
 for_window [app_id="^launcher$"] floating enable, border pixel 10
+
+###############################################################################
+# dynamic output scaling
+bindsym $mod+Ctrl+Alt+equal exec /home/cole/.config/sway/curoutput.sh up
+bindsym $mod+Ctrl+Alt+minus exec /home/cole/.config/sway/curoutput.sh down
+bindsym $mod+Ctrl+Alt+End exec /home/cole/.config/sway/curoutput.sh off
+bindsym $mod+Ctrl+Alt+Home output * enable
+###############################################################################
+
+
+bindsym $mod+F1 exec termite --name=launcher -e "bash -c '/home/cole/.config/sway/gopass-helper.sh show -o | xargs -r -0 swaymsg -t command exec wl-copy'"
+bindsym $mod+F2 exec termite --name=launcher -e "bash -c '/home/cole/.config/sway/gopass-helper.sh totp | xargs -r -0 swaymsg -t command exec wl-copy'"
+
+#bindsym $mod+F1 exec termite --name=launcher -e "bash -c \\"gopass ls --flat | fzf --no-extended | xargs --no-run-if-empty gopass show | head -n1 | xargs -r swaymsg -t command exec wl-copy\\""
+#bindsym $mod+F2 exec termite --name=launcher -e "bash -c \\"gopass ls --flat | fzf --no-extended | xargs --no-run-if-empty gopass totp | head -n1 | cut -d' ' -f1 | xargs -r swaymsg -t command exec wl-copy\\""
+
+
 # manual lock
 bindsym $mod+Delete exec "$swaylock"
 # disable laptop screen
 bindsym --locked $mod+End output eDP-1 disable
 # terminal
+### TRY OUT OTHER TERM EMUS?
 bindsym $mod+Return exec termite
+#bindsym $mod+Return exec alacritty
+
 # browser
-bindsym $mod+Shift+Return exec GDK_BACKEND=wayland firefox -P personal
+bindsym $mod+Shift+Return exec GDK_BACKEND=wayland firefox -P default-nightly
 # browser
 bindsym $mod+Shift+Alt+Return exec GDK_BACKEND=x11 google-chrome-unstable
 # vscode
-bindsym $mod+Shift+Backspace exec GDK_BACKEND=x11 code
+bindsym $mod+Shift+Backspace exec GDK_BACKEND=x11 vscodium
 # force kill
 bindsym $mod+Shift+q kill
 # reload config
@@ -193,7 +228,7 @@ bindsym $mod+Shift+c reload
 # quit sway
 bindsym $mod+Ctrl+Alt+Delete exit
 # can't wait til this Firefox bug turns a decade old, FFS
-bindsym Ctrl+q echo "ugh, mozilla"
+bindsym Ctrl+q exec echo "ugh, mozilla"
 
 
 ## Miscellaneous
@@ -201,14 +236,18 @@ bindsym Ctrl+q echo "ugh, mozilla"
 bindsym $mod+Print exec grim "${HOME}/screenshot-$(date '+%s').png"
 bindsym $mod+Shift+Print exec grim -g "$(slurp)" "${HOME}/screenshot-$(date '+%s').png"
 # Brightness
-bindsym --locked $mod+Alt+Up exec light -A 1
-bindsym --locked $mod+Alt+Down exec light -U 1
+#bindsym --locked $mod+Alt+Up exec light -A 1
+#bindsym --locked $mod+Alt+Down exec light -U 1
 
 
 ## INPUT CONFIG
-input "9610:4103:SINOWEALTH_Game_Mouse" {
+input "'5426:92:Razer_Razer_DeathAdder_Elite_Consumer_Control'" {
   accel_profile adaptive
   pointer_accel .4
+}
+input "9610:4103:SINOWEALTH_Game_Mouse" {
+  accel_profile adaptive
+  pointer_accel .2
 }
 
 input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
@@ -218,35 +257,13 @@ input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
   scroll_method two_finger
   natural_scroll enabled
   accel_profile adaptive
-  pointer_accel .4
-  #flat
+  pointer_accel .6
 }
 
-# usb
-input "1452:613:Apple_Inc._Magic_Trackpad_2" {
-  click_method clickfinger
-  dwt enabled
-  tap enabled
-  scroll_method two_finger
-  natural_scroll enabled
-  accel_profile adaptive
-  pointer_accel .8
-}
-
-# bluetooth
-input "76:613:Apple_Inc._Magic_Trackpad_2" {
-  click_method clickfinger
-  dwt enabled
-  tap enabled
-  scroll_method two_finger
-  natural_scroll enabled
-  accel_profile adaptive
-  pointer_accel .8
-}
 
 ## EXEC
 exec mako
-#exec redshift
+exec redshift
 exec udiskie
 exec kanshi
 
@@ -256,4 +273,8 @@ exec swayidle \
   timeout 600 'swaymsg "output * dpms off"' \
        resume 'swaymsg "output * dpms on"'
 
+exec_always ${HOME}/.config/sway/import-gsettings.sh \
+    gtk-theme:gtk-theme-name \
+    icon-theme:gtk-icon-theme-name \
+    cursor-theme:gtk-cursor-theme-name
 

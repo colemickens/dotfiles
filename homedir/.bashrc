@@ -1,11 +1,25 @@
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export TERM="xterm-256color"
 export EDITOR="nvim"
 
-export SSH_PUBLIC_KEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9YAN+P0umXeSP/Cgd5ZvoD5gpmkdcrOjmHdonvBbptbMUbI/Zm0WahBDK0jO5vfJ/C6A1ci4quMGCRh98LRoFKFRoWdwlGFcFYcLkuG/AbE8ObNLHUxAwqrdNfIV6z0+zYi3XwVjxrEqyJ/auZRZ4JDDBha2y6Wpru8v9yg41ogeKDPgHwKOf/CKX77gCVnvkXiG5ltcEZAamEitSS8Mv8Rg/JfsUUwULb6yYGh+H6RECKriUAl9M+V11SOfv8MAdkXlYRrcqqwuDAheKxNGHEoGLBk+Fm+orRChckW1QcP89x6ioxpjN9VbJV0JARF+GgHObvvV+dGHZZL1N3jr8WtpHeJWxHPdBgTupDIA5HeL0OCoxgSyyfJncMl8odCyUqE+lqXVz+oURGeRxnIbgJ07dNnX6rFWRgQKrmdV4lt1i1F5Uux9IooYs/42sKKMUQZuBLTN4UzipPQM/DyDO01F0pdcaPEcIO+tp2U6gVytjHhZqEeqAMaUbq7a6ucAuYzczGZvkApc85nIo9jjW+4cfKZqV8BQfJM1YnflhAAplIq6b4Tzayvw1DLXd2c5rae+GlVCsVgpmOFyT6bftSon/HfxwBE4wKFYF7fo7/j6UbAeXwLafDhX+S5zSNR6so1epYlwcMLshXqyJePJNhtsRhpGLd9M3UqyGDAFoOQ== cardno:000607532298"
+export HISTSIZE=-1
+export HISTFILESIZE=-1
+shopt -s histappend
+# from zsh: sharehistory,appendhistory,incappendhistory?
 
+# faster ls? DIRCOLORS? 
+# exa/bat by default?
+
+# git prompt
+# collapsed dir prompt
+
+# default
 export BASH_COLOR="1;32" && export TMUXCOLOR="green"
-[[ "${HOSTNAME}" == "xeep" ]]    && export BASH_COLOR="1;35" && export TMUXCOLOR="magenta"
-[[ "${HOSTNAME}" == "chimera" ]] && export BASH_COLOR="1;36" && export TMUXCOLOR="cyan"
+[[ "${HOSTNAME}" == "xeep" ]] && \
+  export BASH_COLOR="1;35" && export TMUXCOLOR="magenta"
+[[ "${HOSTNAME}" == "chimera" ]] && \
+  export BASH_COLOR="1;36" && export TMUXCOLOR="cyan"
 
 # prompt
 PROMPT_COLOR="1;31m"
@@ -25,9 +39,6 @@ function gpgssh() {
     "${@}"
   set +x
 }
-
-function _nixup() { sudo nixos-rebuild switch; which flatpak &>/dev/null && sudo flatpak update -y; }
-function _reset_pinentry () { pkill pinentry; echo 'UPDATESTARTUPTTY' | gpg-connect-agent; export GPG_TTY=$(tty); }
 
 if [[ "$SSH_AUTH_SOCK" == "/run/user/$(id -u)/keyring/ssh" ]]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"

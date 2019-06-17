@@ -1,4 +1,4 @@
-#theme = "plain"
+theme = "plain"
 #theme = "solarized-dark"
 #theme = "solarized-light"
 #theme = "slick"
@@ -7,7 +7,6 @@
 #theme = "gruvbox-light"
 #theme = "gruvbox-dark"
 
-theme = "plain"
 icons = "none"
 
 [[block]]
@@ -15,6 +14,14 @@ block = "music"
 player = "spotify"
 max_width = 36
 buttons = ["play", "next"]
+
+[[block]]
+block = "custom"
+command = "/home/cole/code/packet-utils/status-termtime.sh"
+
+[[block]]
+block = "custom"
+command = "/home/cole/.config/sway/output-scales.sh"
 
 [[block]]
 block = "backlight"
@@ -39,10 +46,9 @@ format_mem = "{Mup}%"
 [[block]]
 block = "battery"
 #interval = 60
-format = "{percentage}% {time} ({power})"
+format = "{percentage}% {time}"
 
 [[block]]
 block = "time"
-interval = 3
 format = "%a-%_d %I:%M:%S "
 

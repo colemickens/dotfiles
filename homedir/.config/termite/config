@@ -1,6 +1,6 @@
 [options]
-#font = Noto Sans Mono 11
-font = Overpass Mono 11
+font = monospace 11
+#font = Overpass Mono 11
 scrollback_lines = -1
 clickable_url = false
 
