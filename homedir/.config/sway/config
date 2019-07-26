@@ -1,226 +1,146 @@
-# Non-Default config for sway
-exec xrdb -load ~/.Xresources
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-
 ### Variables
-#
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
-# Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
-set $right l
 
-#
-# Moving around:
-#
-  # Move your focus around
-  bindsym $mod+$left focus left
-  bindsym $mod+$down focus down
-  bindsym $mod+$up focus up
-  bindsym $mod+$right focus right
-  # or use $mod+[up|down|left|right]
-  bindsym $mod+Left focus left
-  bindsym $mod+Down focus down
-  bindsym $mod+Up focus up
-  bindsym $mod+Right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
-  # _move_ the focused window with the same, but add Shift
-  bindsym $mod+Shift+$left move left
-  bindsym $mod+Shift+$down move down
-  bindsym $mod+Shift+$up move up
-  bindsym $mod+Shift+$right move right
-  # ditto, with arrow keys
-  bindsym $mod+Shift+Left move left
-  bindsym $mod+Shift+Down move down
-  bindsym $mod+Shift+Up move up
-  bindsym $mod+Shift+Right move right
-#
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
 # Workspaces:
-#
-  # switch to workspace
-  bindsym $mod+1 workspace 1
-  bindsym $mod+2 workspace 2
-  bindsym $mod+3 workspace 3
-  bindsym $mod+4 workspace 4
-  bindsym $mod+5 workspace 5
-  bindsym $mod+6 workspace 6
-  bindsym $mod+7 workspace 7
-  bindsym $mod+8 workspace 8
-  bindsym $mod+9 workspace 9
-  bindsym $mod+0 workspace 10
-  # move focused container to workspace
-  bindsym $mod+Shift+1 move container to workspace 1
-  bindsym $mod+Shift+2 move container to workspace 2
-  bindsym $mod+Shift+3 move container to workspace 3
-  bindsym $mod+Shift+4 move container to workspace 4
-  bindsym $mod+Shift+5 move container to workspace 5
-  bindsym $mod+Shift+6 move container to workspace 6
-  bindsym $mod+Shift+7 move container to workspace 7
-  bindsym $mod+Shift+8 move container to workspace 8
-  bindsym $mod+Shift+9 move container to workspace 9
-  bindsym $mod+Shift+0 move container to workspace 10
-  # Note: workspaces can have any name you want, not just numbers.
-  # We just use 1-10 as the default.
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
 #
 # Layout stuff:
 #
-  # You can "split" the current object of your focus with
-  # $mod+b or $mod+v, for horizontal and vertical splits
-  # respectively.
-  bindsym $mod+b splith
-  bindsym $mod+v splitv
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
 
-  # Switch the current container between different layout styles
-  bindsym $mod+s layout stacking
-  bindsym $mod+w layout tabbed
-  bindsym $mod+e layout toggle split
-  
-    # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
-    # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
 
-    # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
 
-    # move focus to the parent container
-    bindsym $mod+a focus parent
-#
-# Scratchpad:
-#
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
 
-    # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
-
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
-#
-# Resizing containers:
-#
-mode "resize" {
-    # left will shrink the containers width
-    # right will grow the containers width
-    # up will shrink the containers height
-    # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
-
-    # ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
-
-    # return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+r mode "resize"
-
-
-## INCLUDES
-#include @sysconfdir@/sway/config.d/*
-#include @sysconfdir@/sway/config.output.d/*
+# move focus to the parent container
+bindsym $mod+a focus parent
 
 ###############################################################################
-
-## APPEARANCE
+# APPEARANCE
 set $purple '#3d326e'
 set $purpledark '#1b104d'
+set $font "Liberation Mono Bold 10"
 client.focused #3d1255 #764b83 #ffffff #9775aa #764b83
-output * background '$purple' solid_color
+output * background '#000000' solid_color
+
+set $swaylock swaylock -f -c '#000000' -i "${HOME}/.config/sway/lock-single.png" -s center
+
+## FLOATING
+bindsym $mod+Shift+Alt+space sticky toggle
 
 ## OPTIONS
 xwayland enable
 focus_follows_mouse always
 floating_modifier $mod normal
-
-# has watermark, yuck:
-#set $swaylock swaylock -c '$purpledark' -i "${HOME}/.config/sway/lock.jpg"
-set $swaylock swaylock -c '#000000' -i "${HOME}/.config/sway/lock.png" -t
-
-## FLOATING
-bindsym $mod+Shift+Alt+space sticky toggle
-
-
-## SCREEN LAYOUT
-#output "Sharp Corporation 0x148B 0x00000000" scale 2
-output eDP-1 scale 1.7
-#output "Sharp Corporation 0x148B 0x00000000" disable
-
-#output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L" disable
-#output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L" scale 1
-
-# TODO: not sure Sway does fontconfig?
-#set $font "monospace 10"
-set $font "Liberation Mono Bold 10"
-
 font $font
 default_border normal 5
 gaps inner 3
+gaps outer 0
 
+## SCREEN LAYOUT
+output "Sharp Corporation 0x148B 0x00000000" scale 2.0
+output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L" scale 1
 
 ## BAR
 bar {
   font $font
-  #font Overpass Mono 9
   position top
   status_command /run/current-system/sw/bin/i3status-rs $HOME/.config/i3/status.toml
 }
 
 
-## Core Keybindings
-# alt-tab
-bindsym $mod+tab workspace next
-bindsym $mod+shift+tab workspace prev
-
-# menu
-bindsym $mod+escape exec /home/cole/.config/sway/menu-termite.sh
-bindsym $mod+Shift+escape exec /home/cole/.config/sway/menu-termite.sh x11
-for_window [app_id="^launcher$"] floating enable, border pixel 10
-
 ###############################################################################
-# dynamic output scaling
-bindsym $mod+Ctrl+Alt+equal exec /home/cole/.config/sway/curoutput.sh up
-bindsym $mod+Ctrl+Alt+minus exec /home/cole/.config/sway/curoutput.sh down
-bindsym $mod+Ctrl+Alt+End exec /home/cole/.config/sway/curoutput.sh off
-bindsym $mod+Ctrl+Alt+Home output * enable
+# menu(s) should float:
+#for_window [app_id="^launcher$"] floating enable, border pixel 10
+for_window [app_id="^launcher$"] floating enable, border none, resize set width 100 ppt height 10 ppt, move position 0 px 0 px
+# regular launcher:
+bindsym $mod+escape exec /home/cole/.config/sway/scripts/launcher-termite.sh
+# force-x11 launcher:
+bindsym $mod+Shift+escape exec env LAUNCHER_USE_X11=1 /home/cole/.config/sway/scripts/launcher-termite.sh
 ###############################################################################
 
 
-bindsym $mod+F1 exec termite --name=launcher -e "bash -c '/home/cole/.config/sway/gopass-helper.sh show -o | xargs -r -0 swaymsg -t command exec wl-copy'"
-bindsym $mod+F2 exec termite --name=launcher -e "bash -c '/home/cole/.config/sway/gopass-helper.sh totp | xargs -r -0 swaymsg -t command exec wl-copy'"
+###############################################################################
+# dynamic output handling
+bindsym $mod+Ctrl+Alt+equal exec /home/cole/.config/sway/scripts/hotkey-scale-output.sh "+ .1"
+bindsym $mod+Ctrl+Alt+minus exec /home/cole/.config/sway/scripts/hotkey-scale-output.sh "- .1"
+bindsym $mod+End output -- disable
+bindsym $mod+Home output * enable
+###############################################################################
 
-#bindsym $mod+F1 exec termite --name=launcher -e "bash -c \\"gopass ls --flat | fzf --no-extended | xargs --no-run-if-empty gopass show | head -n1 | xargs -r swaymsg -t command exec wl-copy\\""
-#bindsym $mod+F2 exec termite --name=launcher -e "bash -c \\"gopass ls --flat | fzf --no-extended | xargs --no-run-if-empty gopass totp | head -n1 | cut -d' ' -f1 | xargs -r swaymsg -t command exec wl-copy\\""
+
+###############################################################################
+# gopass
+set $gopass_show gopass ls --flat | fzf | xargs -r swaymsg -t command exec -- gopass show --clip
+set $gopass_totp gopass ls --flat | fzf | xargs -r swaymsg -t command exec -- gopass totp --clip
+set $termite_gopass_show exec termite --name=launcher -e 'bash -c "$gopass_show"'
+set $termite_gopass_totp exec termite --name=launcher -e 'bash -c "$gopass_totp"'
+bindsym $mod+F1 $termite_gopass_show
+bindsym $mod+F2 $termite_gopass_totp
+###############################################################################
 
 
+###############################################################################
+# misc shortcuts:
+#
 # manual lock
 bindsym $mod+Delete exec "$swaylock"
-# disable laptop screen
-bindsym --locked $mod+End output eDP-1 disable
 # terminal
-### TRY OUT OTHER TERM EMUS?
 bindsym $mod+Return exec termite
-#bindsym $mod+Return exec alacritty
-
 # browser
-bindsym $mod+Shift+Return exec GDK_BACKEND=wayland firefox -P default-nightly
+bindsym $mod+Shift+Return exec GDK_BACKEND=wayland firefox-nightly -P default-nightly
 # browser
 bindsym $mod+Shift+Alt+Return exec GDK_BACKEND=x11 google-chrome-unstable
-# vscode
-bindsym $mod+Shift+Backspace exec GDK_BACKEND=x11 vscodium
+# vscodium
+bindsym $mod+Shift+Backspace exec GDK_BACKEND=x11 codium
 # force kill
 bindsym $mod+Shift+q kill
 # reload config
@@ -229,15 +149,17 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Ctrl+Alt+Delete exit
 # can't wait til this Firefox bug turns a decade old, FFS
 bindsym Ctrl+q exec echo "ugh, mozilla"
-
-
+#
 ## Miscellaneous
 # Screenshots
 bindsym $mod+Print exec grim "${HOME}/screenshot-$(date '+%s').png"
 bindsym $mod+Shift+Print exec grim -g "$(slurp)" "${HOME}/screenshot-$(date '+%s').png"
 # Brightness
-#bindsym --locked $mod+Alt+Up exec light -A 1
-#bindsym --locked $mod+Alt+Down exec light -U 1
+bindsym --locked $mod+Ctrl+Alt+Up exec brightnessctl set +10
+bindsym --locked $mod+Ctrl+Alt+Down exec brightnessctl set 10-
+bindsym --locked $mod+Ctrl+Alt+Prior exec brightnessctl set +100
+bindsym --locked $mod+Ctrl+Alt+Next exec brightnessctl set 100-
+###############################################################################
 
 
 ## INPUT CONFIG
@@ -257,7 +179,7 @@ input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
   scroll_method two_finger
   natural_scroll enabled
   accel_profile adaptive
-  pointer_accel .6
+  pointer_accel .8
 }
 
 
@@ -267,14 +189,23 @@ exec redshift
 exec udiskie
 exec kanshi
 
-exec swayidle \
-  before-sleep "$swaylock" \
-  timeout 120 "$swaylock" \
-  timeout 600 'swaymsg "output * dpms off"' \
-       resume 'swaymsg "output * dpms on"'
+exec termite --name=launcher -e 'bash -c "neovim ${HOME}/TODO.txt"'
 
-exec_always ${HOME}/.config/sway/import-gsettings.sh \
+exec_always swayidle -w \
+  before-sleep "$swaylock" \
+  lock "$swaylock" \
+  timeout 60 "$swaylock" \
+  timeout 240 "systemctl suspend"
+
+exec_always /home/cole/.config/sway/scripts/autoexec-import-gsettings.sh \
     gtk-theme:gtk-theme-name \
     icon-theme:gtk-icon-theme-name \
-    cursor-theme:gtk-cursor-theme-name
+    cursor-theme:gtk-cursor-theme-name \
+    cursor-theme-size:gtk-cursor-theme-size
+
+exec_always xrdb -l $HOME/.Xresources
+
+for_window [app_id="mpv"] inhibit_idle fullscreen
+for_window [app_id="mpv"] inhibit_idle focus
+
 

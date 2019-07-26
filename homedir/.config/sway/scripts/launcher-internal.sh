@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ "$1" == "x11" ]]; then
+if [[ "$LAUNCHER_USE_X11" == "1" ]]; then
   set -- "env GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb"
 fi
 
