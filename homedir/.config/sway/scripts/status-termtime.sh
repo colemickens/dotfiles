@@ -2,10 +2,10 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 packet="${HOME}/code/packet-utils/packet.sh"
 
-#{
-#    sleep 5
-#    kill $$
-#} &
+{
+    sleep 5
+    kill $$
+} &
 
 DEVICES_OUT="$("${packet}" device_list)"
 DEVICE_HOSTNAMES="$(echo "${DEVICES_OUT}" | jq -r ".[].hostname")"

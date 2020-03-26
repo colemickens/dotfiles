@@ -1,9 +1,0 @@
-[user]
-	email = cole.mickens@gmail.com
-	name = Cole Mickens
-[credential]
-	helper = '!gopass git-credential $@'
-[http "https://gopkg.in"]
-	followRedirects = true
-[diff]
-	algorithm = patience

@@ -1,6 +1,14 @@
 [options]
 #font = monospace 11
-font = Noto Sans Mono 11
+#font = Noto Sans Mono 11
+font = Cascadia Code 11
+#font = Go Mono 11
+#font = Fira Mono 11
+#font = Sudo 16
+#font = Monoid 11
+#font = Fantasque Sans Mono 12
+#font = Cascadia Code 11
+#font = Victor Mono 11
 scrollback_lines = -1
 clickable_url = false
 

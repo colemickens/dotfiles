@@ -14,6 +14,9 @@ bindsym $mod+Shift+Right move right
 
 # Workspaces:
 # switch to workspace
+bindsym Ctrl+Alt+Left workspace prev
+bindsym Ctrl+Alt+Right workspace next
+
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
@@ -67,9 +70,14 @@ bindsym $mod+a focus parent
 # APPEARANCE
 set $purple '#3d326e'
 set $purpledark '#1b104d'
-set $font "Liberation Mono Bold 10"
+set $font "pango:Cascadia Code Bold 10"
+set $font "pango:Victor Mono Bold 10"
+set $font "pango:Noto Sans Mono Bold 10"
 client.focused #3d1255 #764b83 #ffffff #9775aa #764b83
-output * background '#000000' solid_color
+#client.focused #3d1255 #000000 #ffffff #957c03 #000000
+#client.focused #2f1d00 #957c03 #ffffff #d6b100 #957c03
+#output * background '#111111' solid_color
+#output * background '#ffffff' solid_color
 
 set $swaylock swaylock -f -c '#000000' -i "${HOME}/.config/sway/lock-single.png" -s center
 
@@ -77,23 +85,40 @@ set $swaylock swaylock -f -c '#000000' -i "${HOME}/.config/sway/lock-single.png"
 bindsym $mod+Shift+Alt+space sticky toggle
 
 ## OPTIONS
-xwayland enable
+#xwayland enable
 focus_follows_mouse always
 floating_modifier $mod normal
 font $font
-default_border normal 5
-gaps inner 3
+default_border pixel 2
+gaps inner 0
 gaps outer 0
 
-## SCREEN LAYOUT
-output "Sharp Corporation 0x148B 0x00000000" scale 2.0
-output "Dell Inc. Dell AW3418DW NDRWF78Q0G8L" scale 1
+## OUTPUTS
+output "Sharp Corporation 0x148B 0x00000000" {
+  mode "3480x2160@59.997002Hz"
+  subpixel rgb
+  scale 2.4
+}
+output "Dell Inc. Dell AW3418DW #ASPD8psOnhPd" {
+  #mode "3440x1440@120Hz"
+  mode "3440x1440@100Hz"
+  #mode "3440x1440@59.973000Hz"
+  subpixel rgb
+  scale 1.0
+  adaptive_sync on
+}
+output * {
+  background "$HOME/.config/sway/bg.png" tile "#001e59"
+  #background "$HOME/.config/sway/bg.png" tile "#0A0B07"
+  #background "$HOME/.config/sway/bg.png" tile "#2f1d00"
+}
 
 ## BAR
 bar {
   font $font
   position top
-  status_command /run/current-system/sw/bin/i3status-rs $HOME/.config/i3/status.toml
+  status_command /run/current-system/sw/bin/i3status-rs $HOME/.config/i3status-rs/config.toml
+  #swaybar_command /run/current-system/sw/bin/waybar
 }
 
 
@@ -101,10 +126,10 @@ bar {
 # menu(s) should float:
 #for_window [app_id="^launcher$"] floating enable, border pixel 10
 for_window [app_id="^launcher$"] floating enable, border none, resize set width 100 ppt height 10 ppt, move position 0 px 0 px
+for_window [app_id="^launcher$"] fullscreen, border pixel 10
 # regular launcher:
 bindsym $mod+escape exec /home/cole/.config/sway/scripts/launcher-termite.sh
-# force-x11 launcher:
-bindsym $mod+Shift+escape exec env LAUNCHER_USE_X11=1 /home/cole/.config/sway/scripts/launcher-termite.sh
+bindsym ctrl+escape exec wldash start-or-kill
 ###############################################################################
 
 
@@ -112,8 +137,8 @@ bindsym $mod+Shift+escape exec env LAUNCHER_USE_X11=1 /home/cole/.config/sway/sc
 # dynamic output handling
 bindsym $mod+Ctrl+Alt+equal exec /home/cole/.config/sway/scripts/hotkey-scale-output.sh "+ .1"
 bindsym $mod+Ctrl+Alt+minus exec /home/cole/.config/sway/scripts/hotkey-scale-output.sh "- .1"
-bindsym $mod+End output -- disable
-bindsym $mod+Home output * enable
+bindsym --locked $mod+End output -- disable
+bindsym --locked $mod+Home output * enable
 ###############################################################################
 
 
@@ -136,11 +161,9 @@ bindsym $mod+Delete exec "$swaylock"
 # terminal
 bindsym $mod+Return exec termite
 # browser
-bindsym $mod+Shift+Return exec GDK_BACKEND=wayland firefox-nightly -P default-nightly
-# browser
-bindsym $mod+Shift+Alt+Return exec GDK_BACKEND=x11 google-chrome-unstable
+bindsym $mod+Shift+Return exec firefox-nightly -p default
 # vscodium
-bindsym $mod+Shift+Backspace exec GDK_BACKEND=x11 codium
+bindsym $mod+Shift+Backspace exec codium
 # force kill
 bindsym $mod+Shift+q kill
 # reload config
@@ -155,57 +178,70 @@ bindsym Ctrl+q exec echo "ugh, mozilla"
 bindsym $mod+Print exec grim "${HOME}/screenshot-$(date '+%s').png"
 bindsym $mod+Shift+Print exec grim -g "$(slurp)" "${HOME}/screenshot-$(date '+%s').png"
 # Brightness
-bindsym --locked $mod+Ctrl+Alt+Up exec brightnessctl set +10
-bindsym --locked $mod+Ctrl+Alt+Down exec brightnessctl set 10-
+bindsym --locked $mod+Ctrl+Alt+Up    exec brightnessctl set +10
+bindsym --locked $mod+Ctrl+Alt+Down  exec brightnessctl set 10-
+bindsym --locked $mod+Ctrl+Alt+Left  exec pulsemixer --change-volume -2
+bindsym --locked $mod+Ctrl+Alt+Right exec pulsemixer --change-volume +2
 bindsym --locked $mod+Ctrl+Alt+Prior exec brightnessctl set +100
-bindsym --locked $mod+Ctrl+Alt+Next exec brightnessctl set 100-
+bindsym --locked $mod+Ctrl+Alt+Next  exec brightnessctl set 100-
 ###############################################################################
 
 
 ## INPUT CONFIG
-input "'5426:92:Razer_Razer_DeathAdder_Elite_Consumer_Control'" {
-  accel_profile adaptive
-  pointer_accel .4
-}
-input "9610:4103:SINOWEALTH_Game_Mouse" {
-  accel_profile adaptive
-  pointer_accel .2
-}
+input "5426:92:Razer_Razer_DeathAdder_Elite" pointer_accel 1
+input "5426:92:Razer_Razer_DeathAdder_Elite" accel_profile adaptive
 
-input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
-  click_method clickfinger
-  dwt enabled
-  tap enabled
-  scroll_method two_finger
-  natural_scroll enabled
-  accel_profile adaptive
-  pointer_accel .8
-}
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" click_method clickfinger
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" tap enabled
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" dwt enabled
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" scroll_method two_finger
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" click_method clickfinger
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" natural_scroll enabled
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" accel_profile adaptive
+input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" pointer_accel 1
 
+input "1133:16505:Logitech_G_Pro" accel_profile adaptive
+#input "1133:16505:Logitech_G_Pro" pointer_accel 1
 
 ## EXEC
-exec mako
-exec redshift
-exec udiskie
-exec kanshi
+exec mako >/tmp/sway-mako.log 2>&1
+exec redshift >/tmp/sway-redshift.log 2>&1
+exec gebaard >/tmp/sway-gebaar.log 2>&1
+exec udiskie >/tmp/sway-udiskie.log 2>&1
+#exec kanshi >/tmp/sway-kanshi.log 2>&1
 
-exec termite --name=launcher -e 'bash -c "neovim ${HOME}/TODO.txt"'
+for_window [app_id=mpv] sticky enable
+for_window [app_id=mpv] border none
+for_window [app_id=mpv] floating enable
+
+for_window [app_id=mpv] floating enable
+for_window [title="^Firefox - Sharing Indicator"] floating enable
+for_window [title="^Nightly - Sharing Indicator"] floating enable
 
 exec_always swayidle -w \
   before-sleep "$swaylock" \
   lock "$swaylock" \
-  timeout 60 "$swaylock" \
-  timeout 240 "systemctl suspend"
+  timeout 500 "$swaylock" \
+  timeout 1000 "systemctl suspend"
 
 exec_always /home/cole/.config/sway/scripts/autoexec-import-gsettings.sh \
     gtk-theme:gtk-theme-name \
     icon-theme:gtk-icon-theme-name \
-    cursor-theme:gtk-cursor-theme-name \
-    cursor-theme-size:gtk-cursor-theme-size
-
+    cursor-theme:gtk-cursor-theme-name
 exec_always xrdb -l $HOME/.Xresources
 
-for_window [app_id="mpv"] inhibit_idle fullscreen
-for_window [app_id="mpv"] inhibit_idle focus
+# borrowed from emersion:
+include ~/.config/sway/`hostname`/*
+exec systemd-notify --ready || true
 
+#exec firefox-nightly
+#exec spectral
+#exec chromium
 
+#seat seat0 xcursor_theme capitaine-cursors-white
+
+#xwayland force
+xwayland enable
+xwayland scale 2
+
+#xwayland disable

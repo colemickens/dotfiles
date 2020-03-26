@@ -4,8 +4,9 @@ DIR="${HOME}/.local/sway/sway-rdp"
 
 export WLR_RDP_TLS_CERT_PATH="${DIR}/tls.crt"
 export WLR_RDP_TLS_KEY_PATH="${DIR}/tls.key"
-export WLR_RDP_ADDRESS=127.0.0.1
-export WLR_RDP_PORT=3389
+export WLR_RDP_ADDRESS=0.0.0.0
+#export WLR_RDP_PORT=3389 # TODO: https://github.com/swaywm/wlroots/issues/1883
+unset WLR_RDP_PORT
 
 export WLR_BACKENDS=rdp
 
@@ -19,7 +20,10 @@ fi
 rm -rf "${HOME}/.local/sway/sway-rdp/sway.log"
 rm -rf "${HOME}/.local/sway/sway-rdp/sway.dump"
 
-curl "https://raw.githubusercontent.com/swaywm/sway/master/config.in" > "${HOME}/.config/sway/config-stock"
+unset WLR_RDP_PORT
+
+#curl "https://raw.githubusercontent.com/swaywm/sway/master/config.in" > "${HOME}/.config/sway/config-stock"
 sway -c "${HOME}/.config/sway/config-stock" -d &> "${HOME}/.local/sway/sway-rdp/sway.log"
+sleep 1
 coredumpctl dump > "${HOME}/.local/sway/sway-rdp/sway.dump"
 

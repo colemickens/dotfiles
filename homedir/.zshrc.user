@@ -1,0 +1,9 @@
+export PATH="${HOME}/.local/bin:${PATH}"
+export PATH="${HOME}/.cargo/bin:${PATH}"
+export TERM="xterm-256color"
+export EDITOR="nvim"
+
+if [[ "$SSH_AUTH_SOCK" == "/run/user/$(id -u)/keyring/ssh" ]]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+

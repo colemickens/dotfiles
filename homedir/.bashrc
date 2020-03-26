@@ -5,8 +5,9 @@ export EDITOR="nvim"
 
 export HISTSIZE=-1
 export HISTFILESIZE=-1
-shopt -s histappend
-# from zsh: sharehistory,appendhistory,incappendhistory?
+export HISTCONTROL=ignoredups:erasedups
+#shopt -s histappend
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
 # faster ls? DIRCOLORS? 
 # exa/bat by default?
@@ -31,9 +32,17 @@ fi
 
 function gpgssh() {
   set -x
+  fwdpath1="/run/user/1000/gnupg/S.gpg-agent"
+  #fwdpath1="/run/user/0/gnupg/S.gpg-agent"
+  fwdpath2="/home/cole/.gnupg/S.gpg-agent"
+  #fwdpath2="/root/.gnupg/S.gpg-agent"
   TERM=xterm \
+  ssh "${@}" rm "${fwdpath1}" || true
+  ssh "${@}" rm "${fwdpath2}" || true
+  LOCALUSER=1000
   ssh \
-    -o "RemoteForward /run/user/1000/gnupg/S.gpg-agent:/run/user/1000/gnupg/S.gpg-agent.extra" \
+    -o "RemoteForward ${fwdpath1}:/run/user/${LOCALUSER}/gnupg/S.gpg-agent.extra" \
+    -o "RemoteForward ${fwdpath2}:/run/user/${LOCALUSER}/gnupg/S.gpg-agent.extra" \
     -o StreamLocalBindUnlink=yes \
     -A \
     "${@}"
@@ -47,3 +56,12 @@ fi
 export FZF_TMUX=1
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
+eval "$(direnv hook bash)"
+
+#if [[ "$(tty)" == "tty1" ]]; then
+#  { sleep 3; SWAYSOCK="/run/user/$(uid)/sway-ipc.*.sock" swaylock; } &
+#  sway;
+#fi
+
+
+source /home/cole/.config/broot/launcher/bash/br
