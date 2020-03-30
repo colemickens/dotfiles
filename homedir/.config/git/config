@@ -12,3 +12,5 @@
 	followRedirects = true
 [diff]
 	algorithm = patience
+[core]
+	excludesfile = ~/.config/git/ignore

@@ -89,7 +89,7 @@ bindsym $mod+Shift+Alt+space sticky toggle
 focus_follows_mouse always
 floating_modifier $mod normal
 font $font
-default_border pixel 2
+default_border pixel 4
 gaps inner 0
 gaps outer 0
 
